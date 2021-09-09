@@ -44,25 +44,25 @@ void ft_echo(t_cmd *cmd)
     }
 }
 
-void ft_cd(t_cmd *cmd)
-{
+// void ft_cd(t_cmd *cmd)
+// {
 
-}
+// }
 
-int main(void) 
-{
-    t_cmd *echo_cmd;
+// int main(void) 
+// {
+//     t_cmd *echo_cmd;
 
-    echo_cmd = malloc(sizeof(t_cmd));
-    char *cmd[4];
+//     echo_cmd = malloc(sizeof(t_cmd));
+//     char *cmd[4];
 
-    cmd[0] = "echo";
-    cmd[1] = "-n";
-    cmd[2] = "world";
-    cmd[3] = NULL;
+//     cmd[0] = "echo";
+//     cmd[1] = "-n";
+//     cmd[2] = "world";
+//     cmd[3] = NULL;
 
-    echo_cmd->cmd = cmd;
-    ft_echo(echo_cmd);
-    free(echo_cmd);
-    return 0;
-}
+//     echo_cmd->cmd = cmd;
+//     ft_echo(echo_cmd);
+//     free(echo_cmd);
+//     return 0;
+// }
