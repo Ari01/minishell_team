@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/09 20:52:54 by xuwang           ###   ########.fr       */
+/*   Created: 2021/09/09 19:26:01 by xuwang            #+#    #+#             */
+/*   Updated: 2021/09/09 19:59:46 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(void) {
-    char    *rdl;
-	t_cmd	current_cmd;
-    t_list  *cmd_list;
-	int		i;
+void ft_echo(t_cmd *cmd)
+{
+    int i;
+    int n;
 
-	i = 0;
-    while (1)
+    n = 0;
+    i = 1;
+    while (cmd && cmd->cmd[i] && (ft_strcmp(cmd->cmd[i], "-n") == 0))
     {
-        rdl = readline("prompt> ");
-		cmd_list = get_cmds(rdl);
-        current_cmd = *(t_cmd *)cmd_list->content;
-        if (!ft_strcmp(current_cmd.cmd[0], "echo"))
-            ft_echo(&current_cmd);
-        // if (!ft_strcmp(current_cmd.cmd[0], "cd")) 
-        //     ft_cd(&current_cmd);
-        
+        i++;
+        n = 1;
     }
-    return 0;
+    while (cmd && cmd->cmd[i])
+    {
+        printf("%s", cmd->cmd[i]);
+        if (cmd->cmd[i + 1])
+            printf(" ");
+        else if(!cmd->cmd[i + 1] && n == 0)
+            printf("\n");
+        i++;
+    }
 }
