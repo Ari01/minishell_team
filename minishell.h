@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/09 16:34:27 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/09 18:00:42 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,10 @@ typedef struct s_cmd
 **	PARSING
 */
 t_list	*get_cmds(char *s);
+
+/*
+**  BUILTINS
+*/
+void    ft_echo(t_cmd *cmd);
 
 #endif

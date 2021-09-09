@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:37:58 by user42            #+#    #+#             */
-/*   Updated: 2020/11/22 19:37:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/09 17:04:29 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strnstr(const char *big, const char *little,
 								size_t len);
 int					ft_atoi(const char *nptr);
+int					ft_strcmp(const char *s1, const char *s2);
 
 /*
 **	MALLOC
