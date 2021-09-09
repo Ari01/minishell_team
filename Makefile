@@ -1,5 +1,4 @@
 # VAR
-
 NAME			= minishell
 LIBFT 			= libft/libft.a
 
@@ -22,15 +21,17 @@ $(NAME) :		$(OBJS) $(LIBFT)
 				$(CC) $(CFLAGS) $(OBJS) -o $@ $(LFLAGS)
 
 $(LIBFT) :		
-				cd libft && $(MAKE) $(BONUS)
+				$(MAKE) bonus -C libft
 
 .c.o :
 				$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 clean :
+				$(MAKE) clean -C libft
 				$(RM) $(OBJS)
 
 fclean :		clean
+				$(MAKE) fclean -C libft
 				$(RM) $(NAME)
 
 re :			clean fclean all
