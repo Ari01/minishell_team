@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 16:56:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/10 18:57:14 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/errno.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -27,6 +28,7 @@
 */
 # define SYNTAX_ERR 1
 # define PIPE_ERR	2
+# define FILE_ERR 3
 
 /*
 **	READ WRITE DEF
@@ -67,6 +69,11 @@ t_list	*get_cmds(char *s);
 void	run_pipe(t_list *cmd_list);
 
 /*
+**	REDIRECTION
+*/
+void	redirect_input(t_list *cmd_list);
+
+/*
 **  BUILTINS
 */
 void    ft_echo(t_cmd *cmd);
@@ -75,5 +82,10 @@ void    ft_echo(t_cmd *cmd);
 **	COMMANDS
 */
 void	run_cmd(t_cmd *cmd);
+
+/*
+**	UTILS
+*/
+void	remove_elem_from_array(char **array);
 
 #endif

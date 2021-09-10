@@ -8,7 +8,9 @@ parsing.c \
 builtin.c \
 pipe.c \
 error.c \
-cmd.c
+cmd.c \
+redirection.c \
+utils.c
 
 OBJS			= $(SRCS:.c=.o)
 
