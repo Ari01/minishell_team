@@ -39,6 +39,7 @@ clean :
 fclean :		clean
 				$(MAKE) fclean -C libft
 				$(RM) $(NAME)
+				$(RM) .*.swp
 
 re :			clean fclean all
 
