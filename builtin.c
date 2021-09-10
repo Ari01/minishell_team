@@ -35,11 +35,11 @@ void ft_echo(t_cmd *cmd)
     }
     while (cmd && cmd->cmd[i])
     {
-        printf("%s", cmd->cmd[i]);
+        ft_putstr_fd(cmd->cmd[i], STDOUT_FILENO);
         if (cmd->cmd[i + 1])
-            printf(" ");
+            ft_putstr_fd(" ", STDOUT_FILENO);
         else if(!cmd->cmd[i + 1] && n == 0)
-            printf("\n");
+            ft_putstr_fd("\n", STDOUT_FILENO);
         i++;
     }
 }
