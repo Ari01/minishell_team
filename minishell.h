@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/09 18:00:42 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/10 13:30:15 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
+/*
+**	READ WRITE DEF
+*/
+# define BUFFER_SIZE 100000
+
+/*
+**	PIPE AND REDIRECTION DEF
+*/
 # define PIPE '|'
 # define SLR '<'
 # define DLR 1
