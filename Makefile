@@ -5,7 +5,10 @@ LIBFT 			= libft/libft.a
 
 SRCS			= main.c \
 parsing.c \
-builtin.c
+builtin.c \
+pipe.c \
+error.c \
+cmd.c
 
 OBJS			= $(SRCS:.c=.o)
 
