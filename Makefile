@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/09 20:52:15 by xuwang           ###   ########.fr        #
+#    Updated: 2021/09/10 14:51:22 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ INC				= -I.
 SRCS			= main.c \
 parsing.c \
 builtin/echo.c \
-builtin/cd.c 
+builtin/cd.c \
+builtin/pwd.c \
+builtin/exit.c
 
 OBJS			= $(SRCS:.c=.o)
 

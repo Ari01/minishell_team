@@ -6,38 +6,35 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/09 20:54:14 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/10 14:10:03 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int check_file(t_cmd *cmd)
+{
+    int fd;
+    const char *path;
+
+    path = cmd->cmd[1];
+    if ((fd = open(path, O_RDONLY)) == -1)
+        return (0);
+    return (1);
+}
+
 int ft_cd(t_cmd *cmd)
 {
-    if (cmd && cmd->cmd[2] != 0)
-        printf("cd: string not in pwd: %s", cmd->cmd[1]);
-    else if (cmd && cmd->cmd[1])
+    if (cmd && cmd->cmd[1] == NULL)
+        return 0;
+    else if (cmd && cmd->cmd[2] != NULL)
+        printf("cd: string not in pwd: %s\n", cmd->cmd[1]);
+    else if (cmd && cmd->cmd[1] != NULL && !(check_file(cmd)))
+         printf("cd: no such file or directory: %s\n", cmd->cmd[1]);
+    else if (cmd && cmd->cmd[1] && check_file(cmd))
     {
         if (!chdir(cmd->cmd[1]))
             return (ERROR);
     }
     return (SUCCESS);
-}
-
-int main(void) 
-{
-    t_cmd *echo_cmd;
-
-    echo_cmd = malloc(sizeof(t_cmd));
-    char *cmd[4];
-
-    cmd[0] = "cd";
-    cmd[1] = "1";
-    cmd[2] = "2";
-   // cmd[3] = NULL;
-
-    echo_cmd->cmd = cmd;
-    // ft_echo(echo_cmd);
-    free(echo_cmd);
-    return 0;
 }
