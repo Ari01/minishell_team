@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 17:26:47 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/10 17:53:44 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,16 @@ void printcmd(t_cmd *cmd) {
     }
 }
 
-int main(int argc, char** argv, char** env) {
+int main(int argc, char** argv) {
     
     (void)argc;
     (void)argv;
+    
     char    *rdl;
 	t_cmd	current_cmd;
     t_list  *cmd_list;
 	int		i;
-    extern char **environ;
-             printf("environ=%p\n", environ);
-             printf("env=%p\n", env);
-    
+  
 	i = 0;
     while (1)
     {
@@ -54,8 +52,7 @@ int main(int argc, char** argv, char** env) {
         else if (!ft_strcmp(current_cmd.cmd[0], "env")) 
             ft_env(&current_cmd);
         
-    }
-    //printf("environ=%p\n", environ);
+    }//printf("environ=%p\n", environ);
     
     return 0;
 }

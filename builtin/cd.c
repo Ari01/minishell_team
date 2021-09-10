@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/10 17:23:53 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/10 17:56:16 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int ft_cd(t_cmd *cmd)
     if (cmd && cmd->cmd[1] == NULL)
         return 0;
     else if (cmd && cmd->cmd[2] != NULL)
-        printf("cd: string not in pwd: %s\n", cmd->cmd[1]);
+        ft_putstr_fd("cd: string not in pwd: %s\n", cmd->cmd[1]);
     else if (cmd && cmd->cmd[1] != NULL && !(check_file(cmd)))
          printf("cd: no such file or directory: %s\n", cmd->cmd[1]);
     else if (cmd && cmd->cmd[1] && check_file(cmd))
