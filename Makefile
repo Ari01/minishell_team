@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/10 16:42:12 by xuwang           ###   ########.fr        #
+#    Updated: 2021/09/10 18:20:16 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ builtin/echo.c \
 builtin/cd.c \
 builtin/pwd.c \
 builtin/exit.c \
-builtin/env.c \
+builtin/env.c
 
 
 OBJS			= $(SRCS:.c=.o)
