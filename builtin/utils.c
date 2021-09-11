@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/11 15:23:36 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/11 20:07:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,11 @@ t_list *get_env(char **env, t_list *env_list)
         i++;
     }
     return (env_list);
+}
+
+void printerror(char *msg1, char *msg2, char *msg3) {
+    ft_putstr_fd(msg1, STDERR_FILENO);
+    ft_putstr_fd(msg2, STDERR_FILENO);
+    ft_putstr_fd(msg3, STDERR_FILENO);
+    ft_putstr_fd("\n", STDERR_FILENO);
 }
