@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/10 18:20:16 by xuwang           ###   ########.fr        #
+#    Updated: 2021/09/11 15:13:52 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,14 @@ LIBFT 			= libft/libft.a
 INC				= -I.
 
 SRCS			= main.c \
-parsing.c \
-builtin/echo.c \
-builtin/cd.c \
-builtin/pwd.c \
-builtin/exit.c \
-builtin/env.c
+				parsing.c \
+				builtin/echo.c \
+				builtin/cd.c \
+				builtin/pwd.c \
+				builtin/exit.c \
+				builtin/env.c \
+				builtin/export.c \
+				builtin/utils.c 
 
 
 OBJS			= $(SRCS:.c=.o)

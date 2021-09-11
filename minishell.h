@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 17:24:35 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/11 18:08:23 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_cmd
     int     flag;
 }   t_cmd;
 
+
 /*
 **	PARSING
 */
@@ -57,6 +58,8 @@ void    ft_echo(t_cmd *cmd);
 int     ft_cd(t_cmd *cmd);
 void    ft_pwd(t_cmd *cmd);
 void    ft_exit(void);
-int    ft_env(t_cmd *cmd);
+void    ft_env(t_list *env_list);
+void    ft_export(t_cmd *cmd, t_list *env_list);
+t_list  *get_env(char **env, t_list *env_list);
 
 #endif

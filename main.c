@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 17:53:44 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/11 18:31:02 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void printcmd(t_cmd *cmd) {
     }
 }
 
-int main(int argc, char** argv) {
+
+int main(int argc, char** argv, char **env) {
     
     (void)argc;
     (void)argv;
@@ -33,8 +34,11 @@ int main(int argc, char** argv) {
 	t_cmd	current_cmd;
     t_list  *cmd_list;
 	int		i;
-  
-	i = 0;
+    t_list *env_list;
+    
+    env_list = NULL;
+    env_list = get_env(env, env_list);
+    i = 0;
     while (1)
     {
         rdl = readline("prompt> ");
@@ -50,9 +54,15 @@ int main(int argc, char** argv) {
         else if (!ft_strcmp(current_cmd.cmd[0], "exit")) 
             ft_exit();
         else if (!ft_strcmp(current_cmd.cmd[0], "env")) 
-            ft_env(&current_cmd);
+            ft_env(env_list);
+        else if (!ft_strcmp(current_cmd.cmd[0], "export")) 
+            ft_export(&current_cmd, env_list);
+
+    // for (int i = 1; env[i]; i++) {
+    //     printf("[%s]\n", env[i]);
+    }
         
-    }//printf("environ=%p\n", environ);
+    
     
     return 0;
 }
