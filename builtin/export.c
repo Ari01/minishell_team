@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 17:06:26 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 17:56:53 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_list *check_name_exist(char *cmd, t_list *env_list)  //检查一个cmd
         len++;
     while (env_list)   //一个env是否存在在所有的列表
     {
-        if (ft_strncmp(cmd, (char *)env_list->content, len)== 0 && 
+        if (ft_strncmp(cmd, (char *)env_list->content, len) == 0 && 
             (((char *)env_list->content)[len] == '\0' || ((char *)env_list->content)[len] == '=')) //cmd is example "A=1"
         {
             return (env_list);
@@ -74,15 +74,18 @@ $ export A=1  A=3 -->yes change A=3
 */
 static void add_chang_export(char *cmd, t_list *env_list)  //一个cmd在 env_list的改变
 {
+    t_list *to_change;
+
+    to_change = check_name_exist(cmd, env_list);
     /* add element */
-    if (check_name(cmd) && (check_name_exist(cmd, env_list) == NULL))  // problem !!!!!!!!!!
+    if (check_name(cmd) && to_change == NULL) 
     {
         ft_lstadd_back(&env_list, ft_lstnew((void *)cmd));
     }
     /* change element (X)*/
-    else if (check_name(cmd) && check_name_exist(cmd, env_list)) // problem !!!!!!!!!!
+    else if (check_name(cmd) && to_change != NULL)
     {
-        env_list->content = (void *)cmd;
+        to_change->content = (void *)cmd;
     } 
 }
 
@@ -114,13 +117,13 @@ void ft_export(t_cmd *cmd, t_list *env_list)
     int j;
 
     j = 1;
-    i = 1;
     while (cmd && cmd->cmd[j] != NULL) //return ERROR
     {
         if (!(check_name(cmd->cmd[j])))
             printerror("minishell: export: `", cmd->cmd[j],  "\': not a valid identifier");
         j++;
     }
+    i = 1;
     while (cmd && cmd->cmd[i]) 
     {
         add_chang_export(cmd->cmd[i], env_list);
