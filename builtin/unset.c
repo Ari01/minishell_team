@@ -6,11 +6,11 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 17:58:49 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:02:31 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*unset no oprtin */
+/*unset no option */
 
