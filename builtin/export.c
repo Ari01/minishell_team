@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 19:48:43 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 21:47:58 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static int check_is_name(char *s) //problem
     i = 0;
     while(s[i])
     {
-        if (!(s[i] >= 'A' && s[i] <= 'Z') && !(s[i] >= 'a' && s[i] <= 'z') && s[i] != '_' )
-            return (0);
         if (s[i] == '=')
             break;
+        if (!(s[i] >= 'A' && s[i] <= 'Z') && !(s[i] >= 'a' && s[i] <= 'z') && s[i] != '_' )
+            return (0);
         i++;
     }
     return (1);

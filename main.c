@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/11 18:31:02 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 21:46:27 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int main(int argc, char** argv, char **env) {
     while (1)
     {
         rdl = readline("prompt> ");
+        add_history(rdl);
 		cmd_list = get_cmds(rdl);
         current_cmd = *(t_cmd *)cmd_list->content;
         // printcmd(&*(t_cmd *)cmd_list->content);
