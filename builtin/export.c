@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 19:20:24 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 19:48:43 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,33 @@ export 1 2 -->no
 export A=1 1 A -->yes bash: export: `1': not a valid identifier (A=1) 
 $ export A=1  A=3 -->yes change A=3
 */
-static int check_is_name(char *s)
+static int check_is_name(char *s) //problem
 {
     int i;
 
     i = 0;
     while(s[i])
     {
-        if (!(s[0] >= 'A' && s[0] <= 'Z') && !(s[0] >= 'a' && s[0] <= 'z') && s[0] != '_' )
+        if (!(s[i] >= 'A' && s[i] <= 'Z') && !(s[i] >= 'a' && s[i] <= 'z') && s[i] != '_' )
             return (0);
-        if (s[0] == '=')
+        if (s[i] == '=')
             break;
         i++;
     }
     return (1);
 }
 
+static int check_change(char *s)
+{
+    int i = 0;
+    while(s[i])
+    {
+        if (s[i] == '=')
+            return (1);
+        i++;
+    }
+    return (0);
+}
 static t_list *check_name_exist(char *cmd, t_list *env_list) 
 {
     int len;
@@ -69,7 +80,7 @@ static void add_chang_export(char *cmd, t_list *env_list)  //add or change one e
         ft_lstadd_back(&env_list, ft_lstnew((void *)cmd));
     }
     /* change env */
-    else if (check_is_name(cmd) && to_change != NULL)
+    else if (check_is_name(cmd) && to_change != NULL && (check_change(cmd))) //problem!!!
     {
         to_change->content = (void *)cmd;
     } 

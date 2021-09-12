@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 19:21:06 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 19:54:33 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void del_env(char *cmd, t_list *env_list)  //delete env
     /*del env*/
     while (env_list)
     {
-        if ((env_list->next = to_del) && to_del->next)
+        if ((env_list->next = to_del) && to_del)
         {
             env_list->next = to_del->next;
             free(to_del);
@@ -79,7 +79,7 @@ void  ft_unset(t_cmd *cmd, t_list *env_list)
     j = 0;
     while (cmd && cmd->cmd[j]) 
     {
-        del_env(cmd->cmd[i], env_list);
-        i++;
+        del_env(cmd->cmd[j], env_list);
+        j++;
     }
 }
