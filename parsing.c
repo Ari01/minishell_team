@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 18:08:30 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/12 12:26:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_list	*get_cmds(char *s)
 	int		i;
 
 	i = 0;
+	cmd_list = NULL;
+	ctmp = NULL;
 	while (s[i])
 	{
 		start = i;

@@ -6,38 +6,53 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 18:59:49 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/12 16:17:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(void) {
-    char    *rdl;
-	int		i;
+void	run_context(t_ms *ms)
+{
 	t_cmd	current_cmd;
-    t_list  *cmd_list;
 
-	i = 0;
+	current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
+	if (current_cmd.flag == SLR || current_cmd.flag == DLR
+		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
+	{
+		redirect(ms, current_cmd);
+		if (!current_cmd.cmd[0])
+		{
+			ms->cmd_list_ite = ms->cmd_list_ite->next;
+			current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
+		}
+	}
+	if (current_cmd.flag == '|')
+		run_pipe(ms);
+	else
+		run_cmd(&current_cmd);
+}
+
+void	run_shell()
+{
+	t_ms	ms;
+
     while (1)
     {
-        rdl = readline("prompt> ");
-		cmd_list = get_cmds(rdl);
-		if (!cmd_list)
-			print_error_msg("command not recognized\n", SYNTAX_ERR);
-		current_cmd = *(t_cmd *)cmd_list->content;
-		if (current_cmd.flag == '<')
-		{
-			redirect_input(cmd_list);
-			cmd_list = cmd_list->next;
-			current_cmd = *(t_cmd *)cmd_list->content;
-		}
-		if (current_cmd.flag == '|')
-			run_pipe(cmd_list);
-		else
-			run_cmd(&current_cmd);
-		free(rdl);
-		rdl = NULL;
+        ms.rdl = readline("prompt> ");
+		ms.cmd_list_head = get_cmds(ms.rdl);
+		ms.cmd_list_ite = ms.cmd_list_head;
+		ms.fd_in = dup(STDIN_FILENO);
+		ms.fd_out = dup(STDOUT_FILENO);
+		if (!ms.cmd_list_ite)
+			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
+		run_context(&ms);
+		reset_fdin_fdout(&ms);
+		free_memory(&ms);
     }
+}
+
+int		main(void) {
+	run_shell();
     return 0;
 }

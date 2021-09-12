@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/10 18:57:14 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/12 17:16:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <unistd.h>
 # include <string.h>
 # include <sys/errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -26,9 +28,10 @@
 /*
 **	ERRORS DEF
 */
-# define SYNTAX_ERR 1
-# define PIPE_ERR	2
-# define FILE_ERR 3
+# define SYNTAX_ERR		1
+# define PIPE_ERR		2
+# define FILE_ERR		3
+# define READ_WRITE_ERR 4
 
 /*
 **	READ WRITE DEF
@@ -47,6 +50,15 @@
 /*
 ** STRUCT
 */
+typedef struct s_ms
+{
+	char	*rdl;
+	int		fd_in;
+	int		fd_out;
+	t_list	*cmd_list_head;
+	t_list	*cmd_list_ite;
+}	t_ms;
+
 typedef struct s_cmd
 {
     char    **cmd;
@@ -56,7 +68,8 @@ typedef struct s_cmd
 /*
 **	ERRORS
 */
-void	print_error_msg(char *s, int error_id);
+void	free_memory(t_ms *ms);
+void	print_error_msg(char *s, int error_id, t_ms *ms);
 
 /*
 **	PARSING
@@ -64,19 +77,20 @@ void	print_error_msg(char *s, int error_id);
 t_list	*get_cmds(char *s);
 
 /*
+**  BUILTINS
+*/
+void    ft_echo(t_cmd *cmd);
+
+/*
 **	PIPE
 */
-void	run_pipe(t_list *cmd_list);
+void	run_pipe(t_ms *ms);
 
 /*
 **	REDIRECTION
 */
-void	redirect_input(t_list *cmd_list);
-
-/*
-**  BUILTINS
-*/
-void    ft_echo(t_cmd *cmd);
+void	reset_fdin_fdout(t_ms *ms);
+void	redirect(t_ms *ms, t_cmd current_cmd);
 
 /*
 **	COMMANDS
