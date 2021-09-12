@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 17:59:13 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:38:12 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void ft_list_sort(t_list **begin_list, int (*ft_strcmp)()) // Ver.1 : change con
             list = list->next;
     }
 }
+
 
 void printerror(char *msg1, char *msg2, char *msg3) 
 {

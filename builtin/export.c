@@ -6,13 +6,14 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 18:05:15 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 19:20:24 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 /* 
-ordre A-Z , a-z ,-, -- 
+in ordre, 
+with arg before '='must a-z, A_Z, -   (exmple: export a.b=1 -->no  export ab=1%.c -->yes) 
 add declare -x , value after '=' add ""
 export a A BC 1 -->yes  bash: export: `1': not a valid identifier
 export "ab e"  -->no  bash: export: `ab e': not a valid identifier
@@ -23,11 +24,20 @@ export 1 2 -->no
 export A=1 1 A -->yes bash: export: `1': not a valid identifier (A=1) 
 $ export A=1  A=3 -->yes change A=3
 */
-static int check_name(char *s)
+static int check_is_name(char *s)
 {
-    if ((s[0] >= 'A' && s[0] <= 'Z') || (s[0] >= 'a' && s[0] <= 'z') || s[0] == '_' )
-        return (1);
-    return (0);
+    int i;
+
+    i = 0;
+    while(s[i])
+    {
+        if (!(s[0] >= 'A' && s[0] <= 'Z') && !(s[0] >= 'a' && s[0] <= 'z') && s[0] != '_' )
+            return (0);
+        if (s[0] == '=')
+            break;
+        i++;
+    }
+    return (1);
 }
 
 static t_list *check_name_exist(char *cmd, t_list *env_list) 
@@ -53,13 +63,13 @@ static void add_chang_export(char *cmd, t_list *env_list)  //add or change one e
     t_list *to_change;
 
     to_change = check_name_exist(cmd, env_list);
-    /* add element */
-    if (check_name(cmd) && to_change == NULL) 
+    /* add env */
+    if (check_is_name(cmd) && to_change == NULL) 
     {
         ft_lstadd_back(&env_list, ft_lstnew((void *)cmd));
     }
-    /* change element */
-    else if (check_name(cmd) && to_change != NULL)
+    /* change env */
+    else if (check_is_name(cmd) && to_change != NULL)
     {
         to_change->content = (void *)cmd;
     } 
@@ -93,9 +103,9 @@ void ft_export(t_cmd *cmd, t_list *env_list)
     int j;
 
     j = 1;
-    while (cmd && cmd->cmd[j] != NULL) 
+    while (cmd && cmd->cmd[j]) 
     {
-        if (!(check_name(cmd->cmd[j])))
+        if (!(check_is_name(cmd->cmd[j])))
             printerror("minishell: export: `", cmd->cmd[j],  "\': not a valid identifier");
         j++;
     }
