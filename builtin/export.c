@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 17:56:53 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:00:13 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,6 @@ ordre A-Z , -, --
 add declare -x 
 value after '=' add ""
 */
-static void ft_list_sort(t_list **begin_list, int (*ft_strcmp)()) // Ver.1 : change content.
-{
-    t_list *list;
-    void *data;
-
-    list = *begin_list;
-    while (list && list->next)
-    {
-        if (ft_strcmp(list->content, list->next->content) > 0)
-        {
-            data = list->content;
-            list->content = list->next->content;
-            list->next->content = data;
-            list = *begin_list;
-        }
-        else
-            list = list->next;
-    }
-}
-
 static int check_name(char *s)
 {
     if ((s[0] >= 'A' && s[0] <= 'Z') || (s[0] >= 'a' && s[0] <= 'z') || s[0] == '_' )

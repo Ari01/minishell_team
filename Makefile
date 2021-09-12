@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/12 13:59:32 by xuwang           ###   ########.fr        #
+#    Updated: 2021/09/12 17:58:19 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS			= main.c \
 				builtin/exit.c \
 				builtin/env.c \
 				builtin/export.c \
+				builtin/unset.c \
 				builtin/utils.c 
 
 
