@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 19:02:44 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 19:11:32 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	run_cmd(t_ms *ms, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->cmd[0], "env")) 
 		ft_env(ms->env_list);
 	else if (!ft_strcmp(cmd->cmd[0], "export"))
-		ft_export(cmd, ms->env_list);
+		ft_export(cmd, ms->env_list); // 头部=1 next 2 next 3
 	else if (!ft_strcmp(cmd->cmd[0], "unset"))
-		ft_unset(cmd, &ms->env_list);
+		ft_unset(cmd, &ms->env_list); // 删除=1 头部变成2
 	else if (!ft_strcmp(cmd->cmd[0], "lc"))
 	{
 		while (1)
