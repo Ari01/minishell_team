@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/12 21:49:51 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 16:54:27 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int check_is_cmd(char *s)   //name must a-z, A-Z, _
     i = 0;
     while(s[i])
     {
-        if (!(s[0] >= 'A' && s[0] <= 'Z') && !(s[0] >= 'a' && s[0] <= 'z') && s[0] != '_' )
+        if (!(s[i] >= 'A' && s[i] <= 'Z') && !(s[i] >= 'a' && s[i] <= 'z') && s[i] != '_')
             return (0);
         i++;
     }
@@ -33,7 +33,10 @@ static t_list *check_name_exist(char *cmd, t_list *env_list)
 
     len = 0;
     if (check_is_cmd(cmd)) //len of env name 
+    {
         len = ft_strlen(cmd);
+        printf("cmd: [%s] len: [%d]\n",cmd,  len);
+    }
     while (env_list)   //check one env in env_list
     {
         if (ft_strncmp(cmd, (char *)env_list->content, len) == 0 && 
@@ -49,37 +52,53 @@ static t_list *check_name_exist(char *cmd, t_list *env_list)
 static void del_env(char *cmd, t_list *env_list)  //delete env
 {
     t_list *to_del;
+    t_list *tmp = NULL;
+    t_list *prev = NULL;
     
+    tmp = env_list;  //tmp是头地址
     to_del = check_name_exist(cmd, env_list);
+    
+    if (!to_del)
+        return ;
     /*del env*/
-    while (env_list)
+    while (tmp && tmp != to_del)   //前一个tmp的地址给prev 直到找到to del
     {
-        if ((env_list->next = to_del) && to_del)
-        {
-            env_list->next = to_del->next;
-            free(to_del);
-        }
-        env_list = env_list->next;
+        prev = tmp;
+        tmp = tmp->next;
     }
+    
+    if (tmp == to_del)  //找到
+    {
+        if (tmp == env_list)  //如果是头地址
+        {
+            env_list = tmp->next;   //头地址变成要删除的节点的下一个地址，头节点删除
+        }
+        else
+        {
+            prev->next = tmp->next; //tmp的前地址prev的下一个节点 变成要删的下一个地址 ，头节点删除
+        }
+        if (tmp) {
+            printf("to free: [%s]\n", (char *)tmp->content);
+            free(tmp);
+            tmp = NULL;
+        }
+    }
+    
+    
 }
 
 
 void  ft_unset(t_cmd *cmd, t_list *env_list)
 {
     int i;
-    int j;
     
     i = 1;
     while (cmd && cmd->cmd[i]) 
     {
         if (!(check_is_cmd(cmd->cmd[i])))
             printerror("minishell: unset: `", cmd->cmd[i],  "\': not a valid identifier");
+        else
+            del_env(cmd->cmd[i], env_list);
         i++;
-    }
-    j = 0;
-    while (cmd && cmd->cmd[j]) 
-    {
-        del_env(cmd->cmd[j], env_list);
-        j++;
     }
 }

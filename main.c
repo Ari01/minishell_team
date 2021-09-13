@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/12 21:46:27 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 17:07:05 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int main(int argc, char** argv, char **env) {
     while (1)
     {
         rdl = readline("prompt> ");
-        add_history(rdl);
 		cmd_list = get_cmds(rdl);
         current_cmd = *(t_cmd *)cmd_list->content;
         // printcmd(&*(t_cmd *)cmd_list->content);
@@ -58,6 +57,8 @@ int main(int argc, char** argv, char **env) {
             ft_env(env_list);
         else if (!ft_strcmp(current_cmd.cmd[0], "export")) 
             ft_export(&current_cmd, env_list);
+        else if (!ft_strcmp(current_cmd.cmd[0], "unset")) 
+            ft_unset(&current_cmd, env_list);
 
     // for (int i = 1; env[i]; i++) {
     //     printf("[%s]\n", env[i]);
