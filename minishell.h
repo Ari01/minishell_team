@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 18:17:50 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 18:25:26 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int     ft_cd(t_cmd *cmd);
 void    ft_pwd(t_cmd *cmd);
 void    ft_exit(void);
 void    ft_env(t_list *env_list);
-void    ft_export(t_cmd *cmd, t_ms *ms);
+void    ft_export(t_cmd *cmd, t_list *env_list);
 void    ft_unset(t_cmd *cmd, t_list *env_list);
 /*
 **  UTILS

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/13 18:18:26 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 18:25:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void print_export(char *str)
     ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-void ft_export(t_cmd *cmd, t_ms *ms)
+void ft_export(t_cmd *cmd, t_list *env_list)
 {
     int i;
     int j;
@@ -124,13 +124,13 @@ void ft_export(t_cmd *cmd, t_ms *ms)
     i = 1;
     while (cmd && cmd->cmd[i]) 
     {
-        add_chang_export(cmd->cmd[i], ms->env_list);
+        add_chang_export(cmd->cmd[i], env_list);
         i++;
     }
-    ft_list_sort(&ms->env_list, &ft_strcmp);
-    while (cmd->cmd[1] == NULL && ms->env_list && ms->env_list->content)
+    ft_list_sort(&env_list, &ft_strcmp);
+    while (cmd->cmd[1] == NULL && env_list && env_list->content)
     {
-        print_export((char *)ms->env_list->content);
-        ms->env_list = ms->env_list->next;
+        print_export((char *)env_list->content);
+        env_list = env_list->next;
     }
 }
