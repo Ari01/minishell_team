@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/12 17:16:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/13 17:07:11 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
+# include <string.h>
+# include <assert.h>
+# include <stdio.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <errno.h>
 # include "libft/libft.h"
 
 /*
@@ -47,6 +55,8 @@
 # define SRR '>'
 # define DRR 2
 
+# define ERROR -1
+# define SUCCESS 0
 /*
 ** STRUCT
 */
@@ -65,6 +75,7 @@ typedef struct s_cmd
     int     flag;
 }   t_cmd;
 
+
 /*
 **	ERRORS
 */
@@ -80,6 +91,19 @@ t_list	*get_cmds(char *s);
 **  BUILTINS
 */
 void    ft_echo(t_cmd *cmd);
+int     ft_cd(t_cmd *cmd);
+void    ft_pwd(t_cmd *cmd);
+void    ft_exit(void);
+void    ft_env(t_list *env_list);
+void    ft_export(t_cmd *cmd, t_list *env_list);
+void    ft_unset(t_cmd *cmd, t_list *env_list);
+/*
+**  UTILS
+*/
+t_list  *get_env(char **env, t_list *env_list);
+void    ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
+void    printerror(char *msg1, char *msg2, char *msg3);
+
 
 /*
 **	PIPE

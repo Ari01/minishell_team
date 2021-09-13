@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 16:47:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 17:11:02 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ void	run_shell()
 		run_context(&ms);
 		reset_fdin_fdout(&ms);
 		free_memory(&ms);
+    }
+}
+
+void printcmd(t_cmd *cmd) {
+    int i =0;
+    
+    if (cmd) {
+        printf("-- -- --\n");
+        while (cmd->cmd && cmd->cmd[i]) {
+            printf("cmd: [%s]\n", cmd->cmd[i++]);
+        }
+        printf("-- -- --\n");
     }
 }
 

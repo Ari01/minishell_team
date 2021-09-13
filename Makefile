@@ -1,16 +1,36 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
+#    Updated: 2021/09/13 17:19:47 by dchheang         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # VAR
 
 NAME			= minishell
 LIBFT 			= libft/libft.a
+INC				= -I.
 
 SRCS			= main.c \
-parsing.c \
-builtin.c \
-pipe.c \
-error.c \
-cmd.c \
-redirection.c \
-utils.c
+				  parsing.c \
+				  pipe.c \
+				  error.c \
+				  cmd.c \
+				  redirection.c \
+				  utils.c \
+				  builtin/echo.c \
+				  builtin/cd.c \
+				  builtin/pwd.c \
+				  builtin/exit.c \
+				  builtin/env.c \
+				  builtin/export.c \
+				  builtin/unset.c \
+				  builtin/utils.c 
 
 OBJS			= $(SRCS:.c=.o)
 
@@ -24,13 +44,13 @@ RM				= rm -f
 all :			$(NAME)
 
 $(NAME) :		$(OBJS) $(LIBFT)
-				$(CC) $(CFLAGS) $(OBJS) -o $@ $(LFLAGS)
+				$(CC) $(CFLAGS) $(INC) $(OBJS) -o $@ $(LFLAGS)
 
 $(LIBFT) :		
 				$(MAKE) bonus -C libft
 
 .c.o :
-				$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+				$(CC) $(CFLAGS) $(INC) -c $< -o $(<:.c=.o)
 
 clean :
 				$(MAKE) clean -C libft
