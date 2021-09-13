@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 17:11:02 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 17:31:19 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ void	run_context(t_ms *ms)
 	if (current_cmd.flag == '|')
 		run_pipe(ms);
 	else
-		run_cmd(&current_cmd);
+		run_cmd(ms, &current_cmd);
 }
 
-void	run_shell()
+void	run_shell(char **env)
 {
 	t_ms	ms;
 
+	ms.env_list = NULL;
+	ms.env_list = get_env(env, ms.env_list);
     while (1)
     {
         ms.rdl = readline("prompt> ");
@@ -65,7 +67,9 @@ void printcmd(t_cmd *cmd) {
     }
 }
 
-int		main(void) {
-	run_shell();
+int		main(int ac, char **av, char **env) {
+	(void)ac;
+	(void)av;
+	run_shell(env);
     return 0;
 }

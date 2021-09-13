@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 17:07:11 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 17:30:47 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_ms
 	int		fd_out;
 	t_list	*cmd_list_head;
 	t_list	*cmd_list_ite;
+	t_list	*env_list;
 }	t_ms;
 
 typedef struct s_cmd
@@ -119,7 +120,7 @@ void	redirect(t_ms *ms, t_cmd current_cmd);
 /*
 **	COMMANDS
 */
-void	run_cmd(t_cmd *cmd);
+void	run_cmd(t_ms *ms, t_cmd *cmd);
 
 /*
 **	UTILS
