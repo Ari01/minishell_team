@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 18:26:08 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 18:30:32 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	run_cmd(t_ms *ms, t_cmd *cmd)
 		ft_exit();
 	else if (!ft_strcmp(cmd->cmd[0], "env")) 
 		ft_env(ms->env_list);
-	else if (!ft_strcmp(cmd->cmd[0], "export")) 
+	else if (!ft_strcmp(cmd->cmd[0], "export"))
 		ft_export(cmd, ms->env_list);
 	else if (!ft_strcmp(cmd->cmd[0], "lc"))
 	{

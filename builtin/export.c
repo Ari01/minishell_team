@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/13 18:25:06 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 18:45:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ static t_list *check_name_exist(char *cmd, t_list *env_list)
     }
     return (NULL);
 }
+
+void	print_env_list(t_list *env_list)
+{
+	char	*s;
+
+	while (env_list)
+	{
+		s = (char *)env_list->content;
+		printf("%s\n", s);
+		env_list = env_list->next;
+	}
+}
+
 static void add_chang_export(char *cmd, t_list *env_list)  //add or change one envin env_list
 {
     t_list *to_change;
@@ -77,8 +90,7 @@ static void add_chang_export(char *cmd, t_list *env_list)  //add or change one e
     /* add env */
     if (check_is_name(cmd) && to_change == NULL) 
     {
-		printf("cmd = %s\n", cmd);
-        ft_lstadd_back(&env_list, ft_lstnew((void *)cmd));
+        ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(cmd)));
     }
     /* change env */
     else if (check_is_name(cmd) && to_change != NULL && (check_change(cmd))) //problem!!!

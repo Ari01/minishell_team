@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/13 16:51:40 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 18:44:33 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list *get_env(char **env, t_list *env_list)
     i = 0;
     while (env[i])
     {
-        ft_lstadd_back(&env_list, ft_lstnew((void *)env[i]));
+        ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(env[i])));
         i++;
     }
     return (env_list);
