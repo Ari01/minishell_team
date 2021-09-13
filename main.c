@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/12 16:17:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/13 16:28:52 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	run_context(t_ms *ms)
 	if (current_cmd.flag == SLR || current_cmd.flag == DLR
 		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
 	{
+		printf("redirect\n");
 		redirect(ms, current_cmd);
 		if (!current_cmd.cmd[0])
 		{
