@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/13 18:04:21 by dchheang         ###   ########.fr        #
+#    Updated: 2021/09/13 20:04:53 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRCS			= main.c \
 				  cmd.c \
 				  redirection.c \
 				  utils.c \
+				  exec.c \
+				  var.c \
 				  builtin/echo.c \
 				  builtin/cd.c \
 				  builtin/pwd.c \
@@ -30,7 +32,7 @@ SRCS			= main.c \
 				  builtin/env.c \
 				  builtin/export.c \
 				  builtin/unset.c \
-				  builtin/utils.c 
+				  builtin/utils.c
 
 OBJS			= $(SRCS:.c=.o)
 

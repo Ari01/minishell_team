@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 19:11:34 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 20:46:10 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
@@ -40,6 +41,7 @@
 # define PIPE_ERR		2
 # define FILE_ERR		3
 # define READ_WRITE_ERR 4
+# define EXEC_ERR		5
 
 /*
 **	READ WRITE DEF
@@ -125,6 +127,18 @@ void	run_cmd(t_ms *ms, t_cmd *cmd);
 /*
 **	UTILS
 */
+void	free_array(char **array);
 void	remove_elem_from_array(char **array);
+
+/*
+**	EXEC
+*/
+void	run_exec(t_ms *ms, t_cmd *cmd);
+
+/*
+**	VARS
+*/
+void	print_var_list(t_list *env_list);
+char	*get_var(t_list *env_list, char *name);
 
 #endif

@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/10 18:36:52 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 20:41:22 by dchheang         ###   ########.fr       */
+/*   Created: 2021/09/13 19:57:12 by dchheang          #+#    #+#             */
+/*   Updated: 2021/09/13 20:58:35 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_array(char **array)
+void	print_var_list(t_list *env_list)
 {
-	int	i;
-
-	i = 0;
-	while (array[i])
+	while (env_list)
 	{
-		free(array[i]);
-		i++;
+		printf("%s\n", (char *)env_list->content);
+		env_list = env_list->next;
 	}
-	free(array);
 }
 
-void	remove_elem_from_array(char **array)
+char	*get_var(t_list *env_list, char *name)
 {
-	int	i;
+	char	*ret;
 
-	i = 0;
-	while (array[i])
+	ret = NULL;
+	while (env_list)
 	{
-		array[i] = array[i + 1];
-		i++;
+		ret = (char *)env_list->content;
+		if (!ft_strncmp(ret, name, ft_strlen(name)))
+			return (ret + ft_strlen(name) + 1);
+		env_list = env_list->next;
 	}
+	return (ret);
 }
