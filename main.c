@@ -6,11 +6,54 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 17:07:05 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 18:04:09 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	run_context(t_ms *ms)
+{
+	t_cmd	current_cmd;
+
+	current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
+	if (current_cmd.flag == SLR || current_cmd.flag == DLR
+		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
+	{
+		redirect(ms, current_cmd);
+		if (!current_cmd.cmd[0])
+		{
+			ms->cmd_list_ite = ms->cmd_list_ite->next;
+			current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
+			printf("cc = %s\n", current_cmd.cmd[0]);
+		}
+	}
+	if (current_cmd.flag == '|')
+		run_pipe(ms);
+	else
+		run_cmd(ms, &current_cmd);
+}
+
+void	run_shell(char **env)
+{
+	t_ms	ms;
+
+	ms.env_list = NULL;
+	ms.env_list = get_env(env, ms.env_list);
+    while (1)
+    {
+        ms.rdl = readline("prompt> ");
+		ms.cmd_list_head = get_cmds(ms.rdl);
+		ms.cmd_list_ite = ms.cmd_list_head;
+		ms.fd_in = dup(STDIN_FILENO);
+		ms.fd_out = dup(STDOUT_FILENO);
+		if (!ms.cmd_list_ite)
+			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
+		run_context(&ms);
+		reset_fdin_fdout(&ms);
+		free_memory(&ms);
+    }
+}
 
 void printcmd(t_cmd *cmd) {
     int i =0;
@@ -24,47 +67,9 @@ void printcmd(t_cmd *cmd) {
     }
 }
 
-
-int main(int argc, char** argv, char **env) {
-    
-    (void)argc;
-    (void)argv;
-    
-    char    *rdl;
-	t_cmd	current_cmd;
-    t_list  *cmd_list;
-	int		i;
-    t_list *env_list;
-    
-    env_list = NULL;
-    env_list = get_env(env, env_list);
-    i = 0;
-    while (1)
-    {
-        rdl = readline("prompt> ");
-		cmd_list = get_cmds(rdl);
-        current_cmd = *(t_cmd *)cmd_list->content;
-        // printcmd(&*(t_cmd *)cmd_list->content);
-        if (!ft_strcmp(current_cmd.cmd[0], "echo"))
-            ft_echo(&current_cmd);
-        else if (!ft_strcmp(current_cmd.cmd[0], "cd")) 
-            ft_cd(&current_cmd);
-        else if (!ft_strcmp(current_cmd.cmd[0], "pwd")) 
-            ft_pwd(&current_cmd);
-        else if (!ft_strcmp(current_cmd.cmd[0], "exit")) 
-            ft_exit();
-        else if (!ft_strcmp(current_cmd.cmd[0], "env")) 
-            ft_env(env_list);
-        else if (!ft_strcmp(current_cmd.cmd[0], "export")) 
-            ft_export(&current_cmd, env_list);
-        else if (!ft_strcmp(current_cmd.cmd[0], "unset")) 
-            ft_unset(&current_cmd, env_list);
-
-    // for (int i = 1; env[i]; i++) {
-    //     printf("[%s]\n", env[i]);
-    }
-        
-    
-    
+int		main(int ac, char **av, char **env) {
+	(void)ac;
+	(void)av;
+	run_shell(env);
     return 0;
 }

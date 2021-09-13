@@ -6,26 +6,31 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/13 17:05:46 by xuwang           ###   ########.fr        #
+#    Updated: 2021/09/13 18:04:21 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # VAR
+
 NAME			= minishell
 LIBFT 			= libft/libft.a
 INC				= -I.
 
 SRCS			= main.c \
-				parsing.c \
-				builtin/echo.c \
-				builtin/cd.c \
-				builtin/pwd.c \
-				builtin/exit.c \
-				builtin/env.c \
-				builtin/export.c \
-				builtin/unset.c \
-				builtin/utils.c 
-
+				  parsing.c \
+				  pipe.c \
+				  error.c \
+				  cmd.c \
+				  redirection.c \
+				  utils.c \
+				  builtin/echo.c \
+				  builtin/cd.c \
+				  builtin/pwd.c \
+				  builtin/exit.c \
+				  builtin/env.c \
+				  builtin/export.c \
+				  builtin/unset.c \
+				  builtin/utils.c 
 
 OBJS			= $(SRCS:.c=.o)
 
@@ -54,6 +59,7 @@ clean :
 fclean :		clean
 				$(MAKE) fclean -C libft
 				$(RM) $(NAME)
+				$(RM) .*.swp
 
 re :			clean fclean all
 

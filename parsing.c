@@ -6,20 +6,20 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/09 17:37:27 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/12 12:26:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_separator(char c)
+int		is_flag(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
 int		get_flag(char *s)
 {
-	if (!is_separator(*s))
+	if (!is_flag(*s))
 		return (0);
 	if (*s == '<' && (*(s + 1) == '<'))
 		return (DLR);
@@ -46,10 +46,12 @@ t_list	*get_cmds(char *s)
 	int		i;
 
 	i = 0;
+	cmd_list = NULL;
+	ctmp = NULL;
 	while (s[i])
 	{
 		start = i;
-		while (s[i] && !is_separator(s[i]))
+		while (s[i] && !is_flag(s[i]))
 			i++;
 		tmp = ft_substr(s, start, i - start);
 		ctmp = malloc(sizeof(*ctmp));

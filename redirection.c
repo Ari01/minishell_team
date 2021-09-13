@@ -1,0 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
+/*   Updated: 2021/09/13 16:50:06 by dchheang         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	reset_fdin_fdout(t_ms *ms)
+{
+	dup2(ms->fd_in, STDIN_FILENO);
+	dup2(ms->fd_out, STDOUT_FILENO);
+	close(ms->fd_in);
+	close(ms->fd_out);
+}
+
+void	redirect_in_out(t_ms *ms, int newfd, int flags)
+{
+	int		fd;
+	t_cmd	next_cmd;
+
+	if (ms->cmd_list_ite->next == NULL)
+		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
+	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
+	fd = open(next_cmd.cmd[0], flags);
+	if (fd == -1)
+		print_error_msg(strerror(errno), FILE_ERR, ms);
+	if (dup2(fd, newfd) == -1)
+		print_error_msg(strerror(errno), PIPE_ERR, ms);
+	close(fd);
+	remove_elem_from_array(next_cmd.cmd);
+}
+
+void	read_from_current_input(t_ms *ms)
+{
+	int		rd;
+	char	buff[BUFFER_SIZE];
+	char	*line;
+	char	*freeptr;
+	t_cmd	next_cmd;
+
+	line = ft_strdup("");
+	if (ms->cmd_list_ite->next == NULL)
+		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
+	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
+	rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
+	buff[rd] = 0;
+	while (ft_strncmp(buff, next_cmd.cmd[0], rd - 1) && rd != -1)
+	{
+		buff[rd] = 0;
+		freeptr = line;
+		line = ft_strjoin(line, buff);
+		free(freeptr);
+		rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
+	}
+	if (rd == -1)
+		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	remove_elem_from_array(next_cmd.cmd);
+}
+
+void	redirect(t_ms *ms, t_cmd current_cmd)
+{
+	if (current_cmd.flag == SLR)
+		redirect_in_out(ms, STDIN_FILENO, O_RDONLY);
+	else if (current_cmd.flag == SRR)
+		redirect_in_out(ms, STDOUT_FILENO, O_WRONLY | O_CREAT);
+	else if (current_cmd.flag == DRR)
+		redirect_in_out(ms, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND);
+	else
+		read_from_current_input(ms);
+}
