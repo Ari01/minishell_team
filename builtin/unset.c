@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/13 16:54:27 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/13 19:06:56 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_list *check_name_exist(char *cmd, t_list *env_list)
     if (check_is_cmd(cmd)) //len of env name 
     {
         len = ft_strlen(cmd);
-        printf("cmd: [%s] len: [%d]\n",cmd,  len);
+        // printf("cmd: [%s] len: [%d]\n",cmd,  len);
     }
     while (env_list)   //check one env in env_list
     {
@@ -49,7 +49,7 @@ static t_list *check_name_exist(char *cmd, t_list *env_list)
     return (NULL);
 }
 
-static void del_env(char *cmd, t_list *env_list)  //delete env
+static t_list *del_env(char *cmd, t_list *env_list)  //delete env
 {
     t_list *to_del;
     t_list *tmp = NULL;
@@ -59,7 +59,7 @@ static void del_env(char *cmd, t_list *env_list)  //delete env
     to_del = check_name_exist(cmd, env_list);
     
     if (!to_del)
-        return ;
+        return env_list;
     /*del env*/
     while (tmp && tmp != to_del)   //前一个tmp的地址给prev 直到找到to del
     {
@@ -69,8 +69,9 @@ static void del_env(char *cmd, t_list *env_list)  //delete env
     
     if (tmp == to_del)  //找到
     {
-        if (tmp == env_list)  //如果是头地址
+        if (prev == NULL)  //如果是头地址
         {
+            // printf("head [%p] - next [%p]\n", env_list, tmp->next);
             env_list = tmp->next;   //头地址变成要删除的节点的下一个地址，头节点删除
         }
         else
@@ -78,17 +79,18 @@ static void del_env(char *cmd, t_list *env_list)  //delete env
             prev->next = tmp->next; //tmp的前地址prev的下一个节点 变成要删的下一个地址 ，头节点删除
         }
         if (tmp) {
-            printf("to free: [%s]\n", (char *)tmp->content);
+            // printf("to free: [%s]\n", (char *)tmp->content);
+            free(tmp->content);
+            tmp->content = NULL;
             free(tmp);
             tmp = NULL;
         }
     }
-    
-    
+    return env_list;
 }
 
 
-void  ft_unset(t_cmd *cmd, t_list *env_list)
+void  ft_unset(t_cmd *cmd, t_list **env_list)
 {
     int i;
     
@@ -98,7 +100,7 @@ void  ft_unset(t_cmd *cmd, t_list *env_list)
         if (!(check_is_cmd(cmd->cmd[i])))
             printerror("minishell: unset: `", cmd->cmd[i],  "\': not a valid identifier");
         else
-            del_env(cmd->cmd[i], env_list);
+           *env_list = del_env(cmd->cmd[i], *env_list);
         i++;
     }
 }

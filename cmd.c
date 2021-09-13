@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 18:30:32 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/13 19:02:44 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	run_cmd(t_ms *ms, t_cmd *cmd)
 		ft_env(ms->env_list);
 	else if (!ft_strcmp(cmd->cmd[0], "export"))
 		ft_export(cmd, ms->env_list);
+	else if (!ft_strcmp(cmd->cmd[0], "unset"))
+		ft_unset(cmd, &ms->env_list);
 	else if (!ft_strcmp(cmd->cmd[0], "lc"))
 	{
 		while (1)
