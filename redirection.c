@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/12 17:34:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/13 16:50:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	read_from_current_input(t_ms *ms)
 	}
 	if (rd == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	remove_elem_from_array(next_cmd.cmd);
 }
 
 void	redirect(t_ms *ms, t_cmd current_cmd)
