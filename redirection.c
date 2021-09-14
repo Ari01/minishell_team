@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 16:50:06 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 19:09:01 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	redirect_in_out(t_ms *ms, int newfd, int flags)
 	if (ms->cmd_list_ite->next == NULL)
 		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
 	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
-	fd = open(next_cmd.cmd[0], flags);
+	if (flags | O_CREAT)
+		fd = open(next_cmd.cmd[0], flags, 0666);
+	else
+		fd = open(next_cmd.cmd[0], flags);
 	if (fd == -1)
 		print_error_msg(strerror(errno), FILE_ERR, ms);
 	if (dup2(fd, newfd) == -1)
@@ -67,11 +70,13 @@ void	read_from_current_input(t_ms *ms)
 void	redirect(t_ms *ms, t_cmd current_cmd)
 {
 	if (current_cmd.flag == SLR)
-		redirect_in_out(ms, STDIN_FILENO, O_RDONLY);
+		redirect_in_out(ms, STDIN_FILENO, O_RDWR);
 	else if (current_cmd.flag == SRR)
-		redirect_in_out(ms, STDOUT_FILENO, O_WRONLY | O_CREAT);
+		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT);
 	else if (current_cmd.flag == DRR)
-		redirect_in_out(ms, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND);
+		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
 	else
 		read_from_current_input(ms);
+	if (!current_cmd.cmd[0])
+		ms->cmd_list_ite = ms->cmd_list_ite->next;
 }

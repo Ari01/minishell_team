@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 18:29:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 18:58:05 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ void	run_context(t_ms *ms)
 		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
 	{
 		redirect(ms, current_cmd);
-		if (!current_cmd.cmd[0])
-		{
-			ms->cmd_list_ite = ms->cmd_list_ite->next;
-			current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
-			printf("cc = %s\n", current_cmd.cmd[0]);
-		}
+		current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
 	}
 	if (current_cmd.flag == '|')
 		run_pipe(ms);

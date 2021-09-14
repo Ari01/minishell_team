@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 17:34:23 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 18:31:34 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,25 @@
 
 void	exec_child(t_ms *ms, int *pipe_fd)
 {
-	t_cmd cmd;
+	t_cmd	cmd;
 
-	cmd = *(t_cmd*)ms->cmd_list_ite->next->content;
+	ms->cmd_list_ite = ms->cmd_list_ite->next;
+	cmd = *(t_cmd*)ms->cmd_list_ite->content;
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	if (cmd.flag == '|')
-	{
-		ms->cmd_list_ite = ms->cmd_list_ite->next;
 		run_pipe(ms);
-	}
 	else
+	{
+		if (cmd.flag == SLR || cmd.flag == DLR
+			|| cmd.flag == SRR || cmd.flag == DRR)
+		{
+			redirect(ms, cmd);
+			cmd = *(t_cmd *)ms->cmd_list_ite->content;
+		}
 		run_cmd(ms, &cmd);
+	}
 	close(pipe_fd[0]);
 	exit(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 20:46:10 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:22:20 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include "libft/libft.h"
 
 /*
-**	ERRORS DEF
+**	ERRORS
 */
 # define SYNTAX_ERR		1
 # define PIPE_ERR		2
@@ -44,12 +44,12 @@
 # define EXEC_ERR		5
 
 /*
-**	READ WRITE DEF
+**	READ WRITE
 */
 # define BUFFER_SIZE 100000
 
 /*
-**	PIPE AND REDIRECTION DEF
+**	PIPE AND REDIRECTION
 */
 # define PIPE '|'
 # define SLR '<'
@@ -59,6 +59,12 @@
 
 # define ERROR -1
 # define SUCCESS 0
+
+/*
+**	COMMANDS
+*/
+# define BUILTINS "cd echo env exit export pwd unset"
+
 /*
 ** STRUCT
 */
@@ -93,6 +99,7 @@ t_list	*get_cmds(char *s);
 /*
 **  BUILTINS
 */
+int		is_builtin(char *s);
 void    ft_echo(t_cmd *cmd);
 int     ft_cd(t_cmd *cmd);
 void    ft_pwd(t_cmd *cmd);

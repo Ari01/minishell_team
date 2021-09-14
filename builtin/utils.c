@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/13 18:44:33 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:11:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,3 @@ void printerror(char *msg1, char *msg2, char *msg3)
     ft_putstr_fd(msg3, STDERR_FILENO);
     ft_putstr_fd("\n", STDERR_FILENO);
 }
-
