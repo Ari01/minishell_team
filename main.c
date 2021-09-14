@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 18:58:05 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 19:48:33 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	run_shell(char **env)
 		ms.fd_out = dup(STDOUT_FILENO);
 		if (!ms.cmd_list_ite)
 			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
+		add_history(ms.rdl);
 		run_context(&ms);
 		reset_fdin_fdout(&ms);
 		free_memory(&ms);

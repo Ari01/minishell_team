@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/14 16:22:39 by dchheang         ###   ########.fr        #
+#    Updated: 2021/09/14 19:37:43 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS			= main.c \
 				  utils.c \
 				  exec.c \
 				  var.c \
+				  signal.c \
 				  builtin/builtin.c \
 				  builtin/echo.c \
 				  builtin/cd.c \

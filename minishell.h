@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 16:22:20 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/14 19:43:49 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <signal.h>
 # include "libft/libft.h"
 
 /*
@@ -147,5 +148,10 @@ void	run_exec(t_ms *ms, t_cmd *cmd);
 */
 void	print_var_list(t_list *env_list);
 char	*get_var(t_list *env_list, char *name);
+
+/*
+**	SIGNAL
+*/
+void	catch_sig(int signum);
 
 #endif
