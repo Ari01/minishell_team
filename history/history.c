@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:28:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/15 17:55:28 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/15 18:28:06 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void creat_history(t_history *history)
     //或者当前地址
     path = ft_strjoin(home, "/.minishell_history"); //地址名字
     history->path = path;
-    printf ("path:%s\n", history->path);   //path:/Users/xuwang/minishell_team/.minishell_history
+    //printf ("path:%s\n", history->path);   //path:/Users/xuwang/minishell_team/.minishell_history
     history->fd = open(history->path, O_RDWR | O_CREAT | O_APPEND, 0777);  //creat history
-    printf ("fd:%d\n", history->fd);   //fd:3
+    //printf ("fd:%d\n", history->fd);   //fd:3
     if (history->fd == -1)
         return ;
    

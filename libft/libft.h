@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:37:58 by user42            #+#    #+#             */
-/*   Updated: 2021/09/15 16:58:38 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/15 18:25:21 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <stdlib.h>
 # include <unistd.h>
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 100000
 /*
 ** MEM
 */
