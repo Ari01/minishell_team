@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 18:29:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 17:39:29 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ void	run_shell(char **env)
 
 	ms.env_list = NULL;
 	ms.env_list = get_env(env, ms.env_list);
+	ms.history = init_history(ms.history);
     while (1)
     {
         ms.rdl = readline("prompt> ");
+		ft_add_history(ms.rdl, ms.history);
 		ms.cmd_list_head = get_cmds(ms.rdl);
 		ms.cmd_list_ite = ms.cmd_list_head;
 		ms.fd_in = dup(STDIN_FILENO);

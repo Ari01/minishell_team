@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/13 19:11:34 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/15 17:43:07 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 /*
 **	READ WRITE DEF
 */
-# define BUFFER_SIZE 100000
+//# define BUFFER_SIZE 100000
 
 /*
 **	PIPE AND REDIRECTION DEF
@@ -60,6 +60,12 @@
 /*
 ** STRUCT
 */
+typedef struct s_history
+{
+    int fd;
+	char *path;
+}   t_history;
+
 typedef struct s_ms
 {
 	char	*rdl;
@@ -68,6 +74,7 @@ typedef struct s_ms
 	t_list	*cmd_list_head;
 	t_list	*cmd_list_ite;
 	t_list	*env_list;
+	t_history history;
 }	t_ms;
 
 typedef struct s_cmd
@@ -104,8 +111,11 @@ void    ft_unset(t_cmd *cmd, t_list **env_list);
 t_list  *get_env(char **env, t_list *env_list);
 void    ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
 void    printerror(char *msg1, char *msg2, char *msg3);
-
-
+/*
+**  HISTORY
+*/
+t_history init_history(t_history history);
+void  ft_add_history(char *cmd, t_history history);
 /*
 **	PIPE
 */

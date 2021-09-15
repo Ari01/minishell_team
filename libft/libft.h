@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:37:58 by user42            #+#    #+#             */
-/*   Updated: 2021/09/09 17:04:29 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:58:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 # define LIBFT_H
 
 # include <stddef.h>
-
+# include <stdlib.h>
+# include <stdlib.h>
+# include <unistd.h>
+# define BUFFER_SIZE 1
 /*
 ** MEM
 */
@@ -70,6 +73,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+int					get_next_line(int fd, char **line);
 
 /*
 **	BONUS
