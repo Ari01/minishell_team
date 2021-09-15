@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 19:32:00 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 20:05:00 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,29 @@ void	run_context(t_ms *ms)
 void	run_shell(char **env)
 {
 	t_ms	ms;
+	char	*rdl;
 
 	ms.env_list = NULL;
 	ms.env_list = get_env(env, ms.env_list);
     while (1)
     {
-        ms.rdl = readline("prompt> ");
+        rdl = readline("prompt> ");
+		ms.rdl = ft_strtrim(rdl, " \t\v\f\r");
+		free(rdl);
 		ms.cmd_list_head = get_cmds(ms.rdl);
 		ms.cmd_list_ite = ms.cmd_list_head;
-		ms.fd_in = dup(STDIN_FILENO);
-		ms.fd_out = dup(STDOUT_FILENO);
-		if (!ms.cmd_list_ite)
-			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
-		add_history(ms.rdl);
-		run_context(&ms);
-		reset_fdin_fdout(&ms);
-		free_memory(&ms);
+		if (check_rdl(&ms))
+		{
+			ms.fd_in = dup(STDIN_FILENO);
+			ms.fd_out = dup(STDOUT_FILENO);
+			if (!ms.cmd_list_ite)
+				print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
+			add_history(ms.rdl);
+			run_context(&ms);
+			reset_fdin_fdout(&ms);
+			free_memory(&ms);
+		}
+		free(ms.rdl);
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 19:19:45 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 20:00:52 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	print_error_msg(char *s, int error_id, t_ms *ms);
 /*
 **	PARSING
 */
+int		check_rdl(t_ms *ms);
 t_list	*get_cmds(char *s);
 
 /*
