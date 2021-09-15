@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 20:58:07 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 18:53:45 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,13 @@ void	ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 		print_error_msg(strerror(errno), EXEC_ERR, ms);
 	if (!pid)
 	{
-		printf("pid fils = %d\n", getpid());
 		if (execve(path, argv, envp) == -1)
 			print_error_msg(strerror(errno), EXEC_ERR, ms);
 	}
 	else
 	{
-		printf("pid pere = %d\n", getpid());
-		wait(NULL);
-		printf("exit pid pere =%d\n", getpid());
+		waitpid(pid, NULL, 0);
+		//reset_fdin_fdout(ms);
 	}
 }
 

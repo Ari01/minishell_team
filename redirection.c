@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 19:09:01 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 19:24:44 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	redirect_in_out(t_ms *ms, int newfd, int flags)
 	if (ms->cmd_list_ite->next == NULL)
 		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
 	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
-	if (flags | O_CREAT)
+	if (flags & O_CREAT)
 		fd = open(next_cmd.cmd[0], flags, 0666);
 	else
 		fd = open(next_cmd.cmd[0], flags);
@@ -37,7 +37,6 @@ void	redirect_in_out(t_ms *ms, int newfd, int flags)
 	if (dup2(fd, newfd) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	close(fd);
-	remove_elem_from_array(next_cmd.cmd);
 }
 
 void	read_from_current_input(t_ms *ms)
@@ -64,19 +63,30 @@ void	read_from_current_input(t_ms *ms)
 	}
 	if (rd == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	remove_elem_from_array(next_cmd.cmd);
 }
 
-void	redirect(t_ms *ms, t_cmd current_cmd)
+void	redirect(t_ms *ms, t_cmd *current_cmd)
 {
-	if (current_cmd.flag == SLR)
+	t_cmd	next_cmd;
+
+	if (current_cmd->flag == SLR)
 		redirect_in_out(ms, STDIN_FILENO, O_RDWR);
-	else if (current_cmd.flag == SRR)
-		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT);
-	else if (current_cmd.flag == DRR)
+	else if (current_cmd->flag == SRR)
+		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT | O_TRUNC);
+	else if (current_cmd->flag == DRR)
 		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
 	else
 		read_from_current_input(ms);
-	if (!current_cmd.cmd[0])
+	if (!current_cmd->cmd[0])
+	{
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
+		current_cmd = (t_cmd *)ms->cmd_list_ite->content;
+		remove_elem_from_array(current_cmd->cmd);
+	}
+	else
+	{
+		next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
+		current_cmd->flag = next_cmd.flag;
+		remove_from_list(&ms->cmd_list_head, ms->cmd_list_ite->next);
+	}
 }

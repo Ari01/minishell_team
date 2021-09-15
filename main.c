@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 19:48:33 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 19:32:00 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	run_context(t_ms *ms)
 {
-	t_cmd	current_cmd;
+	t_cmd	*current_cmd;
 
-	current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-	if (current_cmd.flag == SLR || current_cmd.flag == DLR
-		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
+	current_cmd = (t_cmd *)ms->cmd_list_ite->content;
+	while (current_cmd->flag == SLR || current_cmd->flag == DLR
+		|| current_cmd->flag == SRR || current_cmd->flag == DRR)
 	{
 		redirect(ms, current_cmd);
-		current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
+		current_cmd = (t_cmd *)ms->cmd_list_ite->content;
 	}
-	if (current_cmd.flag == '|')
+	if (current_cmd->flag == '|')
 		run_pipe(ms);
 	else
-		run_cmd(ms, &current_cmd);
+		run_cmd(ms, current_cmd);
 }
 
 void	run_shell(char **env)

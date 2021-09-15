@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 20:41:05 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 15:21:04 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,5 @@ void	run_cmd(t_ms *ms, t_cmd *cmd)
 	if (is_builtin(cmd->cmd[0]))
 		run_builtin(ms, cmd);
 	else
-	{
 		run_exec(ms, cmd);
-		printf("exit cmd %d\n", getpid());
-	}
 }

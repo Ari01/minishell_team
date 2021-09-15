@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 19:43:49 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 19:19:45 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_cmd
 /*
 **	ERRORS
 */
+
+void	free_cmd(void *content);
 void	free_memory(t_ms *ms);
 void	print_error_msg(char *s, int error_id, t_ms *ms);
 
@@ -108,6 +110,7 @@ void    ft_exit(void);
 void    ft_env(t_list *env_list);
 void    ft_export(t_cmd *cmd, t_list *env_list);
 void    ft_unset(t_cmd *cmd, t_list **env_list);
+
 /*
 **  UTILS
 */
@@ -125,7 +128,7 @@ void	run_pipe(t_ms *ms);
 **	REDIRECTION
 */
 void	reset_fdin_fdout(t_ms *ms);
-void	redirect(t_ms *ms, t_cmd current_cmd);
+void	redirect(t_ms *ms, t_cmd *current_cmd);
 
 /*
 **	COMMANDS
@@ -135,8 +138,10 @@ void	run_cmd(t_ms *ms, t_cmd *cmd);
 /*
 **	UTILS
 */
+void	print_cmds(t_list *cmd_list);
 void	free_array(char **array);
 void	remove_elem_from_array(char **array);
+void	remove_from_list(t_list **head, t_list *elem);
 
 /*
 **	EXEC

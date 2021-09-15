@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/14 20:47:37 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/15 19:36:15 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,13 @@ void	exec_child(t_ms *ms, int *pipe_fd)
 	{
 		if (cmd.flag == SLR || cmd.flag == DLR
 			|| cmd.flag == SRR || cmd.flag == DRR)
-		{
-			redirect(ms, cmd);
-			cmd = *(t_cmd *)ms->cmd_list_ite->content;
-		}
-		printf("pipe pid fils = %d\n", getpid());
+			redirect(ms, &cmd);
 		run_cmd(ms, &cmd);
 	}
 	exit(EXIT_SUCCESS);
 }
 
-void	exec_parent(t_ms *ms, int *pipe_fd)
+void	exec_parent(t_ms *ms, int *pipe_fd, int pid)
 {
 	t_cmd	cmd;
 
@@ -47,9 +43,9 @@ void	exec_parent(t_ms *ms, int *pipe_fd)
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	close(pipe_fd[1]);
-	printf("pipe parent pid = %d\n", getpid());
 	run_cmd(ms, &cmd);
-	wait(NULL);
+	reset_fdin_fdout(ms);
+	waitpid(pid, NULL, 0);
 }
 
 void	run_pipe(t_ms *ms)
@@ -65,5 +61,5 @@ void	run_pipe(t_ms *ms)
 	if (!pid)
 		exec_child(ms, pipe_fd);
 	else
-		exec_parent(ms, pipe_fd);
+		exec_parent(ms, pipe_fd, pid);
 }
