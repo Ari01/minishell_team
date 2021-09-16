@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/15 19:20:22 by dchheang         ###   ########.fr        #
+#    Updated: 2021/09/16 15:48:36 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,13 @@ SRCS			= main.c \
 				  builtin/env.c \
 				  builtin/export.c \
 				  builtin/unset.c \
-				  builtin/utils.c
+				  builtin/utils.c \
+				  history/history.c 
 
 OBJS			= $(SRCS:.c=.o)
 
 CC				= clang
-CFLAGS			= -Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address
 LFLAGS			= -L libft -lft -lreadline
 RM				= rm -f
 
