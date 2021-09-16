@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 18:24:54 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/15 18:50:15 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ void    printerror(char *msg1, char *msg2, char *msg3);
 /*
 **  HISTORY
 */
-t_history init_history(t_history history);
-void  ft_add_history(char *cmd, t_history history);
+t_history	init_history(t_history history);
+void  		ft_add_history(char *cmd, t_history history);
 /*
 **	PIPE
 */
