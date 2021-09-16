@@ -6,28 +6,64 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 14:27:37 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/16 15:44:46 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/16 19:13:35 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#if defined(__APPLE__) && defined(__MACH__)
+
 void    ft_interrupt(int signe)
 {
-    if (signe == SIGQUIT) //ctrl-\  删除已有字符 (循环中不能使用)
+    if (signe == SIGQUIT) //ctrl D 退出信号 
     {
-         ft_putstr_fd("exit\n", STDIN_FILENO);
+        
+       
+        ft_putstr_fd("exit\n", STDIN_FILENO);
+        return ;
+        //exit (0);
+        //  //printf("%s", readline(NULL));
+        
     }
     
-    if (signe == SIGINT) //ctrl-c  \n 另起一行 强制终止程序的执行
+    if (signe == SIGINT && EINTR == errno) //ctrl-c  \n 另起一行 中断信号 errno == EINTR
     {
-        
+        ft_putstr_fd("\n", STDIN_FILENO);
+         ft_putstr_fd("prompt> ", STDIN_FILENO);        rl_on_new_line();
+        //rl_replace_line("", 0);
+        rl_redisplay();   //print pro
     }
-   
-    if (signe == D)  //Ctrl+D：不是发送信号 作用相当于在终端中输入exit后回车；(循环中不能使用)
-    {
-       
-        
-    }
+    
+}
+// void  ft_interrupt(int signe)
+// {
+//     signe = getchar();
+//     if (signe == EOF)
+//         exit(0);
+// }
 
-errno == EINTR
+
+#else 
+
+void    ft_interrupt(int signe)
+{
+    if (signe == SIGQUIT) //ctrl D 退出信号 
+    {
+        
+        ft_putstr_fd("exit\n", STDIN_FILENO);
+        return ;
+        
+        //  //printf("%s", readline(NULL));
+        
+    }
+    
+    else if (signe == SIGINT && EINTR == errno) //ctrl-c  \n 另起一行 中断信号 errno == EINTR
+    {
+        ft_putstr_fd("\n", STDIN_FILENO);
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();   //print pro
+    }
+}
+#endif

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 15:50:01 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/16 19:11:56 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	run_context(t_ms *ms)
 {
 	t_cmd	current_cmd;
-
 	current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
 	if (current_cmd.flag == SLR || current_cmd.flag == DLR
 		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
@@ -72,6 +71,11 @@ void printcmd(t_cmd *cmd) {
 int		main(int ac, char **av, char **env) {
 	(void)ac;
 	(void)av;
+	//ft_signal();
+	//signal(SIGQUIT,  SIG_IGN);  //crtl -\   /* ignore signal */
+	signal(SIGQUIT,  ft_interrupt);
+     //ctrl + C
+	signal(SIGINT,  ft_interrupt);
 	run_shell(env);
     return 0;
 }
