@@ -6,31 +6,31 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 18:07:17 by user42            #+#    #+#             */
-/*   Updated: 2020/11/22 19:40:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/16 16:12:14 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-static size_t	get_word_start(char const *s, int start, char c)
+static size_t	get_word_start(char const *s, int start, char *charset)
 {
-	while (s[start] && s[start] == c)
+	while (s[start] && ft_strchr(charset, s[start]))
 		start++;
 	return (start);
 }
 
-static size_t	get_word_len(char const *s, int start, char c)
+static size_t	get_word_len(char const *s, int start, char *charset)
 {
 	size_t end;
 
 	end = start;
-	while (s[end] && s[end] != c)
+	while (s[end] && !ft_strchr(charset, s[end]))
 		end++;
 	return (end - start);
 }
 
-static size_t	get_nwords(char const *s, char c)
+static size_t	get_nwords(char const *s, char *charset)
 {
 	size_t start;
 	size_t len;
@@ -43,8 +43,8 @@ static size_t	get_nwords(char const *s, char c)
 		return (0);
 	while (s[start])
 	{
-		start = get_word_start(s, start, c);
-		len = get_word_len(s, start, c);
+		start = get_word_start(s, start, charset);
+		len = get_word_len(s, start, charset);
 		if (len)
 			nwords++;
 		start += len;
@@ -52,7 +52,7 @@ static size_t	get_nwords(char const *s, char c)
 	return (nwords);
 }
 
-char			**ft_split(char const *s, char c)
+char			**ft_split(char const *s, char *charset)
 {
 	char	**split;
 	int		i;
@@ -62,14 +62,14 @@ char			**ft_split(char const *s, char c)
 	i = 0;
 	start = 0;
 	len = 0;
-	if (!(split = malloc(sizeof(*split) * (get_nwords(s, c) + 1))))
+	if (!(split = malloc(sizeof(*split) * (get_nwords(s, charset) + 1))))
 		return (NULL);
 	if (s)
 	{
 		while (s[start])
 		{
-			start = get_word_start(s, start, c);
-			if ((len = get_word_len(s, start, c)))
+			start = get_word_start(s, start, charset);
+			if ((len = get_word_len(s, start, charset)))
 			{
 				split[i] = ft_substr(s, start, len);
 				i++;

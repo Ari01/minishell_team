@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 20:01:26 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:18:09 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_list	*get_cmds(char *s)
 			i++;
 		tmp = ft_substr(s, start, i - start);
 		ctmp = malloc(sizeof(*ctmp));
-		ctmp->cmd = ft_split(tmp, ' ');
+		ctmp->cmd = ft_split(tmp, " ");
 		ctmp->flag = get_flag(&s[i]);
 		if (ctmp->flag == DLR || ctmp->flag == DRR)
 			i++;

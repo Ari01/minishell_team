@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 18:53:45 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:14:03 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 
 	i = 0;
 	path = get_var(ms->env_list, "PATH");
-	split = ft_split(path, ':');
+	split = ft_split(path, ":");
 	while (split[i])
 	{
 		dir = opendir(split[i]);

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 15:49:04 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/16 18:48:11 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@
 # define SUCCESS 0
 
 /*
+**	TOKENS
+*/
+# define CMD_TOK 0
+# define PIPE_TOK 1
+# define REDIR_TOK 2
+
+/*
 **	COMMANDS
 */
 # define BUILTINS "cd echo env exit export pwd unset"
@@ -69,6 +76,12 @@
 /*
 ** STRUCT
 */
+typedef struct s_token
+{
+	char	*value;
+	int		id;
+}	t_token;
+
 typedef struct s_history
 {
     int fd;
@@ -92,7 +105,6 @@ typedef struct s_cmd
     int     flag;
 }   t_cmd;
 
-
 /*
 **	ERRORS
 */
@@ -100,6 +112,16 @@ typedef struct s_cmd
 void	free_cmd(void *content);
 void	free_memory(t_ms *ms);
 void	print_error_msg(char *s, int error_id, t_ms *ms);
+
+/*
+**	LEXER
+*/
+t_list	*get_tokens(char *s);
+
+/*
+**	GRAMMAR
+*/
+char	*check_grammar(t_list *token_list);
 
 /*
 **	PARSING

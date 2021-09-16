@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 15:50:01 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/16 20:24:14 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,36 @@ void	run_shell(char **env)
     while (1)
     {
         ms.rdl = readline("prompt> ");
-		ft_add_history(ms.rdl, ms.history);
-		ms.cmd_list_head = get_cmds(ms.rdl);
+
+		t_list	*tok_list;
+		char	*check;
+
+		tok_list = get_tokens(ms.rdl);
+		check = check_grammar(tok_list);
+		if (check)
+			printf("parse error near %s\n", check);
+		while (tok_list)
+		{
+			t_token *token;
+			token = (t_token *)tok_list->content;
+			printf("token = %s, id = %d\n", token->value, token->id);
+			tok_list = tok_list->next;
+		}
+/*		ms.cmd_list_head = get_cmds(ms.rdl);
 		ms.cmd_list_ite = ms.cmd_list_head;
-		ms.fd_in = dup(STDIN_FILENO);
-		ms.fd_out = dup(STDOUT_FILENO);
-		if (!ms.cmd_list_ite)
-			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
-		run_context(&ms);
-		reset_fdin_fdout(&ms);
-		free_memory(&ms);
+		if (check_rdl(&ms))
+		{
+			ft_add_history(ms.rdl, ms.history);
+			ms.fd_in = dup(STDIN_FILENO);
+			ms.fd_out = dup(STDOUT_FILENO);
+			if (!ms.cmd_list_ite)
+				print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
+			run_context(&ms);
+			reset_fdin_fdout(&ms);
+			free_memory(&ms);
+		}
+		else
+			free(ms.rdl);*/
     }
 }
 
