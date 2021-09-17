@@ -6,11 +6,25 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 20:24:14 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:18:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_ms	init_shell(char **env)
+{
+	t_ms	ms;
+
+	ms.env_list = NULL;
+	ms.env_list = get_env(env, ms.env_list);
+	ms.history = init_history(ms.history);
+	ms.fd_in = dup(STDIN_FILENO);
+	ms.fd_out = dup(STDOUT_FILENO);
+	ms.cmd_list_head = NULL;
+	ms.cmd_list_ite = NULL;
+	return (ms);
+}
 
 void	run_context(t_ms *ms)
 {
@@ -37,43 +51,28 @@ void	run_context(t_ms *ms)
 void	run_shell(char **env)
 {
 	t_ms	ms;
+	char	*check;
 
-	ms.env_list = NULL;
-	ms.env_list = get_env(env, ms.env_list);
-	ms.history = init_history(ms.history);
+	ms = init_shell(env);
     while (1)
     {
         ms.rdl = readline("prompt> ");
-
-		t_list	*tok_list;
-		char	*check;
-
-		tok_list = get_tokens(ms.rdl);
-		check = check_grammar(tok_list);
+		check = check_grammar(get_tokens(ms.rdl));
 		if (check)
+		{
 			printf("parse error near %s\n", check);
-		while (tok_list)
-		{
-			t_token *token;
-			token = (t_token *)tok_list->content;
-			printf("token = %s, id = %d\n", token->value, token->id);
-			tok_list = tok_list->next;
+			free(ms.rdl);
 		}
-/*		ms.cmd_list_head = get_cmds(ms.rdl);
-		ms.cmd_list_ite = ms.cmd_list_head;
-		if (check_rdl(&ms))
+		else
 		{
-			ft_add_history(ms.rdl, ms.history);
-			ms.fd_in = dup(STDIN_FILENO);
-			ms.fd_out = dup(STDOUT_FILENO);
-			if (!ms.cmd_list_ite)
-				print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
-			run_context(&ms);
+			
+			ms.cmd_list_head = get_cmds(ms.rdl);
+			ms.cmd_list_ite = ms.cmd_list_head;
+			if (ms.cmd_list_ite)
+				run_context(&ms);
 			reset_fdin_fdout(&ms);
 			free_memory(&ms);
 		}
-		else
-			free(ms.rdl);*/
     }
 }
 

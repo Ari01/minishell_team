@@ -6,11 +6,20 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 16:03:36 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 19:58:58 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/17 16:33:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_token(void *content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	free(token->value);
+	free(token);
+}
 
 t_token	*new_token(char *value, int id)
 {

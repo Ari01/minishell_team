@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 18:48:11 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/17 16:34:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	print_error_msg(char *s, int error_id, t_ms *ms);
 /*
 **	LEXER
 */
+void	free_token(void *content);
 t_list	*get_tokens(char *s);
 
 /*

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:30:08 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 20:54:52 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/17 16:37:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		check_redir(t_list *token_list)
 	if (!token_list->next)
 		return (0);
 	next_token = (t_token *)token_list->next->content;
-	printf("token = %s\n next_token = %s\n", token->value, next_token->value);
 	if (next_token->id != CMD_TOK)
 		return (0);
 	return (1);
@@ -34,9 +33,7 @@ char	*check_pipe(t_list *token_list)
 	token = (t_token *)token_list->content;
 	if (!token_list->next)
 		return (token->value);
-	printf("token = %s\n", token->value);
 	token = (t_token *)token_list->next->content;
-	printf("next token = %s\n", token->value);
 	if (token->id != CMD_TOK)
 		return (token->value);
 	return (NULL);
@@ -45,7 +42,6 @@ char	*check_pipe(t_list *token_list)
 t_list	*check_cmd(t_list *token_list, char **error_pos)
 {
 	t_token	*token;
-
 	token = (t_token *)token_list->content;
 	while (token_list && token->id == REDIR_TOK)
 	{
@@ -58,12 +54,14 @@ t_list	*check_cmd(t_list *token_list, char **error_pos)
 		if (token_list)
 			token = (t_token *)token_list->content;
 	}
-	if (token_list && token->id == PIPE)
+	if (token_list && token->id == PIPE_TOK)
 	{
 		*error_pos = check_pipe(token_list);
-		if (error_pos)
+		if (*error_pos)
 			return (NULL);
-		token_list = token_list->next->next;
+
+		token_list = token_list->next;
+		token = (t_token *)token_list->content;
 	}
 	else if (token_list)
 		token_list = token_list->next;

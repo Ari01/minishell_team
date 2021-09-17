@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 16:18:09 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:40:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_list	*get_cmds(char *s)
 
 	i = 0;
 	cmd_list = NULL;
-	ctmp = NULL;
 	while (s[i])
 	{
 		start = i;
@@ -75,7 +74,8 @@ t_list	*get_cmds(char *s)
 		free(tmp);
 		tmp = NULL;
 		ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
-		i++;
+		if (s[i])
+			i++;
 	}
 	return (cmd_list);
 }
