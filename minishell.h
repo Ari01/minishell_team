@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/16 19:06:42 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/17 16:42:44 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@
 # define SRR '>'
 # define DRR 2
 
-# define ERROR -1
+# define ERROR 1
 # define SUCCESS 0
 
 /*
@@ -92,6 +92,12 @@ typedef struct s_cmd
     int     flag;
 }   t_cmd;
 
+typedef struct s_quot
+{
+	int sing_quot;
+	int doub_quot;
+	int del;
+} t_quot;
 
 /*
 **	ERRORS
@@ -170,5 +176,9 @@ char	*get_var(t_list *env_list, char *name);
 **	SIGNAL
 */
 void	catch_sig(int signum);
+/*
+**	PARSING
+*/
+int handling_quot(char *str, t_quot *quot);
 
 #endif

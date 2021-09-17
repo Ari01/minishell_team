@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 13:19:59 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/17 14:22:48 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,11 @@ void	run_shell(char **env)
     }
 }
 
-void printcmd(t_cmd *cmd) {
-    int i =0;
-    
-    if (cmd) {
-        printf("-- -- --\n");
-        while (cmd->cmd && cmd->cmd[i]) {
-            printf("cmd: [%s]\n", cmd->cmd[i++]);
-        }
-        printf("-- -- --\n");
-    }
-}
 
 int		main(int ac, char **av, char **env) {
 	(void)ac;
 	(void)av;
 	signal(SIGQUIT,  SIG_IGN);  //crtl -\   /* ignore signal */
-	
 	signal(SIGINT,  ft_interrupt);
 	run_shell(env);
     return 0;
