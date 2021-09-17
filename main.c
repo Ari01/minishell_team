@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 18:18:13 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:20:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ t_ms	init_shell(char **env)
 	ms.env_list = NULL;
 	ms.env_list = get_env(env, ms.env_list);
 	ms.history = init_history(ms.history);
-	ms.fd_in = dup(STDIN_FILENO);
-	ms.fd_out = dup(STDOUT_FILENO);
 	ms.cmd_list_head = NULL;
 	ms.cmd_list_ite = NULL;
 	return (ms);
@@ -57,17 +55,21 @@ void	run_shell(char **env)
     while (1)
     {
         ms.rdl = readline("prompt> ");
+		printf("ms.rdl = %s\n", ms.rdl);
 		check = check_grammar(get_tokens(ms.rdl));
 		if (check)
 		{
 			printf("parse error near %s\n", check);
 			free(ms.rdl);
+			ms.rdl = NULL;
 		}
 		else
 		{
-			
 			ms.cmd_list_head = get_cmds(ms.rdl);
 			ms.cmd_list_ite = ms.cmd_list_head;
+			ms.fd_in = dup(STDIN_FILENO);
+			ms.fd_out = dup(STDOUT_FILENO);
+			//ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				run_context(&ms);
 			reset_fdin_fdout(&ms);

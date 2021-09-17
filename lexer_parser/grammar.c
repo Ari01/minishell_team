@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:30:08 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 16:37:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/17 18:45:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ char	*check_grammar(t_list *token_list)
 		else
 			token_list = token_list->next;
 	}
+	ft_lstclear(&token_list, &free_token);
 	return (NULL);
 }

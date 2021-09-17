@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 16:03:36 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 16:33:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:06:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_token(void *content)
 
 	token = (t_token *)content;
 	free(token->value);
-	free(token);
+	free(content);
 }
 
 t_token	*new_token(char *value, int id)
