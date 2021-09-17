@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/17 18:57:24 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:30:01 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,84 +85,21 @@
                    ''""'s'""'' 2个双引号中间‘’不留 -> s 
                 ''"""''s''"""'' 单数（3）双引号‘’全留-> ''s''
 */
-static void  check_doub_quot(char *cmd, t_quot *quot)   //print ' ' or not
+
+static int check_quot(char *cmd)
 {
-    int i;
-
-    i = 0;
-    while(cmd[i] == '"')
-            i++;
-    if (cmd[i] == '\'')
-        check_sing_quot(cmd, quot);
-    if (i % 2 == 0)
-        quot->del = 1;
-    else
-        quot->del = 0;
-}
-
-static void  check_sing_quot(char *cmd, t_quot *quot)   //print ' ' or not
-{
-    int i;
-
-    i = 0;
-    while(cmd[i] == '\'')
-            i++;
-    if (cmd[i] == '"')
-        check_double_quot(cmd, quot);
-    if (i % 2 == 0)
-        quot->del = 1;
-    else
-        quot->del = 0;
-}
-
-int handling_quot(char *cmd, t_quot *quot)
-{
-    int i;
-
-    i = 0;
-    ft_bzero(quot, sizeof(t_quot));
+    int i = 0;
     while (cmd[i])
     {
-        if(cmd[i] == '"')
-        {
-            check_doub_quot(cmd[i], quot);
-            if (quot->del == 1)
-                return (i + 1);
-            else
-                return (i);
-        }
-        else if(cmd[i] == '\'')
-        {
-            check_sing_quot(cmd[i], quot);
-            if (quot->del == 1)
-                return (i + 1);
-            return (i);
-        }
-        i++;
+        if (cmd[i] == '"')
+               
     }
 }
 
-char *get_quot_cmd(char *cmd, t_quot *quot)
-{
-    int len;
-    int i;
-    int j;
-    char *str;
-    
-    len = 0;
-    j = 0;
-    if (cmd)
-       i = handling_quot(cmd, quot);
-    while (cmd[i] && (cmd[i] != '"' || cmd[i] != '\''))
-    {
-        i++;
-        len++;
-    }
-    while (cmd[i - len] && len > 0)
-    {
-        str[j] = cmd[i - len];
-        j++;
-        len--;
-    }
-    return (str);
-}
+/*
+char	*ft_strchr(const char *s, int c)
+返回 从 c 开始的字符串
+char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+这个新字符串从 'start' 索引开始，并且   具有最大尺寸“len”
+*/
