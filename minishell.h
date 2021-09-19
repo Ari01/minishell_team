@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/19 15:25:46 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/19 20:30:05 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ typedef struct s_quot
 {
 	int sing_quot;
 	int doub_quot;
-	int del;
+	int fist_quot;
+	int impaire;
+	int paire;
 } t_quot;
 
 /*
@@ -180,5 +182,6 @@ void	catch_sig(int signum);
 **	PARSING
 */
 int handling_quot(char *str, t_quot *quot);
+char *del_quot(char *str);
 
 #endif
