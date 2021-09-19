@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 15:21:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/19 15:27:05 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	run_builtin(t_ms *ms, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->cmd[0], "pwd")) 
 		ft_pwd(cmd);
 	else if (!ft_strcmp(cmd->cmd[0], "exit")) 
-		ft_exit();
+		ft_exit(cmd);
 	else if (!ft_strcmp(cmd->cmd[0], "env")) 
 		ft_env(ms->env_list);
 	else if (!ft_strcmp(cmd->cmd[0], "export"))

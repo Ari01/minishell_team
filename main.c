@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 14:22:48 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/19 15:30:15 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	run_shell(char **env)
         ms.rdl = readline("prompt> ");
 		if (!ms.rdl) {
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			ft_exit();
+			exit(0);
 		}
 		ft_add_history(ms.rdl, ms.history);
 		ms.cmd_list_head = get_cmds(ms.rdl);
@@ -64,7 +64,7 @@ void	run_shell(char **env)
 int		main(int ac, char **av, char **env) {
 	(void)ac;
 	(void)av;
-	signal(SIGQUIT,  SIG_IGN);  //crtl -\   /* ignore signal */
+	signal(SIGQUIT, SIG_IGN);  //crtl -\   /* ignore signal */
 	signal(SIGINT,  ft_interrupt);
 	run_shell(env);
     return 0;

@@ -6,13 +6,16 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:11:12 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/10 17:23:18 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/19 15:27:33 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_exit(void)
+void ft_exit(t_cmd *cmd)
 {
-    exit(0);
+    if (cmd && cmd->cmd[1] != NULL)
+         printerror("exit: too many arguments", NULL, NULL);
+    else
+        exit(0);
 }
