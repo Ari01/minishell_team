@@ -98,6 +98,8 @@ e"ch"o bonjour bonjour
                 echo "ho"bon"jo"u"r" ->hobonjour
                 "ec""""h"o"" "j"'e''''ll'"o" "w"'o''r''l'''"d"  ->jello world
 
+                echo "hello world!" | 'echo' "wd " > e"cho" 1123 | echo s2e23  
+
 */
 /*
 char	*ft_strchr(const char *s, int c)
@@ -106,3 +108,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 这个新字符串从 '第几位start' 索引开始，并且   具有最大尺寸“len”
 
+
+
+单引号：所见即所得
+
+双引号：所见非所得，它会先把变量解析之后，再输出
+
+不使用引号定义字符串时，字符串不能包含空白字符（如Space或Tab），需要该加引号

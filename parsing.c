@@ -6,11 +6,16 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/19 19:18:01 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/20 17:33:50 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int _flag_(char *s)
+{
+	
+}
 
 int		is_flag(char c)
 {
@@ -50,7 +55,7 @@ int		check_rdl(t_ms *ms)
 ** Ensuite, on regarde si la sous-chaine se termine par une pipe ou une redirection ou non
 ** On stocke dans ctmp->flag le flag correspondant (0 s'il n'y a ni pipe ni redirection)
 */
-t_list	*get_cmds(char *s)
+t_list	*get_cmds(char *s)  //ajouter une situation '|' "|"
 {
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
@@ -63,18 +68,23 @@ t_list	*get_cmds(char *s)
 	ctmp = NULL;
 	while (s[i])
 	{
-		start = i;
-		while (s[i] && !is_flag(s[i]))
+		if (check_quot_exit(s) == 0)
+		{
+			start = i;
+			while (s[i] && !is_flag(s[i])) 
 			i++;
-		tmp = ft_substr(s, start, i - start);
-		ctmp = malloc(sizeof(*ctmp));
-		ctmp->cmd = ft_split(tmp, ' ');
-		ctmp->flag = get_flag(&s[i]);
-		if (ctmp->flag == DLR || ctmp->flag == DRR)
-			i++;
-		free(tmp);
-		tmp = NULL;
-		ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
+			tmp = ft_substr(s, start, i - start);
+			ctmp = malloc(sizeof(*ctmp));
+			ctmp->cmd = ft_split(tmp, ' ');
+			ctmp->flag = get_flag(&s[i]);
+			if (ctmp->flag == DLR || ctmp->flag == DRR)
+				i++;
+			free(tmp);
+			tmp = NULL;
+			ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
+		}
+	
+		
 		i++;
 	}
 	return (cmd_list);

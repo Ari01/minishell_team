@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/19 19:30:50 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/20 17:35:51 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,12 @@ void	run_shell(char **env)
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(0);
 		}
+		if (check_quot_exit(ms.rdl) == 0)
+			ms.cmd_list_head = get_cmds(ms.rdl);
+		else
+			
 		ft_add_history(ms.rdl, ms.history);
-		ms.cmd_list_head = get_cmds(ms.rdl);
+		//ms.cmd_list_head = get_cmds(ms.rdl);
 		ms.cmd_list_ite = ms.cmd_list_head;
 		ms.fd_in = dup(STDIN_FILENO);
 		ms.fd_out = dup(STDOUT_FILENO);
