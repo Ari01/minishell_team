@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 16:34:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/20 19:12:37 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_ms
 	char	*rdl;
 	int		fd_in;
 	int		fd_out;
+	int		current_input;
 	t_list	*cmd_list_head;
 	t_list	*cmd_list_ite;
 	t_list	*env_list;

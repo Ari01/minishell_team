@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:30:08 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 18:45:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/20 17:48:27 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_list	*check_cmd(t_list *token_list, char **error_pos)
 		*error_pos = check_pipe(token_list);
 		if (*error_pos)
 			return (NULL);
-
 		token_list = token_list->next;
 		token = (t_token *)token_list->content;
 	}
@@ -74,6 +73,9 @@ char	*check_grammar(t_list *token_list)
 	char	*ret;
 
 	ret = NULL;
+	t_list *ite;
+
+	ite = token_list;
 	while (token_list)
 	{
 		token = (t_token *)token_list->content;
@@ -83,7 +85,7 @@ char	*check_grammar(t_list *token_list)
 		{
 			if (!check_redir(token_list))
 				return (token->value);
-			token_list = token_list->next->next;
+			token_list = token_list->next;
 		}
 		else if (token_list->next)
 		{

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 19:20:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/20 19:12:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_ms	init_shell(char **env)
 {
 	t_ms	ms;
 
+	ms.current_input = STDIN_FILENO;
 	ms.env_list = NULL;
 	ms.env_list = get_env(env, ms.env_list);
 	ms.history = init_history(ms.history);
@@ -29,21 +30,17 @@ void	run_context(t_ms *ms)
 	t_cmd	current_cmd;
 
 	current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-	if (current_cmd.flag == SLR || current_cmd.flag == DLR
+	while (current_cmd.flag == SLR || current_cmd.flag == DLR
 		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
-	{
 		redirect(ms, &current_cmd);
-		if (!current_cmd.cmd[0])
-		{
-			ms->cmd_list_ite = ms->cmd_list_ite->next;
-			current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
-			printf("cc = %s\n", current_cmd.cmd[0]);
-		}
+	printf("current command = %s\n", current_cmd.cmd[0]);
+	if (current_cmd.cmd[0])
+	{
+		if (current_cmd.flag == '|')
+			run_pipe(ms);
+		else
+			run_cmd(ms, &current_cmd);
 	}
-	if (current_cmd.flag == '|')
-		run_pipe(ms);
-	else
-		run_cmd(ms, &current_cmd);
 }
 
 void	run_shell(char **env)
@@ -55,7 +52,6 @@ void	run_shell(char **env)
     while (1)
     {
         ms.rdl = readline("prompt> ");
-		printf("ms.rdl = %s\n", ms.rdl);
 		check = check_grammar(get_tokens(ms.rdl));
 		if (check)
 		{
@@ -72,8 +68,8 @@ void	run_shell(char **env)
 			//ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				run_context(&ms);
-			reset_fdin_fdout(&ms);
 			free_memory(&ms);
+			reset_fdin_fdout(&ms);
 		}
     }
 }
