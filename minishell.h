@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/20 17:13:29 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/20 23:22:53 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ typedef struct s_cmd
 
 typedef struct s_quot
 {
-	int sing_quot;
-	int doub_quot;
-	int fist_quot;
+	int quot;
+	int quot_status;
 
 } t_quot;
 
