@@ -6,128 +6,143 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/20 18:27:16 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/21 16:23:06 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_quot init_quot(t_quot quot)
-{
-    ft_bzero(&quot, sizeof(t_quot));
-    return (quot);
+#define STATUS_OPEN 1
+#define STATUS_CLOSE 0
+#define IS_SQ 1
+#define IS_DQ 2
+#define NO_Q 0
+/**
+ * 命令: echo                    "'" "'""test hello" "test2" " " ok
+ * 
+ * 1) 根据cmd的空格计算cmd的length, 方便分开他们比如:
+ * // 需要malloc
+ * echo      \'\"\'        \"\'\" \"\'\"\"test hello\" \"test2\" \" \" ok
+ * ---->>>>
+ * cmds[0]: echo
+ * cmds[1]: '"' 
+ * cmds[2]: "'"
+ * cmds[3]: "'"
+ * cmds[4]: "test hello"
+ * cmds[5]: "test2"
+ * cmds[6]: " "
+ * cmds[7]: ok
+ * cmds[8]: NULL
+ * 
+ * 2) 然后每个cmds[x]个个处理, 比如:
+ * cmds[2]: "'""test hello" ---> 'test hello
+*/
+t_quot quote_init(void) {
+    t_quot quote_info;
+    
+    quote_info.quot = NO_Q;
+    quote_info.quot_status = STATUS_CLOSE;
+    return quote_info;
 }
-t_quot get_quot(char *str, t_quot quot)
-{
+
+t_list *sepa_cmd(char *cmd) {
     int i = 0;
-    while (str[i])
+    int len = 0;
+    char *test = NULL;
+    int start = -1;
+    int end = -1;
+    t_list *cmd_lst = NULL;
+
+    t_quot quote_info = quote_init();
+    while (cmd && cmd[i]) 
     {
-        if (str[i] == '"')
-            quot.doub_quot = 1;
-        if (str[i] == '\'')
-            quot.sing_quot = 1;
-        i++;
+        if (cmd[i] == '\'') 
+        {
+            if (quote_info.quot == IS_DQ)
+            {
+                ++i;
+                continue;
+            }
+            quote_info.quot = IS_SQ;
+            if (quote_info.quot_status == STATUS_CLOSE) {
+                quote_info.quot_status = STATUS_OPEN;
+                start = i + 1;
+            }
+            else {
+                quote_info.quot_status = STATUS_CLOSE;
+                quote_info.quot = NO_Q;
+                end = i;
+            }
+        }
+        else if (cmd[i] == '"') 
+        {
+            if (quote_info.quot == IS_SQ) {
+                ++i;
+                continue;
+            }
+            quote_info.quot = IS_DQ;
+            if (quote_info.quot_status == STATUS_CLOSE) {
+                quote_info.quot_status = STATUS_OPEN;
+                start = i + 1;
+            }
+            else {
+                quote_info.quot_status = STATUS_CLOSE;
+                quote_info.quot = NO_Q;
+                end = i;
+            }
+        }
+        else if (quote_info.quot == NO_Q)
+        {
+            if (quote_info.quot_status == STATUS_CLOSE) {
+                quote_info.quot_status = STATUS_OPEN;
+                start = i;
+            }
+            if (cmd[i] == ' ' || cmd[i + 1] == '\0') {
+                if (quote_info.quot_status == STATUS_OPEN) {
+                    quote_info.quot_status = STATUS_CLOSE;
+                    if (cmd[i + 1] == '\0')
+                        end = i + 1;
+                    else
+                        end = i;
+                }
+            }
+        }
+        if ((cmd[i] == ' ' || cmd[i + 1] == '\0') && quote_info.quot_status == STATUS_CLOSE)
+        {
+            ++len;
+            while (cmd[i + 1] == ' ')
+                ++i;
+        }
+        if (start != -1 && end != -1)
+        {
+            if (end - start > 0) {
+                test = ft_substr(cmd, start, (end - start));
+                ft_lstadd_back(&cmd_lst, ft_lstnew(test));
+            }
+            start = -1;
+            end = -1;
+        }
+        ++i;
     }
-    return (quot);
+    return cmd_lst;
 }
 
-int check_quot_exit(char *s)
-{
-    int i = 0;
-     
-    while (s[i])
-    {
-        if (s[i + 1] == '"' || s[i] == '\'')
-            return (1);        
-    }
-    return (0);
+char **lst_to_tab(t_list *lst_cmd) {
+    char **cmds = NULL;
+    //
+    return cmds;
 }
-// int check_first_quot(char *str)
-// {
-//     int i = 0;
-//     int len = 0;
 
-//     while (str[i])
-//     {
-//         if (str[i] == '"')
-//             len++;
-//         else 
-//             break;
-//         i++;
-//     }
-//     return (len);
-// }
-
-
-
-// char *del_quot(char *str)
-// {
-
-
-//     char *s = NULL;
-//    int i = 0;
-
-//    while (str[i] && is_quot(str[i]) == 0) 
-//         i++;
-//     printf("%d\n", i);
-//     s = malloc(sizeof(char) * i + 1);
-//     if (!s)
+int main() {
+    t_list *cmd = sepa_cmd("echo \'\"\'        \"\'\" \"\'\"\"test hello\" \"test2\" \" \" ok");
     
-//         return (NULL);
-
-//     int len = 0;
-//     int j = 0;
-//     while (str[len + i] && is_quot(str[len + i]) == 0)
-//     {
-//         s[j] = str[len + i];
-//         j++;
-//         len++;
-//     }
-//     s[j] = '\0';
-//     return (s);
-// }
-
-
-// void hanling_quot(t_ms *ms, t_quot quot)
-// {
-    // int i = 0;
-    // int len = 0;
-   
-    // while (cmd->cmd[i])
-    // {
-    //     quot =init_quot(quot); 
-    //  
-    //     quot = get_quot(cmd->cmd[i], quot); // get if have sing quot or doubl quot;
-    //     len = check_first_quot(cmd->cmd[i]); //get number of len de first quot;
-    //     if(len % 2 == 0)
-    //         quot.paire = 1;
-    //     else
-    //         quot.impaire = 1;
-    //     if ((quot.doub_quot == 1 && quot.sing_quot != 1)   //just only one type de quot;
-    //         || (quot.doub_quot != 1 && quot.sing_quot == 1))
-    //         del_quot(cmd->cmd[i++]);                      // del quot;
-    //     else if (quot.doub_quot == 1 && quot.sing_quot == 1 && quot.impaire == 1) //if first quot is impaire
-    //     {
-            
-    //     }
-    //     else if 
-    // }
-    
-    
-    char  *hanling_quot(t_ms *ms, t_quot quot)
-    {
-        char *tmp = ms->rdl;  
-        int i = 0;
-        int j = 0;
-            
-        while(ms->rdl[i] && (ms->rdl[i] != '"' && ms->rdl[i] != '\'')) //first place of quot
-            i++;
-        while(ms->rdl[i] && (ms->rdl[i + 1] != '"' && ms->rdl[i] != '\''))  // i is close quot
-            tmp[j++] = ms->rdl[i++]; 
-           // arg =ft_split(ms->rdl, ' ');  //sepa str par espase like : e"ch"o "a bc" 'ws w''|' "123" | echo "2ee" 
-        
-        
-       return (tmp);
+    while (cmd != NULL) {
+        printf("cmd : [%s]\n", cmd->content);
+        cmd = cmd->next;
     }
-    
+    return 0;
+}
+
+
+
 
