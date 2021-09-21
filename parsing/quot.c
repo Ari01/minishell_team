@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/21 19:09:38 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/21 19:48:09 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_list *sepa_cmd(char *cmd) {
             }
             start = -1;
             end = -1;
-        }
+        }      
         ++i;
     }
     return cmd_lst;
@@ -142,17 +142,5 @@ char **lst_to_tab(char *cmd)  //one cmd
     cmds[i] = NULL;
     return cmds;  //获得一个c**cmd的数据
 }
-
-// int main() {
-//    //t_list *cmd = sepa_cmd("echo \'\"\'        \"\'\" \"\'\"\"test hello\" \"test2\" \" \" ok");
-//     t_list *cmd = sepa_cmd("echo \"   |\" \'\'\"test hello\"");
-//     while (cmd != NULL) {
-//         printf("cmd : [%s]\n", cmd->content);
-//         cmd = cmd->next;
-//     }
-//     return 0;
-// }
-
-
 
 
