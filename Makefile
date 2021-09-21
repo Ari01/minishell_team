@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/17 19:19:01 by user42           ###   ########.fr        #
+#    Updated: 2021/09/21 19:38:09 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ fclean :		clean
 				$(MAKE) fclean -C libft
 				$(RM) $(NAME)
 				$(RM) .*.swp
+				$(RM) */.*.swp
 
 re :			clean fclean all
 
