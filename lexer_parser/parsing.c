@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/17 17:40:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/21 19:34:10 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,31 @@ int		check_rdl(t_ms *ms)
 }
 
 /*
+int		get_stream(t_cmd **cmd, char **s, int start)
+{
+	int	i;
+
+	i = start;
+	if ((*cmd)->flag == SLR || (*cmd)->flag == SRR)
+		i++;
+	else if ((*cmd)->flag == DLR || (*cmd)->flag == DRR)
+		i += 2;
+	else
+		return (s);
+	while (s[i] && s[i] != ' ')
+		i++;
+	(*cmd)->stream = ft_substr(s, start, i - start);
+	while (s[i])
+	{
+		s[start] = s[i];
+		start++;
+		i++;
+	}
+	s[start] = 0;
+	return (s);
+}*/
+
+/*
 ** Entree : la chaine de caractere entree dans le prompt et captee par readline
 ** Sortie : une liste de t_cmd
 ** On parcourt la chaine de caractere jusqu'a tomber sur un caractere pipe ou redirection '|', '<' ou '>'
@@ -69,13 +94,58 @@ t_list	*get_cmds(char *s)
 		ctmp = malloc(sizeof(*ctmp));
 		ctmp->cmd = ft_split(tmp, " ");
 		ctmp->flag = get_flag(&s[i]);
-		if (ctmp->flag == DLR || ctmp->flag == DRR)
-			i++;
+		ctmp->in_stream = NULL;
+		ctmp->out_stream = NULL;
 		free(tmp);
 		tmp = NULL;
 		ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
+		if (ctmp->flag == DLR || ctmp->flag == DRR)
+			i++;
 		if (s[i])
 			i++;
 	}
 	return (cmd_list);
+}
+
+void	get_stream(t_list **cmd_list)
+{
+	t_cmd	*cmd;
+	t_cmd	*next_cmd;
+	t_list	*ite;
+	t_list	*tmp;
+	char	**join;
+
+	ite = *cmd_list;
+	cmd = NULL;
+	while (ite)
+	{
+		cmd = (t_cmd *)ite->content;
+		if (cmd->flag == SLR || cmd->flag == DLR
+			|| cmd->flag == SRR || cmd->flag == DRR)
+		{
+			next_cmd = (t_cmd *)ite->next->content;
+			if (!cmd->cmd[0])
+			{
+				next_cmd->stream = ft_strdup(next_cmd->cmd[0]);
+				remove_elem_from_array(next_cmd->cmd);
+				ite = ite->next;
+			}
+			else
+			{
+				cmd->stream = next_cmd->cmd[0];
+				if (next_cmd->cmd[1])
+				{
+					remove_elem_from_array(next_cmd->cmd);
+					join = array_join(cmd->cmd, next_cmd->cmd);
+					free_array(cmd->cmd);
+					cmd->cmd = join;
+				}
+				tmp = ite->next;
+				ite = ite->next->next;
+				remove_from_list(cmd_list, tmp);
+			}
+		}
+		else
+			ite = ite->next;
+	}
 }

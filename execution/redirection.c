@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 13:43:54 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/21 14:26:22 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,27 @@ void	redirect_in_out(t_ms *ms, int newfd, int flags)
 void	read_from_current_input(t_ms *ms)
 {
 	int		rd;
+	int		fd;
 	char	buff[BUFFER_SIZE];
 	t_cmd	next_cmd;
 
 	if (ms->cmd_list_ite->next == NULL)
 		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
 	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
-	ms->current_input = open("./tmp/heredoc.txt", O_RDWR | O_CREAT, 0666);
+	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (fd == -1)
+		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 	rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
 	while (ft_strncmp(buff, next_cmd.cmd[0], rd - 1) && rd != -1)
 	{
-		write(ms->current_input, buff, rd);
+		write(fd, buff, rd);
 		rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
 	}
-	if (rd == -1 || dup2(ms->current_input, STDIN_FILENO) == -1)
+	close(fd);
+	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT, 0666);
+	if (rd == -1 || fd == -1 || dup2(fd, STDIN_FILENO) == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	close(ms->current_input);
+	close(fd);
 }
 
 void	redirect(t_ms *ms, t_cmd *current_cmd)
@@ -74,12 +79,9 @@ void	redirect(t_ms *ms, t_cmd *current_cmd)
 		read_from_current_input(ms);
 	if (!current_cmd->cmd[0])
 	{
-		printf("cc = %s\n", current_cmd->cmd[0]);
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 		*current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-		printf("next cmd = %s\n", current_cmd->cmd[0]);
 		remove_elem_from_array(current_cmd->cmd);
-		printf("next cmd = %s\n", current_cmd->cmd[0]);
 		if (!current_cmd->cmd[0] && ms->cmd_list_ite->next)
 		{
 			ms->cmd_list_ite = ms->cmd_list_ite->next;

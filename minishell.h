@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/20 19:12:37 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/21 19:32:28 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct s_ms
 	char	*rdl;
 	int		fd_in;
 	int		fd_out;
-	int		current_input;
 	t_list	*cmd_list_head;
 	t_list	*cmd_list_ite;
 	t_list	*env_list;
@@ -103,6 +102,8 @@ typedef struct s_ms
 typedef struct s_cmd
 {
     char    **cmd;
+	char	*out_stream;
+	char	*in_stream;
     int     flag;
 }   t_cmd;
 
@@ -126,10 +127,11 @@ t_list	*get_tokens(char *s);
 char	*check_grammar(t_list *token_list);
 
 /*
-**	PARSING
+**	PARSER
 */
 int		check_rdl(t_ms *ms);
 t_list	*get_cmds(char *s);
+void	get_stream(t_list **cmd_list);
 
 /*
 **  BUILTINS
@@ -144,7 +146,7 @@ void    ft_export(t_cmd *cmd, t_list *env_list);
 void    ft_unset(t_cmd *cmd, t_list **env_list);
 
 /*
-**  UTILS
+**  BUILTIN UTILS
 */
 t_list  *get_env(char **env, t_list *env_list);
 void    ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
@@ -177,6 +179,7 @@ void	print_cmds(t_list *cmd_list);
 void	free_array(char **array);
 void	remove_elem_from_array(char **array);
 void	remove_from_list(t_list **head, t_list *elem);
+char	**array_join(char **a1, char **a2);
 
 /*
 **	EXEC
