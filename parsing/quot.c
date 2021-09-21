@@ -6,17 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/21 16:23:06 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/21 19:09:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define STATUS_OPEN 1
-#define STATUS_CLOSE 0
-#define IS_SQ 1
-#define IS_DQ 2
-#define NO_Q 0
+
 /**
  * 命令: echo                    "'" "'""test hello" "test2" " " ok
  * 
@@ -48,7 +44,7 @@ t_quot quote_init(void) {
 t_list *sepa_cmd(char *cmd) {
     int i = 0;
     int len = 0;
-    char *test = NULL;
+    
     int start = -1;
     int end = -1;
     t_list *cmd_lst = NULL;
@@ -116,8 +112,7 @@ t_list *sepa_cmd(char *cmd) {
         if (start != -1 && end != -1)
         {
             if (end - start > 0) {
-                test = ft_substr(cmd, start, (end - start));
-                ft_lstadd_back(&cmd_lst, ft_lstnew(test));
+                ft_lstadd_back(&cmd_lst, ft_lstnew(ft_substr(cmd, start, (end - start))));
             }
             start = -1;
             end = -1;
@@ -127,21 +122,36 @@ t_list *sepa_cmd(char *cmd) {
     return cmd_lst;
 }
 
-char **lst_to_tab(t_list *lst_cmd) {
+
+char **lst_to_tab(char *cmd)  //one cmd 
+{
     char **cmds = NULL;
-    //
-    return cmds;
+    int len;
+    int i = 0;
+    t_list *tmp = NULL;
+		
+    tmp = sepa_cmd(cmd); //一个flag的cmd的链表
+    len = ft_lstsize(tmp);
+    cmds = malloc(sizeof(char *) * len + 1);
+    while (tmp && i < len)
+    {
+        cmds[i] = tmp->content;
+        tmp = tmp -> next;
+        i++;
+    }
+    cmds[i] = NULL;
+    return cmds;  //获得一个c**cmd的数据
 }
 
-int main() {
-    t_list *cmd = sepa_cmd("echo \'\"\'        \"\'\" \"\'\"\"test hello\" \"test2\" \" \" ok");
-    
-    while (cmd != NULL) {
-        printf("cmd : [%s]\n", cmd->content);
-        cmd = cmd->next;
-    }
-    return 0;
-}
+// int main() {
+//    //t_list *cmd = sepa_cmd("echo \'\"\'        \"\'\" \"\'\"\"test hello\" \"test2\" \" \" ok");
+//     t_list *cmd = sepa_cmd("echo \"   |\" \'\'\"test hello\"");
+//     while (cmd != NULL) {
+//         printf("cmd : [%s]\n", cmd->content);
+//         cmd = cmd->next;
+//     }
+//     return 0;
+// }
 
 
 

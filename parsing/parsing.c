@@ -1,9 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/21 17:55:53 by xuwang            #+#    #+#             */
+/*   Updated: 2021/09/21 19:28:27 by xuwang           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "minishell.h"
 
 int		is_flag(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
+
+int check_flag(char *cmd, int i)
+{
+	t_quot quot= quote_init();
+
+	while(cmd[i])
+	{
+		if (cmd[i] == '\'')
+		{
+			if (quot.quot == IS_DQ)
+            {
+                ++i;
+                continue;
+            }
+            quot.quot = IS_SQ;
+            if (quot.quot_status == STATUS_CLOSE) {
+                quot.quot_status = STATUS_OPEN;
+			}
+			else {
+                quot.quot_status = STATUS_CLOSE;
+                quot.quot = NO_Q;
+			}
+		}
+		else if (cmd[i] == '"')
+		{
+			if (quot.quot == IS_SQ)
+            {
+                ++i;
+                continue;
+            }
+            quot.quot = IS_DQ;
+            if (quot.quot_status == STATUS_CLOSE) {
+                quot.quot_status = STATUS_OPEN;
+			}
+			else {
+                quot.quot_status = STATUS_CLOSE;
+                quot.quot = NO_Q;
+			}
+		}
+		if (is_flag(cmd[i]) && quot.quot_status == STATUS_CLOSE)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 
 int		get_flag(char *s)
 {
@@ -43,11 +102,12 @@ t_list	*get_cmds(char *s)
 	while (s[i])
 	{
 		start = i;
-		while (s[i] && !is_flag(s[i]))
-			i++;
-		tmp = ft_substr(s, start, i - start);
+		// while (s[i] && !is_flag(s[i])) //&& !check_is_flag(s))
+		// 	i++;
+		i = check_flag(s, i);
+		tmp = ft_substr(s, start, i - start); //截断一个pipe 获取里面的cmd 放进数组里
 		ctmp = malloc(sizeof(*ctmp));
-		ctmp->cmd = ft_split(tmp, ' ');
+		ctmp->cmd = lst_to_tab(tmp);
 		ctmp->flag = get_flag(&s[i]);
 		if (ctmp->flag == DLR || ctmp->flag == DRR)
 			i++;
@@ -58,3 +118,50 @@ t_list	*get_cmds(char *s)
 	}
 	return (cmd_list);
 }
+
+
+// int check_is_flag(char *cmd, int i)
+// {
+// 	// int i = 0;
+// 	t_quot quot= quote_init();
+
+// 	while(cmd[i])
+// 	{
+// 		if (cmd[i] == '\'')
+// 		{
+// 			if (quot.quot == IS_DQ)
+//             {
+//                 ++i;
+//                 continue;
+//             }
+//             quot.quot = IS_SQ;
+//             if (quot.quot_status == STATUS_CLOSE) {
+//                 quot.quot_status = STATUS_OPEN;
+// 			}
+// 			else {
+//                 quot.quot_status = STATUS_CLOSE;
+//                 quot.quot = NO_Q;
+// 			}
+// 		}
+// 		else if (cmd[i] == '"')
+// 		{
+// 			if (quot.quot == IS_SQ)
+//             {
+//                 ++i;
+//                 continue;
+//             }
+//             quot.quot = IS_DQ;
+//             if (quot.quot_status == STATUS_CLOSE) {
+//                 quot.quot_status = STATUS_OPEN;
+// 			}
+// 			else {
+//                 quot.quot_status = STATUS_CLOSE;
+//                 quot.quot = NO_Q;
+// 			}
+// 		}
+// 		if (is_flag(cmd[i]) && quot.quot_status == STATUS_CLOSE)
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }

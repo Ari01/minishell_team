@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 14:15:26 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/21 19:06:33 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@
 # define ERROR 1
 # define SUCCESS 0
 
+#define STATUS_OPEN 1
+#define STATUS_CLOSE 0
+#define IS_SQ 1
+#define IS_DQ 2
+#define NO_Q 0
 /*
 **	COMMANDS
 */
@@ -178,8 +183,9 @@ void	catch_sig(int signum);
 /*
 **	PARSING
 */
-int handling_quot(char *str, t_quot *quot);
-char *del_quot(char *str);
-int check_quot_exit(char *s);
+t_list *sepa_cmd(char *cmd);
+t_quot quote_init(void);
+int check_is_flag(char *cmd);
+char **lst_to_tab(char *cmd);
 
 #endif
