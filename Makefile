@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/21 19:38:09 by dchheang         ###   ########.fr        #
+#    Updated: 2021/09/21 19:46:11 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS			= main.c \
 				  execution/cmd.c \
 				  execution/redirection.c \
 				  execution/exec.c \
+				  execution/stream.c \
 				  execution/var.c \
 				  utils/error.c \
 				  utils/utils.c \
