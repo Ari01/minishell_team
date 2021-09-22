@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 19:43:39 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:37:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_list	*get_cmds(char *s)
 	}
 	return (cmd_list);
 }
-
+/*
 void	get_stream(t_list **cmd_list)
 {
 	t_cmd	*cmd;
@@ -148,4 +148,4 @@ void	get_stream(t_list **cmd_list)
 		else
 			ite = ite->next;
 	}
-}
+}*/

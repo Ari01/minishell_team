@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 19:29:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:41:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,23 @@ void	run_context(t_ms *ms)
 void	run_shell(char **env)
 {
 	t_ms	ms;
+	t_list	*token_list;
 	char	*check;
 
 	ms = init_shell(env);
     while (1)
     {
         ms.rdl = readline("prompt> ");
-		check = check_grammar(get_tokens(ms.rdl));
+		token_list = get_tokens(ms.rdl);
+		check = check_grammar(token_list);
+
+		t_token	token;
+		while (token_list)
+		{
+			token = *(t_token *)token_list->content;
+			printf("token = %s\n", token.value);
+			token_list = token_list->next;
+		}
 		if (check)
 		{
 			printf("parse error near %s\n", check);
@@ -61,9 +71,9 @@ void	run_shell(char **env)
 		else
 		{
 			ms.cmd_list_head = get_cmds(ms.rdl);
-			get_stream(&ms.cmd_list_head);
+			//get_stream(&ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
-			print_cmds(ms.cmd_list_ite);
+			//print_cmds(ms.cmd_list_ite);
 			/*ms.fd_in = dup(STDIN_FILENO);
 			ms.fd_out = dup(STDOUT_FILENO);
 			//ft_add_history(ms.rdl, ms.history);
