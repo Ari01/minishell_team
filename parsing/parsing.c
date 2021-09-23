@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:55:53 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/21 19:33:51 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/23 13:56:28 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_list	*get_cmds(char *s)
 		i = check_flag(s, i);
 		tmp = ft_substr(s, start, i - start); //截断一个pipe 获取里面的cmd 放进数组里
 		ctmp = malloc(sizeof(*ctmp));
-		ctmp->cmd = lst_to_tab(tmp);
+		ctmp->cmd = lst_to_tab(tmp);//j ai change
 		ctmp->flag = get_flag(&s[i]);
 		if (ctmp->flag == DLR || ctmp->flag == DRR)
 			i++;

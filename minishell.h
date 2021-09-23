@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 19:06:33 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/23 18:31:30 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,6 @@ t_list *sepa_cmd(char *cmd);
 t_quot quote_init(void);
 int check_is_flag(char *cmd);
 char **lst_to_tab(char *cmd);
+void free_list(t_list *list);
 
 #endif
