@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/23 20:21:47 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/24 19:53:46 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_list	*ft_prevlstlast(t_list *lst)
 
 t_list *sepa_cmd(char *cmd) {
     int i = 0;
-    int len = 0;
+    //int len = 0;
     
     int start = -1;
     int end = -1;
@@ -61,6 +61,11 @@ t_list *sepa_cmd(char *cmd) {
     t_list *start_info = NULL;
     t_list *cmd_lst = NULL;
     t_quot quote_info = quote_init();
+
+    t_list *tmp_lst_start = NULL;
+    t_list *tmp_lst_end = NULL;   
+    char *to_check = NULL;
+
     tmp = cmd_lst;
     while (cmd && cmd[i]) 
     {
@@ -72,21 +77,28 @@ t_list *sepa_cmd(char *cmd) {
                 continue;
             }
             quote_info.quot = IS_SQ;
-            if (quote_info.quot_status == STATUS_CLOSE) {
+            if (quote_info.quot_status == STATUS_CLOSE) 
+            {
                 quote_info.quot_status = STATUS_OPEN;
                 start = i + 1;
-                ft_lstadd_back(&start_info, ft_lstnew((void *)(intptr_t)i));
+                tmp_lst_start = ft_lstnew((void *)(intptr_t)i);
+                ft_lstadd_back(&start_info, tmp_lst_start);  //i 是 ‘ 引号
+                 printf("start1 %d\n",  (int)tmp_lst_start->content);
             }
-            else {
+            else 
+            {
                 quote_info.quot_status = STATUS_CLOSE;
                 quote_info.quot = NO_Q;
                 end = i;
-                ft_lstadd_back(&end_info, ft_lstnew((void *)(intptr_t)i));
+                tmp_lst_end = ft_lstnew((void *)(intptr_t)i);
+                ft_lstadd_back(&end_info, tmp_lst_end);  //i是引号
+                 printf("end2 %d\n",  (int)tmp_lst_end->content);
             }
         }
-        else if (cmd[i] == '"') 
+        else if (cmd[i] == '"' ) 
         {
-            if (quote_info.quot == IS_SQ) {
+            if (quote_info.quot == IS_SQ) 
+            {
                 ++i;
                 continue;
             }
@@ -94,60 +106,63 @@ t_list *sepa_cmd(char *cmd) {
             if (quote_info.quot_status == STATUS_CLOSE) {
                 quote_info.quot_status = STATUS_OPEN;
                 start = i + 1;
-                ft_lstadd_back(&start_info, ft_lstnew((void *)(intptr_t)i));
+                tmp_lst_start = ft_lstnew((void *)(intptr_t)i);
+                ft_lstadd_back(&start_info, tmp_lst_start);
             }
-            else {
+            else 
+            {
                 quote_info.quot_status = STATUS_CLOSE;
                 quote_info.quot = NO_Q;
                 end = i;
-                ft_lstadd_back(&end_info, ft_lstnew((void *)(intptr_t)i));
+                ft_lstadd_back(&end_info, ft_lstnew((void *)(intptr_t)i)); //i是引
             }
         }
         else if (quote_info.quot == NO_Q)
         {
-            if (quote_info.quot_status == STATUS_CLOSE) {
+            if (quote_info.quot_status == STATUS_CLOSE && cmd[i] != ' ') {
                 quote_info.quot_status = STATUS_OPEN;
                 start = i;
-                if (cmd[i] != ' '){
-                    ft_lstadd_back(&start_info, ft_lstnew((void *)(intptr_t)i));  //第一位没有引号也加上去
-                }
+                tmp_lst_start = ft_lstnew((void *)(intptr_t)i);
+                ft_lstadd_back(&start_info, tmp_lst_start); 
+                
             }
-            if (cmd[i] == ' ' || cmd[i + 1] == '\0') {
-            if (quote_info.quot_status == STATUS_OPEN) {
-                quote_info.quot_status = STATUS_CLOSE;
-                if (cmd[i + 1] == '\0'){
-                    end = i + 1;
-                     ft_lstadd_back(&start_info, ft_lstnew((void *)(intptr_t)i));
-                }
-                else if (cmd[i] == ' ') {
-                    ft_lstadd_back(&start_info, ft_lstnew((void *)(intptr_t)(i - 1)));
-                    end = i; //没有把空格储存进去 
+             if (cmd[i] == ' ' || cmd[i + 1] == '\0')
+            {
+                if (quote_info.quot_status == STATUS_OPEN) 
+                {
+                    quote_info.quot_status = STATUS_CLOSE;
+                    if (cmd[i + 1] == '\0')
+                    {
+                        end = i + 1;
+                        tmp_lst_end = ft_lstnew((void *)(intptr_t)i);
+                        ft_lstadd_back(&end_info, tmp_lst_end);
+                    }
+                    else 
+                    {
+                        end = i;
+                        tmp_lst_end = ft_lstnew((void *)(intptr_t)(i - 1));
+                        ft_lstadd_back(&end_info, tmp_lst_end); 
+                    }
                 }                
             }
-            }
+            
         }
-        if ((cmd[i] == ' ' || cmd[i + 1] == '\0') && quote_info.quot_status == STATUS_CLOSE)
+        if (start != -1 && end != -1 && end - start >= 0)
         {
-            ++len;
-            while (cmd[i + 1] == ' ')
-                ++i;
-        }
-        if (start != -1 && end != -1 && end - start > 0)
-        {
-            if ((ft_lstsize(start_info) >= 2) && ft_lstsize(end_info) >= 1 && 
+            if ((ft_lstsize(start_info) >= 2) && ft_lstsize(end_info) >= 1 &&
             ((int)ft_lstlast(start_info)->content - (int)ft_prevlstlast(end_info)->content == 1))
             {
-                printf("%d and %d\n",  (int)start_info->next->content,  (int)end_info->content);
                 tmp = ft_lstlast(cmd_lst);
                 tmp->content = ft_strjoin(tmp->content , ft_substr(cmd, start, (end - start)));
             }
             else
             {
-                ft_lstadd_back(&cmd_lst, ft_lstnew(ft_substr(cmd, start, (end - start))));
+                to_check = ft_substr(cmd, start, (end - start));
+                ft_lstadd_back(&cmd_lst, ft_lstnew(to_check));
             }   
             start = -1;
             end = -1;
-        }   
+        } 
         ++i;
     }
     return cmd_lst;
@@ -173,5 +188,3 @@ char **lst_to_tab(char *cmd)  //one cmd
     cmds[i] = NULL;
     return cmds;  //获得一个c**cmd的数据
 }
-
-
