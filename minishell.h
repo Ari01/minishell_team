@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 19:32:28 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/24 17:56:04 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,22 @@ typedef struct s_history
 
 typedef struct s_ms
 {
-	char	*rdl;
-	int		fd_in;
-	int		fd_out;
-	t_list	*cmd_list_head;
-	t_list	*cmd_list_ite;
-	t_list	*env_list;
-	t_history history;
+	char		*rdl;
+	int			fd_in;
+	int			fd_out;
+	t_list		*cmd_list_head;
+	t_list		*cmd_list_ite;
+	t_list		*env_list;
+	t_history	history;
 }	t_ms;
 
 typedef struct s_cmd
 {
     char    **cmd;
-	char	*out_stream;
-	char	*in_stream;
+	char	*out_file;
+	char	*in_file;
+	int		out_flag;
+	int		in_flag;
     int     flag;
 }   t_cmd;
 
@@ -130,8 +132,9 @@ char	*check_grammar(t_list *token_list);
 **	PARSER
 */
 int		check_rdl(t_ms *ms);
+int		is_redir(int flag);
 t_list	*get_cmds(char *s);
-void	get_stream(t_list **cmd_list);
+void	get_stream(t_list *cmd_list);
 
 /*
 **  BUILTINS

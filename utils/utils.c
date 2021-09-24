@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 18:36:52 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 18:49:18 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/24 16:59:36 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ char	**array_join(char **a1, char **a2)
 	i = 0;
 	j = 0;
 	while (a1[i])
-		join[j++] = a1[i++];
+		join[j++] = ft_strdup(a1[i++]);
 	i = 0;
 	while (a2[i])
-		join[j++] = a2[i++];
+		join[j++] = ft_strdup(a2[i++]);
 	join[j] = 0;
 	return (join);
 }

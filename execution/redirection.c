@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/21 14:26:22 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/24 17:57:02 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,14 @@ void	reset_fdin_fdout(t_ms *ms)
 	close(ms->fd_out);
 }
 
-void	redirect_in_out(t_ms *ms, int newfd, int flags)
+void	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 {
 	int		fd;
-	t_cmd	next_cmd;
 
-	if (ms->cmd_list_ite->next == NULL)
-		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
-	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
 	if (flags & O_CREAT)
-		fd = open(next_cmd.cmd[0], flags, 0666);
+		fd = open(stream, flags, 0666);
 	else
-		fd = open(next_cmd.cmd[0], flags);
+		fd = open(stream, flags);
 	if (fd == -1)
 		print_error_msg(strerror(errno), FILE_ERR, ms);
 	if (dup2(fd, newfd) == -1)
@@ -39,21 +35,17 @@ void	redirect_in_out(t_ms *ms, int newfd, int flags)
 	close(fd);
 }
 
-void	read_from_current_input(t_ms *ms)
+void	read_from_current_input(t_ms *ms, char *delimiter)
 {
 	int		rd;
 	int		fd;
 	char	buff[BUFFER_SIZE];
-	t_cmd	next_cmd;
 
-	if (ms->cmd_list_ite->next == NULL)
-		print_error_msg("missing argument after redirection\n", SYNTAX_ERR, ms);
-	next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 	rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
-	while (ft_strncmp(buff, next_cmd.cmd[0], rd - 1) && rd != -1)
+	while (ft_strncmp(buff, delimiter, rd - 1) && rd != -1)
 	{
 		write(fd, buff, rd);
 		rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
@@ -67,31 +59,12 @@ void	read_from_current_input(t_ms *ms)
 
 void	redirect(t_ms *ms, t_cmd *current_cmd)
 {
-	t_cmd	next_cmd;
-
-	if (current_cmd->flag == SLR)
-		redirect_in_out(ms, STDIN_FILENO, O_RDWR);
-	else if (current_cmd->flag == SRR)
-		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT | O_TRUNC);
-	else if (current_cmd->flag == DRR)
-		redirect_in_out(ms, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
-	else
-		read_from_current_input(ms);
-	if (!current_cmd->cmd[0])
-	{
-		ms->cmd_list_ite = ms->cmd_list_ite->next;
-		*current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-		remove_elem_from_array(current_cmd->cmd);
-		if (!current_cmd->cmd[0] && ms->cmd_list_ite->next)
-		{
-			ms->cmd_list_ite = ms->cmd_list_ite->next;
-			*current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-		}
-	}
-	else
-	{
-		next_cmd = *(t_cmd *)ms->cmd_list_ite->next->content;
-		current_cmd->flag = next_cmd.flag;
-		remove_from_list(&ms->cmd_list_head, ms->cmd_list_ite->next);
-	}
+	if (current_cmd->in_flag == SLR)
+		redirect_in_out(ms, current_cmd->in_file, STDIN_FILENO, O_RDWR);
+	else if (current_cmd->in_flag == DLR)
+		read_from_current_input(ms, current_cmd->in_file);
+	if (current_cmd->out_flag == SRR)
+		redirect_in_out(ms, current_cmd->out_file, STDOUT_FILENO, O_RDWR | O_CREAT | O_TRUNC);
+	else if (current_cmd->out_flag == DRR)
+		redirect_in_out(ms, current_cmd->out_file, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
 }

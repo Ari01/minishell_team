@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 18:28:23 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/22 16:40:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:47:13 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	print_cmds(t_list *cmd_list)
 		while (current_cmd.cmd[i])
 		{
 			printf("cmd[%d] = %s\n", i, current_cmd.cmd[i]);
-			printf("flag = %d, outstream = %s, intstream = %s\n", current_cmd.flag, current_cmd.out_stream, current_cmd.in_stream);
 			i++;
 		}
+		printf("flag = %d, outstream = %s, intstream = %s\n", current_cmd.flag, current_cmd.out_file, current_cmd.in_file);
 		cmd_list = cmd_list->next;
 	}
 }

@@ -1,2 +1,2 @@
 current command = echo
-b
+c
