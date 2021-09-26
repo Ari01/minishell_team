@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/26 17:39:48 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/26 18:48:48 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,11 +193,14 @@ void	catch_sig(int signum);
 /*
 **	PARSING
 */
-t_list *sepa_cmd(char *cmd);
-int check_is_flag(char *cmd);
-char **lst_to_tab(char *cmd);
-void free_list(t_list *list);
-t_cmd	*init_cmd(void);
-t_quot quote_init(void);
+size_t		ft_len(const char *s);
+char		*ft_join(char const *s1, char const *s2);
+t_cmdinfo	*creat_cmdinfo(void);
+t_quot		quote_init(void);
+int 		check_flag(char *cmd, int i);
+t_list 		*sepa_cmd(char *cmd);
+char 		**lst_to_tab(char *cmd);
+t_cmd		*init_cmd(void);
+int			is_flag(char c);
 
 #endif

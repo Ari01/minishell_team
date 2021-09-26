@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:55:53 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 18:27:48 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/26 18:42:43 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,57 +16,6 @@
 int		is_flag(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
-}
-
-t_quot quote_init(void) {
-    t_quot quote_info;
-    
-    quote_info.quot = NO_Q;
-    quote_info.quot_status = STATUS_CLOSE;
-    return quote_info;
-}
-int check_flag(char *cmd, int i)
-{
-	t_quot quot= quote_init();
-	while(cmd[i])
-	{
-		if (cmd[i] == '\'')
-		{
-			if (quot.quot == IS_DQ)
-            {
-                ++i;
-                continue;
-            }
-            quot.quot = IS_SQ;
-            if (quot.quot_status == STATUS_CLOSE) {
-                quot.quot_status = STATUS_OPEN;
-			}
-			else {
-                quot.quot_status = STATUS_CLOSE;
-                quot.quot = NO_Q;
-			}
-		}
-		else if (cmd[i] == '"')
-		{
-			if (quot.quot == IS_SQ)
-            {
-                ++i;
-                continue;
-            }
-            quot.quot = IS_DQ;
-            if (quot.quot_status == STATUS_CLOSE) {
-                quot.quot_status = STATUS_OPEN;
-			}
-			else {
-                quot.quot_status = STATUS_CLOSE;
-                quot.quot = NO_Q;
-			}
-		}
-		if (is_flag(cmd[i]) && quot.quot_status == STATUS_CLOSE)
-			return (i);
-		i++;
-	}
-	return (i);
 }
 
 

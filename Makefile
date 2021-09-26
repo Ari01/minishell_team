@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/09/26 18:21:55 by xuwang           ###   ########.fr        #
+#    Updated: 2021/09/26 18:47:05 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRCS			= main.c \
 				  builtin/utils.c \
 				  history/history.c \
 				  signal/signal.c \
-				  parsing/quot.c \
+				  parsing/handling_quot.c \
+				  parsing/parsing_utils.c \
 				  parsing/parsing.c 
 
 OBJS			= $(SRCS:.c=.o)
