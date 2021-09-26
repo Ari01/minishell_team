@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/24 18:06:18 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/26 17:39:48 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,24 @@
 # define ERROR 1
 # define SUCCESS 0
 
+#define TO_MERGE 1
+#define NO_TOUCH 2
 #define STATUS_OPEN 1
 #define STATUS_CLOSE 0
 #define IS_SQ 1
 #define IS_DQ 2
 #define NO_Q 0
 
+typedef struct s_quot
+{
+	int quot;
+	int quot_status;
+
+} t_quot;
 /*
 **	COMMANDS
 */
 # define BUILTINS "cd echo env exit export pwd unset"
-
 /*
 ** STRUCT
 */
@@ -91,18 +98,20 @@ typedef struct s_ms
 	t_history history;
 }	t_ms;
 
+/*
+**	PARSING
+*/
 typedef struct s_cmd
 {
     char    **cmd;
     int     flag;
 }   t_cmd;
 
-typedef struct s_quot
+typedef struct s_cmdinfo   //一个引号内的节点
 {
-	int quot;
-	int quot_status;
-
-} t_quot;
+    char *cmd;
+    int status;    
+} t_cmdinfo;
 
 /*
 **	ERRORS
@@ -185,9 +194,10 @@ void	catch_sig(int signum);
 **	PARSING
 */
 t_list *sepa_cmd(char *cmd);
-t_quot quote_init(void);
 int check_is_flag(char *cmd);
 char **lst_to_tab(char *cmd);
 void free_list(t_list *list);
+t_cmd	*init_cmd(void);
+t_quot quote_init(void);
 
 #endif
