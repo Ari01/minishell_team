@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 17:35:30 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/26 18:23:36 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ char **lst_to_tab(char *cmd)  //one cmd
     list_after_parsing = new_list (tmp);
     
     len = ft_lstsize(list_after_parsing);
-    cmds = malloc(sizeof(char *) * len + 1);
+    cmds = malloc(sizeof(char *) * (len + 1));
     while (list_after_parsing && i < len)
     {
         cmds[i] = list_after_parsing->content;
