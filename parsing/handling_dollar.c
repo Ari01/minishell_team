@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/27 20:08:21 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/27 20:54:49 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,41 @@
 //     }
 //     return (0);
 // }
-static char  *get_dollar_name(char *cmd)   //get $PATH
+
+//改变一个引号内的$就行
+int check_name(char c)
 {
-    char **
+    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_' ))
+}
+static t_list  *get_dollar_name(char *cmd)   //get $PATH   
+{
     int i = 0;
     int len = 0;
     int start = 0;
     char *env = NULL;
+    t_list *dollor_list = NULL;
     while (cmd[i])
     {
         if (cmd[i] == '$')
         {
             start = i;
             while (cmd[i + len] && cmd[i + len] != '"' && cmd[i + len] != '\0' && cmd[i + len] != ' ')
-                len++;
-            env = ft_substr(*cmd, start, len);
-            return (env);
+            {
+                if (!check_name(cmd[i + len]))
+                    break;
+                else
+                {
+                    len++;
+                    env = ft_substr(*cmd, start, len);
+                    ft_lstadd_back(&dollor_list, ft_lstnew());
+                    
+                }
+                i++;
+            }
         }
         i++;
     }
-    return (NULL);
+    return (dollor_list);
 }
 
 // int main()

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/27 20:03:56 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/27 20:33:22 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
                     ++len;
                 cmdinfo = creat_cmdinfo();
                 cmdinfo->cmd = ft_substr(cmd, i, len);
+                
                 i = i + len;
                 if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
                     cmdinfo->status = NO_TOUCH;
