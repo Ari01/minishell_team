@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/24 17:56:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:09:34 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ typedef struct s_cmd
     char    **cmd;
 	char	*out_file;
 	char	*in_file;
-	int		out_flag;
-	int		in_flag;
     int     flag;
 }   t_cmd;
 
