@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/23 18:30:30 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:41:21 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,3 @@ void printerror(char *msg1, char *msg2, char *msg3)
     ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-void free_list(t_list *list)
-{
-    if(list)
-        ft_lstclear(&list, free);
-}

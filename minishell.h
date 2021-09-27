@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/26 18:48:48 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:45:32 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@
 #define IS_SQ 1
 #define IS_DQ 2
 #define NO_Q 0
+#define IS_DOLLAR 1
 
 typedef struct s_quot
 {
@@ -125,7 +126,7 @@ void	print_error_msg(char *s, int error_id, t_ms *ms);
 **	PARSING
 */
 int		check_rdl(t_ms *ms);
-t_list	*get_cmds(char *s);
+t_list	*get_cmds(char *s, t_ms ms);
 
 /*
 **  BUILTINS
@@ -202,5 +203,8 @@ t_list 		*sepa_cmd(char *cmd);
 char 		**lst_to_tab(char *cmd);
 t_cmd		*init_cmd(void);
 int			is_flag(char c);
+t_list 		*check_name_exist(char *cmd, t_list *env_list);
+int check_dollar(char **cmd);
+void  change_dollar(char **cmd, t_ms ms);
 
 #endif

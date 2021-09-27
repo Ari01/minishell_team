@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 17:55:53 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 18:42:43 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/27 20:08:53 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmd	*init_cmd(void)
 	}
 	return (cmd);
 }
-t_list	*get_cmds(char *s)
+t_list	*get_cmds(char *s, t_ms ms)
 {
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
@@ -68,11 +68,9 @@ t_list	*get_cmds(char *s)
 	{
 		start = i;
 		i = check_flag(s, i);
-		// while (s[i] && !is_flag(s[i]))
-		// 	i++;
 		tmp = ft_substr(s, start, i - start); //截断一个pipe 获取里面的cmd 放进数组里
 		ctmp = init_cmd();
-		ctmp->cmd = lst_to_tab(tmp);//j ai change
+		ctmp->cmd = lst_to_tab(tmp);
 		ctmp->flag = get_flag(&s[i]);
 		free(tmp);
 		tmp = NULL;
@@ -84,3 +82,4 @@ t_list	*get_cmds(char *s)
 	}
 	return (cmd_list);
 }
+

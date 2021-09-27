@@ -6,11 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 18:45:29 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/27 20:03:56 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
 {
@@ -87,7 +89,7 @@ t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
                     return (list1);
             }
             else
-            {
+            {                
                 len = 0;
                 while (cmd[i + len] && cmd[i + len] != '"')
                     ++len;
