@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/24 17:57:02 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/27 17:41:03 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 
 void	redirect(t_ms *ms, t_cmd *current_cmd)
 {
-	if (current_cmd->in_flag == SLR)
+	if (current_cmd->io_flag == SLR)
 		redirect_in_out(ms, current_cmd->in_file, STDIN_FILENO, O_RDWR);
-	else if (current_cmd->in_flag == DLR)
+	else if (current_cmd->io_flag == DLR)
 		read_from_current_input(ms, current_cmd->in_file);
-	if (current_cmd->out_flag == SRR)
+	if (current_cmd->io_flag == SRR)
 		redirect_in_out(ms, current_cmd->out_file, STDOUT_FILENO, O_RDWR | O_CREAT | O_TRUNC);
-	else if (current_cmd->out_flag == DRR)
+	else if (current_cmd->io_flag == DRR)
 		redirect_in_out(ms, current_cmd->out_file, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
 }

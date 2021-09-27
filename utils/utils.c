@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 18:36:52 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/24 16:59:36 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/27 19:31:26 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	remove_elem_from_array(char **array)
 		i++;
 	}
 	free(array[i]);
+	array[i] = NULL;
 }
 
 void	remove_from_list(t_list **head, t_list *elem)

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:31:37 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/27 15:22:27 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/27 19:35:53 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,76 +17,79 @@ int		is_redir(int flag)
 	return (flag == SLR || flag == DLR || flag == SRR || flag == DRR);
 }
 
-t_list	*get_redir(t_list *cmd_list, t_list *ite, char **infile, char **outfile)
+t_cmd	get_io_files(t_cmd cmd, int flag, char *file_name)
+{
+	cmd.io_flag = flag;
+	if (flag == SLR || flag == DLR)
+	{
+		free(cmd.in_file);
+		cmd.in_file = ft_strdup(file_name);
+	}
+	else
+	{
+		free(cmd.out_file);
+		cmd.out_file = ft_strdup(file_name);
+	}
+	return (cmd);
+}
+
+t_list	*get_redir(t_list *cmd_list, t_list *ite, t_cmd *ctmp)
 {
 	t_cmd	*current_cmd;
 	t_cmd	*next_cmd;
-	t_list	*tmp;
+	t_list	*ltmp;
 
+	if (!ite)
+		return (ite);
 	current_cmd = (t_cmd *)ite->content;
-	next_cmd = (t_cmd *)ite->next->content;
-	if (current_cmd->flag == SLR || current->cmd->flag == DLR)
-		*infile = ft_strdup(next_cmd->cmd[0]);
-	else
-		*outfile = ft_strdup(next_cmd->cmd[0]);
-	remove_elem_from_array(next_cmd->cmd);
-	if (!current_cmd->cmd[0])
+	while (ite && is_redir(current_cmd->flag))
 	{
-		tmp = ite;
-		ite = ite->next;
-		remove_from_list(&cmd_list, tmp);
+		current_cmd = (t_cmd *)ite->content;
+		next_cmd = (t_cmd *)ite->next->content;
+		*ctmp = get_io_files(*ctmp, current_cmd->flag, next_cmd->cmd[0]);
+		remove_elem_from_array(next_cmd->cmd);
+		if (!current_cmd->cmd[0])
+		{
+			ltmp = ite;
+			ite = ite->next;
+			remove_from_list(&cmd_list, ltmp);
+		}
+		else
+			break;
 	}
 	return (ite);
 }
 
-void	get_stream(t_list *cmd_list)
+t_list	*get_stream(t_list *cmd_list)
 {
-	t_cmd	*current_cmd;
+	t_cmd	*new_cmd;
+	t_cmd	ctmp;
 	t_list	*ite;
-	char	*infile;
-	char	*outfile;
 
-	infile = NULL;
-	outfile = NULL;
+	ctmp.in_file = NULL;
+	ctmp.out_file = NULL;
+	ctmp.io_flag = 0;
 	ite = cmd_list;
 	while (ite)
 	{
-		current_cmd = (t_cmd *)ite->content;
-		if (is_redir(current_cmd->flag))
-			get_redir(ite, current_cmd, &infile, &outfile);
-		else
+		ite = get_redir(cmd_list, ite, &ctmp);
+		if (ite)
+		{
+			new_cmd = (t_cmd *)ite->content;
 			ite = ite->next;
+			ite = get_redir(cmd_list, ite, &ctmp);
+			new_cmd->io_flag = ctmp.io_flag;
+			if (ctmp.in_file)
+				new_cmd->in_file = ft_strdup(ctmp.in_file);
+			if (ctmp.out_file)
+				new_cmd->out_file = ft_strdup(ctmp.out_file);
+			free(ctmp.in_file);
+			free(ctmp.out_file);
+			ctmp.in_file = NULL;
+			ctmp.out_file = NULL;
+			if (ite)
+				ite = ite->next;
+		}
 	}
+	return (cmd_list);
 }
-
-/*
-void	get_stream(t_list *cmd_list)
-{
-	t_list	*ite;
-	t_cmd	*current_cmd;
-	t_cmd	*next_cmd;
-	t_cmd	*tmp_cmd;
-
-	ite = cmd_list;
-	while (ite)
-	{
-		current_cmd = (t_cmd *)ite->content;
-		if (is_redir(current_cmd->flag))
-		{
-			if (!current_cmd->cmd[0])
-			{
-				remove_from_list(&cmd_list, ite);
-				ite = cmd_list;
-			}
-			next_cmd = (t_cmd *)ite->next->content;
-			tmp_cmd = get_redir(next_cmd->cmd, current_cmd->flag);
-			if (!next_cmd->cmd)
-				remove_from_list(&cmd_list, ite->next);
-		}
-		else
-		{
-			current_cmd = copy_redir(current_cmd, new_cmd);
-			
-		}
-	}
-}*/

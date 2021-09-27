@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/27 15:09:34 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/27 17:50:28 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_cmd
     char    **cmd;
 	char	*out_file;
 	char	*in_file;
+	int		io_flag;
     int     flag;
 }   t_cmd;
 
@@ -132,7 +133,7 @@ char	*check_grammar(t_list *token_list);
 int		check_rdl(t_ms *ms);
 int		is_redir(int flag);
 t_list	*get_cmds(char *s);
-void	get_stream(t_list *cmd_list);
+t_list	*get_stream(t_list *cmd_list);
 
 /*
 **  BUILTINS
