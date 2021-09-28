@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/27 18:21:49 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:22:24 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_child(t_ms *ms, int *pipe_fd)
 		run_pipe(ms);
 	else
 	{
-		if (cmd.io_flag)
+		if (cmd.in_flag || cmd.out_flag)
 			redirect(ms, &cmd);
 		run_cmd(ms, &cmd);
 	}

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:30:08 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/22 16:35:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/28 15:58:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*check_pipe(t_list *token_list)
 	if (!token_list->next)
 		return (token->value);
 	token = (t_token *)token_list->next->content;
-	if (token->id != CMD_TOK)
+	if (token->id == PIPE_TOK)
 		return (token->value);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/27 17:44:02 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/28 15:29:04 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ t_cmd	*init_cmd()
 	cmd = malloc(sizeof(*cmd));
 	cmd->in_file = NULL;
 	cmd->out_file = NULL;
-	cmd->io_flag = 0;
+	cmd->in_flag = 0;
+	cmd->out_flag = 0;
 	return (cmd);
 }
 

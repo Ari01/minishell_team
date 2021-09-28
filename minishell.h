@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/27 17:50:28 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/28 19:02:52 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,17 @@ typedef struct s_cmd
     char    **cmd;
 	char	*out_file;
 	char	*in_file;
-	int		io_flag;
+	int		in_flag;
+	int		out_flag;
     int     flag;
 }   t_cmd;
+
+typedef	struct s_op
+{
+	char	*left;
+	char	*right;
+	int		op;
+}	t_op;
 
 /*
 **	ERRORS
@@ -131,9 +139,16 @@ char	*check_grammar(t_list *token_list);
 **	PARSER
 */
 int		check_rdl(t_ms *ms);
-int		is_redir(int flag);
 t_list	*get_cmds(char *s);
 t_list	*get_stream(t_list *cmd_list);
+
+/*
+**	PARSER_UTILS
+*/
+int		is_redir(int flag);
+t_list	*remove_current_ite(t_list **cmd_list, t_list *ite);
+void	reset_array(char **array);
+t_cmd	new_io_cmd();
 
 /*
 **  BUILTINS

@@ -5,90 +5,96 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 15:31:37 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/27 19:35:53 by dchheang         ###   ########.fr       */
+/*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
+/*   Updated: 2021/09/28 19:28:00 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_redir(int flag)
+t_cmd	update_io(t_list *ite, t_cmd *current_cmd, t_cmd new_cmd)
 {
-	return (flag == SLR || flag == DLR || flag == SRR || flag == DRR);
-}
+	t_cmd	*next_cmd;
 
-t_cmd	get_io_files(t_cmd cmd, int flag, char *file_name)
-{
-	cmd.io_flag = flag;
-	if (flag == SLR || flag == DLR)
+	next_cmd = (t_cmd *)ite->next->content;
+	if (current_cmd->flag == SLR || current_cmd->flag == DLR)
 	{
-		free(cmd.in_file);
-		cmd.in_file = ft_strdup(file_name);
+		free(new_cmd.in_file);
+		new_cmd.in_file = ft_strdup(next_cmd->cmd[0]);
+		new_cmd.in_flag = current_cmd->flag;
 	}
 	else
 	{
-		free(cmd.out_file);
-		cmd.out_file = ft_strdup(file_name);
+		free(new_cmd.out_file);
+		new_cmd.out_file = ft_strdup(next_cmd->cmd[0]);
+		new_cmd.out_flag = current_cmd->flag;
 	}
-	return (cmd);
+	remove_elem_from_array(next_cmd->cmd);
+	return (new_cmd);
 }
 
-t_list	*get_redir(t_list *cmd_list, t_list *ite, t_cmd *ctmp)
+t_cmd	*save_redir(t_cmd *current_cmd, t_cmd new_cmd)
 {
-	t_cmd	*current_cmd;
-	t_cmd	*next_cmd;
-	t_list	*ltmp;
+	current_cmd->in_flag = new_cmd.in_flag;
+	current_cmd->out_flag = new_cmd.out_flag;
+	if (new_cmd.in_file)
+		current_cmd->in_file = ft_strdup(new_cmd.in_file);
+	if (new_cmd.out_file)
+		current_cmd->out_file = ft_strdup(new_cmd.out_file);
+	return (current_cmd);
+}
 
-	if (!ite)
-		return (ite);
-	current_cmd = (t_cmd *)ite->content;
-	while (ite && is_redir(current_cmd->flag))
+t_cmd	get_redir(t_list **cmd_list, t_list **ite, t_cmd *current_cmd, t_cmd new_cmd)
+{
+	t_cmd	*next_cmd;
+
+	if (!current_cmd->cmd[0])
 	{
-		current_cmd = (t_cmd *)ite->content;
-		next_cmd = (t_cmd *)ite->next->content;
-		*ctmp = get_io_files(*ctmp, current_cmd->flag, next_cmd->cmd[0]);
-		remove_elem_from_array(next_cmd->cmd);
-		if (!current_cmd->cmd[0])
-		{
-			ltmp = ite;
-			ite = ite->next;
-			remove_from_list(&cmd_list, ltmp);
-		}
-		else
-			break;
+		new_cmd = update_io(*ite, current_cmd, new_cmd);
+		*ite = remove_current_ite(cmd_list, *ite);
 	}
-	return (ite);
+	else
+	{
+		next_cmd = current_cmd;
+		while (*ite && is_redir(next_cmd->flag))
+		{
+			next_cmd = (t_cmd *)(*ite)->content;
+			new_cmd = update_io(*ite, next_cmd, new_cmd);
+			if (!next_cmd->cmd[0])
+				*ite = remove_current_ite(cmd_list, *ite);
+			else
+				*ite = (*ite)->next;
+			next_cmd = (t_cmd *)(*ite)->content;
+			if (next_cmd->cmd[0])
+			{
+				current_cmd->cmd = array_join(current_cmd->cmd, next_cmd->cmd);
+				reset_array(next_cmd->cmd);	
+			}
+		}
+		current_cmd = save_redir(current_cmd, new_cmd);
+	}
+	return (new_cmd);
 }
 
 t_list	*get_stream(t_list *cmd_list)
 {
-	t_cmd	*new_cmd;
-	t_cmd	ctmp;
 	t_list	*ite;
+	t_cmd	*current_cmd;
+	t_cmd	new_cmd;
 
-	ctmp.in_file = NULL;
-	ctmp.out_file = NULL;
-	ctmp.io_flag = 0;
 	ite = cmd_list;
+	new_cmd = new_io_cmd();
 	while (ite)
 	{
-		ite = get_redir(cmd_list, ite, &ctmp);
-		if (ite)
+		current_cmd = (t_cmd *)ite->content;
+		if (is_redir(current_cmd->flag))
+			new_cmd = get_redir(&cmd_list, &ite, current_cmd, new_cmd);
+		else if (!current_cmd->cmd[0])
+			ite = remove_current_ite(&cmd_list, ite);
+		else
 		{
-			new_cmd = (t_cmd *)ite->content;
+			current_cmd = save_redir(current_cmd, new_cmd);
 			ite = ite->next;
-			ite = get_redir(cmd_list, ite, &ctmp);
-			new_cmd->io_flag = ctmp.io_flag;
-			if (ctmp.in_file)
-				new_cmd->in_file = ft_strdup(ctmp.in_file);
-			if (ctmp.out_file)
-				new_cmd->out_file = ft_strdup(ctmp.out_file);
-			free(ctmp.in_file);
-			free(ctmp.out_file);
-			ctmp.in_file = NULL;
-			ctmp.out_file = NULL;
-			if (ite)
-				ite = ite->next;
 		}
 	}
 	return (cmd_list);
