@@ -6,15 +6,16 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/27 20:33:22 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/28 19:42:28 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//check dollar function
+// - if true -> return true else false
 
-
-t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
+t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
 {
     t_list *list1 = NULL;  // 一个链表的一个节点
     int i = 0;
@@ -32,6 +33,11 @@ t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
                 ++len;   //i不变
             cmdinfo = creat_cmdinfo();
             cmdinfo->cmd = ft_substr(cmd, i, len);  //取得一小节字符 没有符号
+            if (check_dollar(cmdinfo->cmd))
+                {
+                    char *new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
+                    cmdinfo->cmd  = new_cmd;
+                }
             i = i + len;
             if (cmd[i] == ' ' || cmd[i] == '\0')
                 cmdinfo->status = NO_TOUCH;
@@ -63,6 +69,19 @@ t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
                     ++len;
                 cmdinfo = creat_cmdinfo();
                 cmdinfo->cmd = ft_substr(cmd, i, len);
+                // + check dollar function : return true/false
+                //
+                // example : this is $NAME12 $123 var
+                //
+                // check if dollar function return true
+                // if true
+                //
+                // + replace str function : return str
+                //
+                // cmdinfo->cmd = str
+                //
+                // after replace: this is ???? var
+                
                 i = i + len;
                 if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
                     cmdinfo->status = NO_TOUCH;
@@ -95,7 +114,11 @@ t_list *sepa_cmd(char *cmd) //返回一个cmd链表的节点
                     ++len;
                 cmdinfo = creat_cmdinfo();
                 cmdinfo->cmd = ft_substr(cmd, i, len);
-                
+                if (check_dollar(cmdinfo->cmd))
+                {
+                    char *new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
+                    cmdinfo->cmd  = new_cmd;
+                }
                 i = i + len;
                 if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
                     cmdinfo->status = NO_TOUCH;
@@ -150,7 +173,7 @@ t_list *new_list(t_list *cmd)
     }
     return (new_list);
 }
-char **lst_to_tab(char *cmd)  //one cmd 
+char **lst_to_tab(char *cmd, t_list *env_list)  //one cmd 
 {
     char **cmds = NULL;
     int len = 0;
@@ -158,8 +181,8 @@ char **lst_to_tab(char *cmd)  //one cmd
     t_list *tmp = NULL;
     t_list *list_after_parsing = NULL; 
 		
-    tmp = sepa_cmd(cmd); 
-    list_after_parsing = new_list (tmp);
+    tmp = sepa_cmd(cmd, env_list); 
+    list_after_parsing = new_list(tmp);
     
     len = ft_lstsize(list_after_parsing);
     cmds = malloc(sizeof(char *) * (len + 1));

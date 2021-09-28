@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/15 14:09:17 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:18:27 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int check_is_cmd(char *s)   //name must a-z, A-Z, _
     return (1);
 }
 
-static t_list *check_name_exist(char *cmd, t_list *env_list) 
+ static t_list *check_name_exist(char *cmd, t_list *env_list) 
 {
     int len;
 
