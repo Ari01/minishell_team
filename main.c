@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/29 18:20:30 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/29 18:45:19 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	run_context(t_ms *ms)
 	while (ms->cmd_list_ite)
 	{
 		current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-		//printf("cc = %s, flag = %d, iflag = %d, oflag = %d\n", current_cmd.cmd[0], current_cmd.flag, current_cmd.in_flag, current_cmd.out_flag);
+		printf("cc = %s, flag = %d, iflag = %d, oflag = %d\n", current_cmd.cmd[0], current_cmd.flag, current_cmd.in_flag, current_cmd.out_flag);
 		if (current_cmd.in_flag || current_cmd.out_flag)
 			redirect(ms, &current_cmd);
 		if (current_cmd.flag == '|')
