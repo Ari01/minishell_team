@@ -1,2 +1,1 @@
-current command = echo
 d

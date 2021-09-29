@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 19:25:38 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/29 18:20:30 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ void	run_context(t_ms *ms)
 	while (ms->cmd_list_ite)
 	{
 		current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
+		//printf("cc = %s, flag = %d, iflag = %d, oflag = %d\n", current_cmd.cmd[0], current_cmd.flag, current_cmd.in_flag, current_cmd.out_flag);
 		if (current_cmd.in_flag || current_cmd.out_flag)
 			redirect(ms, &current_cmd);
-		if (current_cmd.cmd[0])
+		if (current_cmd.flag == '|')
 		{
-			if (current_cmd.flag == '|')
-				run_pipe(ms);
-			else
-				run_cmd(ms, &current_cmd);
+			run_pipe(ms);
+			ms->cmd_list_ite = ms->cmd_list_ite->next;
 		}
+		else
+			run_cmd(ms, &current_cmd);
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
 }
@@ -68,13 +69,13 @@ void	run_shell(char **env)
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
 			print_cmds(ms.cmd_list_ite);
-			/*ms.fd_in = dup(STDIN_FILENO);
+			ms.fd_in = dup(STDIN_FILENO);
 			ms.fd_out = dup(STDOUT_FILENO);
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				run_context(&ms);
 			free_memory(&ms);
-			reset_fdin_fdout(&ms);*/
+			reset_fdin_fdout(&ms);
 		}
     }
 }

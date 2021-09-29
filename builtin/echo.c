@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:01 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/10 17:51:24 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/29 17:31:07 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void ft_echo(t_cmd *cmd)
 
     n = 0;
     i = 1;
+	// j'ai modifie : s'il n'y a pas d'argument, echo imprime \n
+	if (!cmd->cmd[1])
+		ft_putendl_fd("", STDOUT_FILENO);
     while (cmd && cmd->cmd[i] && (ft_strcmp(cmd->cmd[i], "-n") == 0))
     {
         i++;

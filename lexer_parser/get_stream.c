@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 19:28:00 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/29 18:11:05 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ t_cmd	get_redir(t_list **cmd_list, t_list **ite, t_cmd *current_cmd, t_cmd new_c
 			}
 		}
 		current_cmd = save_redir(current_cmd, new_cmd);
+		current_cmd->flag = next_cmd->flag;
+		new_cmd = new_io_cmd();
 	}
 	return (new_cmd);
 }
