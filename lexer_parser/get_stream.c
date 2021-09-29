@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/29 18:11:05 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/29 18:20:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ t_list	*get_stream(t_list *cmd_list)
 		else if (!current_cmd->cmd[0])
 			ite = remove_current_ite(&cmd_list, ite);
 		else
-		{
-			current_cmd = save_redir(current_cmd, new_cmd);
 			ite = ite->next;
-		}
 	}
 	return (cmd_list);
 }
