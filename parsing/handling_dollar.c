@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/28 20:05:10 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/30 15:17:41 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,29 +148,36 @@ static t_list *check_env_exit(char *dollar, t_list *env_list)
     
     while (env_list)
     {
+       // printf("dollar : %s\n", dollar);
         if (ft_strncmp(dollar, (char *)env_list->content, len) == 0 &&
         (((char *)env_list->content)[len] == '\0' || ((char *)env_list->content)[len] == '='))
+        {
+             printf("here : env_name : %s\n", (char *)env_list->content);
             return (env_list);
+        }
         env_list = env_list->next;
+        
     }
     return(NULL);
 }
 
 static int check_env_start(char *env)
 {
+    printf("env_name : %s\n", env);
     int i = 0;
-    while (env[i] && env[i] != '"')
+    while (env[i] && env[i] != '=')
         i++;
+    //printf("here1:%d\n", i);
     return (i + 1);
+   
 }
 
 static int check_env_len(char *env)
 {
     int start = check_env_start(env);
-    int len = 0;
-    int i = 0;
-    len = ft_strlen(env);
-    i = len - start;
+    int len = ft_strlen(env);
+    int i = len - start;
+    // printf("here1:%d\n", i);
     return (i);
 }
 
@@ -182,6 +189,7 @@ char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
     int len = 0;
     char *dollar = NULL;
     char *new_cmd = NULL;
+    // char *c = NULL;
     while (cmd[i])
     {
         if(cmd[i] == '$' && cmd[i + 1] != ' ' && cmd[i + 1] != '\0')
@@ -190,28 +198,38 @@ char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
             if (cmd[i] >= '0' && cmd[i] <= '9')
             {
                 new_cmd = ft_join(new_cmd, "");
+                //printf("new_cmd: %s\n", new_cmd);
             }
             else 
             {
                 start = i;
-                while (cmd[i] && cmd[i + len] && cmd[i + len] != ' ' && cmd[i + len] != '\0')
+                while (cmd[i + len] && cmd[i + len] != ' ' && cmd[i + len] != '\0')
                 {
                     len++;
-                    i++;
                 }
                 dollar = ft_substr(cmd, start, len);
-                if (check_env_exit(dollar, env_list) != NULL)
+                if ((env_list = check_env_exit(dollar, env_list))!= NULL)
                 {
-                    new_cmd = ft_join(new_cmd, 
-                    ft_substr((char *)env_list->content, check_env_start((char *)env_list->content), check_env_len((char *)env_list->content)));
+                    new_cmd = ft_join(new_cmd, ft_substr((char *)env_list->content, check_env_start((char *)env_list->content), check_env_len((char *)env_list->content)));
                 }
                 else
+                {
+                    //printf("new_cmd2: %s\n", new_cmd);
                      new_cmd = ft_join(new_cmd, "");
+                }
             }
         }
+
         else
         {
-            new_cmd = ft_join(new_cmd, &cmd[i]);
+            // //printf("cmd[i]: %c\n", cmd[i]);
+            // printf("cmd : [%s]\n", cmd);
+            // c = ft_substr(cmd, i, 1);
+            // printf("? : [%s]\n", c);
+            // new_cmd = ft_join(new_cmd, c);
+            // free(c);
+            // c = NULL;
+            //printf("new_cmd3: %s\n", new_cmd);
         }
         start = 0;
         len = 0;
