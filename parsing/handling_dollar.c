@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/30 16:10:19 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/30 17:13:12 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,28 @@ char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
     char *c = NULL;
     while (cmd[i])
     {
-        if(cmd[i] == '$' && cmd[i + 1] != ' ' && cmd[i + 1] != '\0')
+        if(cmd[i] == '$' && cmd[i + 1] != ' ' && cmd[i + 1] != '\0' && cmd[i + 1] != '$' )
         { 
             i++;
             if (cmd[i] >= '0' && cmd[i] <= '9')
             {
                 new_cmd = ft_join(new_cmd, "");
                 i++;
-                if (cmd[i] != '\0' && cmd[i] != ' ')
+                if (cmd[i] != '\0' && cmd[i] != ' ' && cmd[i] != '$')
                 {
                     start = i;
-                    while (cmd[i] && cmd[i] != '\0' && cmd[i] != ' ')
+                    while (cmd[i] && cmd[i] != '\0' && cmd[i] != ' ' && cmd[i] != '$')
                         i++;
+                    
                     new_cmd = ft_join(new_cmd, ft_substr(cmd, start, i - start));
+                    if (cmd[i] == '$')
+                        i--;
                 }
             }
             else 
             {
                 start = i;
-                while (cmd[i + len] && cmd[i + len] != ' ' && cmd[i + len] != '\0')
+                while (cmd[i + len] && cmd[i + len] != ' ' && cmd[i + len] != '\0' && cmd[i + len] != '$' )
                     len++;
                 dollar = ft_substr(cmd, start, len);
                 if ((env_list = check_env_exit(dollar, env_list))!= NULL)
