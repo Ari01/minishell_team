@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/28 19:42:28 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/30 15:49:20 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
             cmdinfo = creat_cmdinfo();
             cmdinfo->cmd = ft_substr(cmd, i, len);  //取得一小节字符 没有符号
             if (check_dollar(cmdinfo->cmd))
-                {
-                    char *new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
-                    cmdinfo->cmd  = new_cmd;
-                }
+            {
+                char *new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
+                cmdinfo->cmd  = new_cmd;
+            }
             i = i + len;
             if (cmd[i] == ' ' || cmd[i] == '\0')
                 cmdinfo->status = NO_TOUCH;
@@ -69,19 +69,6 @@ t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
                     ++len;
                 cmdinfo = creat_cmdinfo();
                 cmdinfo->cmd = ft_substr(cmd, i, len);
-                // + check dollar function : return true/false
-                //
-                // example : this is $NAME12 $123 var
-                //
-                // check if dollar function return true
-                // if true
-                //
-                // + replace str function : return str
-                //
-                // cmdinfo->cmd = str
-                //
-                // after replace: this is ???? var
-                
                 i = i + len;
                 if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
                     cmdinfo->status = NO_TOUCH;
