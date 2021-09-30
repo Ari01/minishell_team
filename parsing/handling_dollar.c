@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/30 15:51:13 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/30 16:10:19 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
                     new_cmd = ft_join(new_cmd, ft_substr((char *)env_list->content, check_env_start((char *)env_list->content), check_env_len((char *)env_list->content)));
                 else
                      new_cmd = ft_join(new_cmd, "");
-                i = i + len;
+                i = i + len - 1;
             }
         }
         else
