@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/29 18:42:28 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 18:50:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_child(t_ms *ms, int *pipe_fd)
 		run_pipe(ms);
 	else
 	{
-		if (cmd.in_flag || cmd.out_flag)
+		if (cmd.in_stream.flag || cmd.out_streams)
 			redirect(ms, &cmd);
 		run_cmd(ms, &cmd);
 	}
@@ -43,7 +43,6 @@ void	exec_parent(t_ms *ms, int *pipe_fd, int pid)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	close(pipe_fd[1]);
 	run_cmd(ms, &cmd);
-	reset_fdin_fdout(ms);
 	waitpid(pid, NULL, 0);
 }
 

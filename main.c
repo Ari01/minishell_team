@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/29 18:45:19 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 18:49:28 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_ms	init_shell(char **env)
 {
 	t_ms	ms;
 
+	ms.fd_in = dup(STDIN_FILENO);
+	ms.fd_out = dup(STDOUT_FILENO);
 	ms.env_list = NULL;
 	ms.env_list = get_env(env, ms.env_list);
 	ms.history = init_history(ms.history);
@@ -31,8 +33,8 @@ void	run_context(t_ms *ms)
 	while (ms->cmd_list_ite)
 	{
 		current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-		printf("cc = %s, flag = %d, iflag = %d, oflag = %d\n", current_cmd.cmd[0], current_cmd.flag, current_cmd.in_flag, current_cmd.out_flag);
-		if (current_cmd.in_flag || current_cmd.out_flag)
+		//printf("cc = %s, flag = %d, iflag = %d, oflag = %d\n", current_cmd.cmd[0], current_cmd.flag, current_cmd.in_flag, current_cmd.out_flag);
+		if (current_cmd.in_stream.flag || current_cmd.out_streams)
 			redirect(ms, &current_cmd);
 		if (current_cmd.flag == '|')
 		{
@@ -55,8 +57,10 @@ void	run_shell(char **env)
     while (1)
     {
         ms.rdl = readline("prompt> ");
+		token_list = NULL;
 		token_list = get_tokens(ms.rdl);
 		check = check_grammar(token_list);
+		ft_lstclear(&token_list, &free_token);
 		if (check)
 		{
 			printf("parse error near %s\n", check);
@@ -69,8 +73,6 @@ void	run_shell(char **env)
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
 			print_cmds(ms.cmd_list_ite);
-			ms.fd_in = dup(STDIN_FILENO);
-			ms.fd_out = dup(STDOUT_FILENO);
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				run_context(&ms);

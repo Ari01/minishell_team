@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/29 16:54:16 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 18:47:44 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	reset_fdin_fdout(t_ms *ms)
 {
 	dup2(ms->fd_in, STDIN_FILENO);
 	dup2(ms->fd_out, STDOUT_FILENO);
-	close(ms->fd_in);
-	close(ms->fd_out);
 }
 
 void	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
@@ -61,12 +59,19 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 
 void	redirect(t_ms *ms, t_cmd *current_cmd)
 {
-	if (current_cmd->in_flag == SLR)
-		redirect_in_out(ms, current_cmd->in_file, STDIN_FILENO, O_RDWR);
-	else if (current_cmd->in_flag == DLR)
-		read_from_current_input(ms, current_cmd->in_file);
-	if (current_cmd->out_flag == SRR)
-		redirect_in_out(ms, current_cmd->out_file, STDOUT_FILENO, O_RDWR | O_CREAT | O_TRUNC);
-	else if (current_cmd->out_flag == DRR)
-		redirect_in_out(ms, current_cmd->out_file, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
+	t_io	*io;
+
+	if (current_cmd->in_stream.flag == SLR)
+		redirect_in_out(ms, current_cmd->in_stream.file, STDIN_FILENO, O_RDWR);
+	else if (current_cmd->in_stream.flag == DLR)
+		read_from_current_input(ms, current_cmd->in_stream.file);
+	while (current_cmd->out_streams)
+	{
+		io = (t_io *)current_cmd->out_streams->content;
+		if (io->flag == SRR)
+			redirect_in_out(ms, io->file, STDOUT_FILENO, O_RDWR | O_CREAT | O_TRUNC);
+		else if (io->flag == DRR)
+			redirect_in_out(ms, io->file, STDOUT_FILENO, O_RDWR | O_CREAT | O_APPEND);
+		current_cmd->out_streams = current_cmd->out_streams->next;
+	}
 }

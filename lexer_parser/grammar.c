@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:30:08 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 15:58:54 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:36:36 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,6 @@ char	*check_grammar(t_list *token_list)
 	char	*ret;
 
 	ret = NULL;
-	t_list *ite;
-
-	ite = token_list;
 	while (token_list)
 	{
 		token = (t_token *)token_list->content;

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 15:29:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:21:59 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_cmd	*init_cmd()
 	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
-	cmd->in_file = NULL;
-	cmd->out_file = NULL;
-	cmd->in_flag = 0;
-	cmd->out_flag = 0;
+	cmd->in_stream.file = NULL;
+	cmd->in_stream.flag = 0;
+	cmd->out_streams = NULL;
+	cmd->out_streams_head = NULL;
 	return (cmd);
 }
 

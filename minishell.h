@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 19:02:52 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:27:10 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,18 @@ typedef struct s_ms
 	t_history	history;
 }	t_ms;
 
+typedef struct s_io
+{
+	int		flag;
+	char	*file;
+}	t_io;
+
 typedef struct s_cmd
 {
     char    **cmd;
-	char	*out_file;
-	char	*in_file;
-	int		in_flag;
-	int		out_flag;
+	t_io	in_stream;
+	t_list	*out_streams;
+	t_list	*out_streams_head;
     int     flag;
 }   t_cmd;
 
