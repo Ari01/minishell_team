@@ -6,22 +6,20 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 18:50:06 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/09/30 19:54:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_child(t_ms *ms, int *pipe_fd)
+void	exec_child(t_ms *ms, int pipe_fd)
 {
 	t_cmd	cmd;
 
 	ms->cmd_list_ite = ms->cmd_list_ite->next;
 	cmd = *(t_cmd*)ms->cmd_list_ite->content;
-	close(pipe_fd[1]);
-	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+	if (dup2(pipe_fd, STDIN_FILENO) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
-	close(pipe_fd[0]);
 	if (cmd.flag == '|')
 		run_pipe(ms);
 	else
@@ -30,20 +28,17 @@ void	exec_child(t_ms *ms, int *pipe_fd)
 			redirect(ms, &cmd);
 		run_cmd(ms, &cmd);
 	}
-	exit(EXIT_SUCCESS);
 }
 
-void	exec_parent(t_ms *ms, int *pipe_fd, int pid)
+void	exec_parent(t_ms *ms, int pipe_fd)
 {
 	t_cmd	cmd;
 
 	cmd = *(t_cmd *)ms->cmd_list_ite->content;
-	close(pipe_fd[0]);
-	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+	if (dup2(pipe_fd, STDOUT_FILENO) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
-	close(pipe_fd[1]);
 	run_cmd(ms, &cmd);
-	waitpid(pid, NULL, 0);
+	//reset_fdin_fdout(ms);
 }
 
 void	run_pipe(t_ms *ms)
@@ -57,7 +52,17 @@ void	run_pipe(t_ms *ms)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	pid = fork();
 	if (!pid)
-		exec_child(ms, pipe_fd);
+	{
+		close(pipe_fd[1]);
+		exec_child(ms, pipe_fd[0]);
+		close(pipe_fd[0]);
+		exit(EXIT_SUCCESS);
+	}
 	else
-		exec_parent(ms, pipe_fd, pid);
+	{
+		exec_parent(ms, pipe_fd[1]);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
+	waitpid(pid, NULL, 0);
 }
