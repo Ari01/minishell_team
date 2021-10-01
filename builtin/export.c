@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/28 14:19:05 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/01 14:23:50 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ static int check_change(char *s)
     return (NULL);
 }
 
-void	print_env_list(t_list *env_list)
-{
-	char	*s;
+// void	print_env_list(t_list *env_list)
+// {
+// 	char	*s;
 
-	while (env_list)
-	{
-		s = (char *)env_list->content;
-		printf("%s\n", s);
-		env_list = env_list->next;
-	}
-}
+// 	while (env_list)
+// 	{
+// 		s = (char *)env_list->content;
+// 		printf("%s\n", s);
+// 		env_list = env_list->next;
+// 	}
+// }
 
 static void add_chang_export(char *cmd, t_list *env_list)  //add or change one envin env_list
 {
@@ -117,7 +117,7 @@ static void print_export(char *str)
             ft_putchar_fd(str[i], STDOUT_FILENO);
         i++;
     }
-    if (ft_strchr(str, '='))
+    if (str && ft_strchr(str, '=') != NULL)
         ft_putchar_fd('\"', STDOUT_FILENO);
     ft_putchar_fd('\n', STDOUT_FILENO);
 }
@@ -141,9 +141,10 @@ void ft_export(t_cmd *cmd, t_list *env_list)
         i++;
     }
     ft_list_sort(&env_list, &ft_strcmp);
-    while (cmd->cmd[1] == NULL && env_list && env_list->content)
+    while (cmd && cmd->cmd[1] == NULL && env_list && env_list->content)
     {
         print_export((char *)env_list->content);
         env_list = env_list->next;
     }
+
 }

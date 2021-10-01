@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/30 17:13:12 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/30 19:37:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int check_env_len(char *env)
 
 char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
 {
-    
     int i = 0;
     int start = 0;
     int len = 0;
@@ -80,7 +79,6 @@ char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
                     start = i;
                     while (cmd[i] && cmd[i] != '\0' && cmd[i] != ' ' && cmd[i] != '$')
                         i++;
-                    
                     new_cmd = ft_join(new_cmd, ft_substr(cmd, start, i - start));
                     if (cmd[i] == '$')
                         i--;
@@ -112,3 +110,4 @@ char  *hanlding_dollar(char *cmd, t_list *env_list)  //创建新的rdl
     }
     return (new_cmd);    
 }
+

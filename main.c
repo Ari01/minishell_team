@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 19:30:04 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/01 14:29:33 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	run_shell(char **env)
 			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
 		run_context(&ms);
 		reset_fdin_fdout(&ms);
-		free_memory(&ms);
+		//free_memory(&ms);
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/30 15:49:20 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/09/30 19:32:39 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 //check dollar function
 // - if true -> return true else false
 
+
 t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
 {
     t_list *list1 = NULL;  // 一个链表的一个节点
     int i = 0;
     int len = 0;
     t_cmdinfo *cmdinfo; //一个节点里面的数据
+    char *new_cmd = NULL;
 
     while (cmd && cmd[i] && cmd[i] == ' ')
         ++i;
@@ -35,7 +37,7 @@ t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
             cmdinfo->cmd = ft_substr(cmd, i, len);  //取得一小节字符 没有符号
             if (check_dollar(cmdinfo->cmd))
             {
-                char *new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
+                new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
                 cmdinfo->cmd  = new_cmd;
             }
             i = i + len;
@@ -103,7 +105,7 @@ t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
                 cmdinfo->cmd = ft_substr(cmd, i, len);
                 if (check_dollar(cmdinfo->cmd))
                 {
-                    char *new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
+                    new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
                     cmdinfo->cmd  = new_cmd;
                 }
                 i = i + len;
@@ -182,3 +184,5 @@ char **lst_to_tab(char *cmd, t_list *env_list)  //one cmd
     cmds[i] = NULL;
     return cmds;  //获得一个c**cmd的数据
 }
+
+
