@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/01 14:23:50 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/03 15:21:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,14 @@ static void print_export(char *str)
     ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-void ft_export(t_cmd *cmd, t_list *env_list)
+int ft_export(t_cmd *cmd, t_list *env_list)
 {
     int i;
     int j;
 
     j = 1;
+    if (!cmd)
+        return (ERROR);
     while (cmd && cmd->cmd[j]) 
     {
         if (!(check_is_name(cmd->cmd[j])))
@@ -146,5 +148,5 @@ void ft_export(t_cmd *cmd, t_list *env_list)
         print_export((char *)env_list->content);
         env_list = env_list->next;
     }
-
+    return (SUCCESS);
 }

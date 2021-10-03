@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/30 19:32:39 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/01 17:18:03 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 //check dollar function
 // - if true -> return true else false
-
 
 t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
 {

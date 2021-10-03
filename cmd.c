@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/19 19:17:21 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/03 16:25:47 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	run_builtin(t_ms *ms, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->cmd[0], "cd")) 
 		ft_cd(cmd);
 	else if (!ft_strcmp(cmd->cmd[0], "pwd")) 
-		ft_pwd(cmd);
+		ft_pwd();
 	else if (!ft_strcmp(cmd->cmd[0], "exit")) 
 		ft_exit(cmd);
 	else if (!ft_strcmp(cmd->cmd[0], "env")) 
-		ft_env(ms->env_list);
+		ft_env(ms->env_list, cmd);
 	else if (!ft_strcmp(cmd->cmd[0], "export"))
 		ft_export(cmd, ms->env_list); // 头部=1 next 2 next 3
 	else if (!ft_strcmp(cmd->cmd[0], "unset"))

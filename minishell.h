@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 19:27:40 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/03 16:15:51 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_ms
 	t_list	*cmd_list_ite;
 	t_list	*env_list;
 	t_history history;
+	int    cmd_ret;
 }	t_ms;
 
 /*
@@ -132,13 +133,13 @@ t_list	*get_cmds(char *s, t_list *env_list);
 **  BUILTINS
 */
 int		is_builtin(char *s);
-void    ft_echo(t_cmd *cmd);
+int    ft_echo(t_cmd *cmd);
 int     ft_cd(t_cmd *cmd);
-void    ft_pwd(t_cmd *cmd);
-void    ft_exit(t_cmd *cmd);
-void    ft_env(t_list *env_list);
-void    ft_export(t_cmd *cmd, t_list *env_list);
-void    ft_unset(t_cmd *cmd, t_list **env_list);
+int    ft_pwd(void);
+int    ft_exit(t_cmd *cmd);
+int    ft_env(t_list *env_list, t_cmd *cmd);
+int    ft_export(t_cmd *cmd, t_list *env_list);
+int    ft_unset(t_cmd *cmd, t_list **env_list);
 
 /*
 **  UTILS

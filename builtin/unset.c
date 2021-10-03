@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/28 14:18:27 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/03 15:19:13 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,13 @@ static t_list *del_env(char *cmd, t_list *env_list)  //delete env
 }
 
 
-void  ft_unset(t_cmd *cmd, t_list **env_list)
+int  ft_unset(t_cmd *cmd, t_list **env_list)
 {
     int i;
     
     i = 1;
+    if (!cmd || !cmd->cmd[1])
+        return (ERROR);
     while (cmd && cmd->cmd[i]) 
     {
         if (!(check_is_cmd(cmd->cmd[i])))
@@ -103,4 +105,5 @@ void  ft_unset(t_cmd *cmd, t_list **env_list)
             *env_list = del_env(cmd->cmd[i], *env_list);
         i++;
     }
+    return (SUCCESS);
 }

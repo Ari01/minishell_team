@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/19 15:22:22 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/03 15:02:17 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int ft_cd(t_cmd *cmd)
 {
     if (cmd && cmd->cmd[1] == NULL)
         return 0;
-    else if (cmd && cmd->cmd[2] != NULL)
-        printerror("cd: string not in pwd: ", cmd->cmd[1], NULL);
+    // else if (cmd && cmd->cmd[2] != NULL)
+    //     printerror("cd: string not in pwd: ", cmd->cmd[1], NULL);
     else if (cmd && cmd->cmd[1] != NULL && !(check_file(cmd)))
-        printerror("cd: no such file or directory: ", cmd->cmd[1], NULL);
+        printerror("prompt: cd: no such file or directory: ", cmd->cmd[1], NULL);
     else if (cmd && cmd->cmd[1] && check_file(cmd))
     {
         if (!chdir(cmd->cmd[1]))

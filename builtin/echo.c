@@ -6,19 +6,24 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:01 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/10 17:51:24 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/03 14:03:22 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_echo(t_cmd *cmd)
+int ft_echo(t_cmd *cmd)
 {
     int i;
     int n;
 
     n = 0;
     i = 1;
+    if (!cmd || !cmd->cmd[i])
+    {
+         ft_putstr_fd("\n", STDOUT_FILENO);
+         return(ERROR);
+    }
     while (cmd && cmd->cmd[i] && (ft_strcmp(cmd->cmd[i], "-n") == 0))
     {
         i++;
@@ -33,4 +38,5 @@ void ft_echo(t_cmd *cmd)
             ft_putstr_fd("\n", STDOUT_FILENO);
         i++;
     }
+    return (SUCCESS);
 }
