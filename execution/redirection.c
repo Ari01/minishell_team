@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 19:42:56 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/04 18:57:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	write(STDOUT_FILENO, "heredoc>", 8);
-	rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
-	while (ft_strncmp(buff, delimiter, rd - 1) && rd != -1)
+	write(STDOUT_FILENO, "> ", 2);
+	rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
+	while (ft_strncmp(buff, delimiter, rd - 1) && rd >= 0)
 	{
-		write(STDOUT_FILENO, "heredoc>", 8);
+		write(STDOUT_FILENO, "> ", 2);
 		write(fd, buff, rd);
-		rd = read(STDIN_FILENO, buff, BUFFER_SIZE - 1);
+		rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
 	}
 	close(fd);
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT, 0666);

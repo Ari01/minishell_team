@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 17:27:54 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/04 20:32:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	get_redir(t_list **cmd_list, t_list **ite, t_cmd *current_cmd)
 	t_cmd	new_cmd;
 
 	new_cmd = new_io_cmd();
-	while (!current_cmd->cmd[0])
+	while (is_redir(current_cmd->flag) && !current_cmd->cmd[0])
 	{
 		new_cmd = update_io(*ite, current_cmd, new_cmd);
 		*ite = remove_current_ite(cmd_list, *ite);
@@ -59,7 +59,6 @@ void	get_redir(t_list **cmd_list, t_list **ite, t_cmd *current_cmd)
 	next_cmd = current_cmd;
 	while (*ite && is_redir(next_cmd->flag))
 	{
-		next_cmd = (t_cmd *)(*ite)->content;
 		new_cmd = update_io(*ite, next_cmd, new_cmd);
 		if (!next_cmd->cmd[0])
 			*ite = remove_current_ite(cmd_list, *ite);
@@ -87,7 +86,7 @@ t_list	*get_stream(t_list *cmd_list)
 		current_cmd = (t_cmd *)ite->content;
 		if (is_redir(current_cmd->flag))
 			get_redir(&cmd_list, &ite, current_cmd);
-		else if (!current_cmd->cmd[0])
+		else if (!current_cmd->cmd[0] && current_cmd->flag)
 			ite = remove_current_ite(&cmd_list, ite);
 		else
 			ite = ite->next;
