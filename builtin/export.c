@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/03 15:21:38 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/04 17:10:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,6 @@ static int check_change(char *s)
     return (NULL);
 }
 
-// void	print_env_list(t_list *env_list)
-// {
-// 	char	*s;
-
-// 	while (env_list)
-// 	{
-// 		s = (char *)env_list->content;
-// 		printf("%s\n", s);
-// 		env_list = env_list->next;
-// 	}
-// }
 
 static void add_chang_export(char *cmd, t_list *env_list)  //add or change one envin env_list
 {
@@ -112,6 +101,7 @@ static void print_export(char *str)
         {
             ft_putchar_fd('=', STDOUT_FILENO);
             ft_putchar_fd('\"', STDOUT_FILENO);
+            
         }
         else
             ft_putchar_fd(str[i], STDOUT_FILENO);
@@ -133,7 +123,7 @@ int ft_export(t_cmd *cmd, t_list *env_list)
     while (cmd && cmd->cmd[j]) 
     {
         if (!(check_is_name(cmd->cmd[j])))
-           printerror("minishell: export: `", cmd->cmd[j],  "\': not a valid identifier");
+           print_msg("minishell: export: `", cmd->cmd[j],  "\': not a valid identifier\n", STDERR_FILENO);
         j++;
     }
     i = 1;

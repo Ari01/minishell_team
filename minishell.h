@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/03 16:15:51 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/04 16:44:49 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int    ft_unset(t_cmd *cmd, t_list **env_list);
 */
 t_list  *get_env(char **env, t_list *env_list);
 void    ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
-void    printerror(char *msg1, char *msg2, char *msg3);
+void print_msg(char *msg1, char *msg2, char *msg3, int fd);
 /*
 **  HISTORY
 */

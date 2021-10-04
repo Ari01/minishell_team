@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:11:12 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/03 15:04:28 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/04 17:10:19 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,17 @@ int ft_exit(t_cmd *cmd)
         return (ERROR);
     else if (cmd && cmd->cmd[1] && cmd->cmd[2] && ft_strisdigit(cmd->cmd[1]))   //第一位都是数字。第二位存在不退出
     {
-        ft_putstr_fd("exit\n", STDIN_FILENO);
-        printerror("prompt: exit: too many arguments", NULL, NULL);
+        print_msg("exit\n", "prompt: exit: too many arguments\n", NULL, STDERR_FILENO);
         return (ERROR);
     }
     else if (cmd && cmd->cmd[1] && !(ft_strisdigit(cmd->cmd[1])))  //第一位有不是数字的 退出
     {
-        ft_putstr_fd("exit\n", STDIN_FILENO);
-        printerror("prompt: exit: ", cmd->cmd[1], ": numeric argument required");
+        print_msg("exit\nprompt: exit: ", cmd->cmd[1], ": numeric argument required\n", STDERR_FILENO);
         exit(0);
     }
     else
     {
-        ft_putstr_fd("exit\n", STDIN_FILENO);
+        ft_putstr_fd("exit\n", STDERR_FILENO);
         exit(0);
     }
-    return (SUCCESS);
 }

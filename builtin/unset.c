@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/03 15:19:13 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/04 16:56:04 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int  ft_unset(t_cmd *cmd, t_list **env_list)
     while (cmd && cmd->cmd[i]) 
     {
         if (!(check_is_cmd(cmd->cmd[i])))
-            printerror("minishell: unset: `", cmd->cmd[i],  "\': not a valid identifier");
+            print_msg("minishell: unset: `", cmd->cmd[i],  "\': not a valid identifier\n", STDERR_FILENO);
         else
             *env_list = del_env(cmd->cmd[i], *env_list);
         i++;

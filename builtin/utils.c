@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/01 15:27:42 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/04 16:56:36 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,14 @@ void ft_list_sort(t_list **begin_list, int (*ft_strcmp)()) // Ver.1 : change con
 }
 
 
-void printerror(char *msg1, char *msg2, char *msg3) 
-//void  printerror(void) 
+void print_msg(char *msg1, char *msg2, char *msg3, int fd) 
 {
-    //ft_putstr_fd(strerror(errno), STDERR_FILENO);
+   
     if(msg1)
-        ft_putstr_fd(msg1, STDERR_FILENO);
+        ft_putstr_fd(msg1, fd);
     if(msg2)
-        ft_putstr_fd(msg2, STDERR_FILENO);
+        ft_putstr_fd(msg2, fd);
     if (msg3)
-        ft_putstr_fd(msg3, STDERR_FILENO);
-    ft_putstr_fd("\n", STDERR_FILENO);
+        ft_putstr_fd(msg3, fd);
 }
 
