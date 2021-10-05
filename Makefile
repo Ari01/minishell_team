@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/05 15:06:52 by xuwang           ###   ########.fr        #
+#    Updated: 2021/10/05 15:35:26 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,15 +17,20 @@ LIBFT 			= libft/libft.a
 INC				= -I.
 
 SRCS			= main.c \
-				  pipe.c \
-				  error.c \
-				  cmd.c \
-				  redirection.c \
-				  utils.c \
-				  exec.c \
-				  var.c \
-				  signal.c \
-				  print.c \
+				  lexer_parser/lexer.c \
+				  lexer_parser/grammar.c \
+				  lexer_parser/parsing.c \
+				  lexer_parser/get_stream.c \
+				  lexer_parser/get_stream_utils.c \
+				  execution/pipe.c \
+				  execution/cmd.c \
+				  execution/redirection.c \
+				  execution/exec.c \
+				  execution/stream.c \
+				  execution/var.c \
+				  utils/error.c \
+				  utils/utils.c \
+				  utils/print.c \
 				  builtin/builtin.c \
 				  builtin/echo.c \
 				  builtin/cd.c \
@@ -56,6 +61,9 @@ all :			$(NAME)
 $(NAME) :		$(OBJS) $(LIBFT)
 				$(CC) $(CFLAGS) $(INC) $(OBJS) -o $@ $(LFLAGS)
 
+debug :			$(OBJS) $(LIBFT)
+				$(CC) $(CFLAGS) -g3 -fsanitize=address $(INC) $(OBJS) -o $@ $(LFLAGS)
+
 $(LIBFT) :		
 				$(MAKE) bonus -C libft
 
@@ -70,6 +78,7 @@ fclean :		clean
 				$(MAKE) fclean -C libft
 				$(RM) $(NAME)
 				$(RM) .*.swp
+				$(RM) */.*.swp
 
 re :			clean fclean all
 

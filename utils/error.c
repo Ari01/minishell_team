@@ -1,53 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/10 18:36:52 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/15 18:44:05 by dchheang         ###   ########.fr       */
+/*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
+/*   Updated: 2021/09/30 17:51:19 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_array(char **array)
+void	free_cmd(void *content)
 {
-	int	i;
+	t_cmd	*cmd;
+	int		i;
 
 	i = 0;
-	while (array[i])
+	cmd = (t_cmd *)content;
+	while (cmd->cmd[i])
 	{
-		free(array[i]);
+		free(cmd->cmd[i]);
 		i++;
 	}
-	free(array);
+	free(cmd->cmd);
+	free(cmd);
 }
 
-void	remove_elem_from_array(char **array)
+void	free_memory(t_ms *ms)
 {
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		array[i] = array[i + 1];
-		i++;
-	}
+	free(ms->rdl);
+	ms->rdl = NULL;
+	ft_lstclear(&ms->cmd_list_head, &free_cmd);
 }
 
-void	remove_from_list(t_list **head, t_list *elem)
+void	print_error_msg(char *s, int error_id, t_ms *ms)
 {
-	t_list	*ite;
-	t_list	*tmp;
-
-	ite = *head;
-	while (ite && ite->next != elem)
-		ite = ite->next;
-	if (!ite)
-		return ;
-	tmp = ite->next->next;
-	ft_lstdelone(ite->next, &free_cmd);
-	ite->next = tmp;
+	printf("%s\n", s);
+	printf("error id = %d\n", error_id);
+	free_memory(ms);
+	exit(error_id);
 }

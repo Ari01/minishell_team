@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/21 17:55:53 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/28 19:27:03 by xuwang           ###   ########.fr       */
+/*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
+/*   Updated: 2021/10/05 15:37:03 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		get_flag(char *s)
 		return (0);
 	if (*s == '<' && (*(s + 1) == '<'))
 		return (DLR);
-	if (*s == '>' && (*(s + 1) == '<'))
+	if (*s == '>' && (*(s + 1) == '>'))
 		return (DRR);
 	return (*s);
 }
@@ -47,13 +47,23 @@ t_cmd	*init_cmd(void)
 	t_cmd *cmd = NULL;
 
 	cmd = malloc(sizeof(t_cmd));
-	if (cmd){
-		cmd->cmd = NULL;
-		cmd->flag = 0;
-	}
+	cmd->in_stream.file = NULL;
+	cmd->in_stream.flag = 0;
+	cmd->out_streams = NULL;
+	cmd->out_streams_head = NULL;
 	return (cmd);
 }
-t_list	*get_cmds(char *s, t_list *env_list)
+
+/*
+** Entree : la chaine de caractere entree dans le prompt et captee par readline
+** Sortie : une liste de t_cmd
+** On parcourt la chaine de caractere jusqu'a tomber sur un caractere pipe ou redirection '|', '<' ou '>'
+** On recupere la sous-chaine correspondante, que l'on split a l'aide du separateur ' '
+** Les chaines splitees representent les commandes et les arguments, que l'on stocke alors dans t_cmd ctmp->cmd
+** Ensuite, on regarde si la sous-chaine se termine par une pipe ou une redirection ou non
+** On stocke dans ctmp->flag le flag correspondant (0 s'il n'y a ni pipe ni redirection)
+*/
+t_list	*get_cmds(char *s)
 {
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
@@ -63,7 +73,6 @@ t_list	*get_cmds(char *s, t_list *env_list)
 
 	i = 0;
 	cmd_list = NULL;
-	ctmp = NULL;
 	while (s[i])
 	{
 		start = i;
@@ -71,6 +80,11 @@ t_list	*get_cmds(char *s, t_list *env_list)
 		tmp = ft_substr(s, start, i - start); //截断一个pipe 获取里面的cmd 放进数组里
 		ctmp = init_cmd();
 		ctmp->cmd = lst_to_tab(tmp, env_list);
+		while (s[i] && !is_flag(s[i]))
+			i++;
+		tmp = ft_substr(s, start, i - start);
+		ctmp = init_cmd();
+		ctmp->cmd = ft_split(tmp, " ");
 		ctmp->flag = get_flag(&s[i]);
 		free(tmp);
 		tmp = NULL;
@@ -78,7 +92,10 @@ t_list	*get_cmds(char *s, t_list *env_list)
 			i++;
 		
 		ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
-		i++;
+		if (ctmp->flag == DLR || ctmp->flag == DRR)
+			i++;
+		if (s[i])
+			i++;
 	}
 	return (cmd_list);
 }

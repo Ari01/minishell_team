@@ -6,57 +6,82 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/01 14:29:33 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 15:42:52 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_ms	init_shell(char **env)
+{
+	t_ms	ms;
+
+	ms.fd_in = dup(STDIN_FILENO);
+	ms.fd_out = dup(STDOUT_FILENO);
+	ms.env_list = NULL;
+	ms.env_list = get_env(env, ms.env_list);
+	ms.history = init_history(ms.history);
+	ms.cmd_list_head = NULL;
+	ms.cmd_list_ite = NULL;
+	return (ms);
+}
+
 void	run_context(t_ms *ms)
 {
-	t_cmd	current_cmd;
-	current_cmd = *(t_cmd *)ms->cmd_list_ite->content;
-	if (current_cmd.flag == SLR || current_cmd.flag == DLR
-		|| current_cmd.flag == SRR || current_cmd.flag == DRR)
+	t_cmd	*current_cmd;
+
+	while (ms->cmd_list_ite)
 	{
-		redirect(ms, &current_cmd);
-		if (!current_cmd.cmd[0])
+		current_cmd = (t_cmd *)ms->cmd_list_ite->content;
+		if (current_cmd->in_stream.flag || current_cmd->out_streams)
+			redirect(ms, current_cmd);
+		if (current_cmd->flag == '|')
 		{
+			run_pipe(ms);
 			ms->cmd_list_ite = ms->cmd_list_ite->next;
-			current_cmd = *(t_cmd*)ms->cmd_list_ite->content;
-			printf("cc = %s\n", current_cmd.cmd[0]);
 		}
+		else if (current_cmd->cmd[0])
+			run_cmd(ms, current_cmd);
+		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
-	if (current_cmd.flag == '|')
-		run_pipe(ms);
-	else
-		run_cmd(ms, &current_cmd);
 }
 
 void	run_shell(char **env)
 {
 	t_ms	ms;
+	t_list	*token_list;
+	char	*check;
 
-	ms.env_list = NULL;
-	ms.env_list = get_env(env, ms.env_list);
-	ms.history = init_history(ms.history);
+	ms = init_shell(env);
     while (1)
     {
-        ms.rdl = readline("prompt> ");  //取得一行数据
+		ms.rdl = readline("prompt> ");  //取得一行数据line("prompt> ");
 		if (!ms.rdl) {
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(0);
 		}
-		ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list); 
-		ft_add_history(ms.rdl, ms.history);
-		ms.cmd_list_ite = ms.cmd_list_head;
-		ms.fd_in = dup(STDIN_FILENO);
-		ms.fd_out = dup(STDOUT_FILENO);
-		if (!ms.cmd_list_ite)
-			print_error_msg("command not recognized\n", SYNTAX_ERR, &ms);
-		run_context(&ms);
-		reset_fdin_fdout(&ms);
-		//free_memory(&ms);
+		token_list = NULL;
+		token_list = get_tokens(ms.rdl);
+		check = check_grammar(token_list);
+		ft_lstclear(&token_list, &free_token);
+		if (check)
+		{
+			printf("parse error near %s\n", check);
+			free(ms.rdl);
+			ms.rdl = NULL;
+		}
+		else
+		{
+			ms.cmd_list_head = get_cmds(ms.rdl);
+			ms.cmd_list_head = get_stream(ms.cmd_list_head);
+			ms.cmd_list_ite = ms.cmd_list_head;
+			//print_cmds(ms.cmd_list_ite);
+			ft_add_history(ms.rdl, ms.history);
+			if (ms.cmd_list_ite)
+				run_context(&ms);
+			//free_memory(&ms);
+			reset_fdin_fdout(&ms);
+		}
     }
 }
 

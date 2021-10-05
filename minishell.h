@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/04 16:44:49 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 15:45:55 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,25 @@ typedef struct s_quot
 
 } t_quot;
 /*
+**	TOKENS
+*/
+# define CMD_TOK 0
+# define PIPE_TOK 1
+# define REDIR_TOK 2
+
+/*
 **	COMMANDS
 */
 # define BUILTINS "cd echo env exit export pwd unset"
 /*
 ** STRUCT
 */
+typedef struct s_token
+{
+	char	*value;
+	int		id;
+}	t_token;
+
 typedef struct s_history
 {
     int fd;
@@ -103,9 +116,18 @@ typedef struct s_ms
 /*
 **	PARSING
 */
+typedef struct s_io
+{
+	int		flag;
+	char	*file;
+}	t_io;
+
 typedef struct s_cmd
 {
     char    **cmd;
+	t_io	in_stream;
+	t_list	*out_streams;
+	t_list	*out_streams_head;
     int     flag;
 }   t_cmd;
 
@@ -118,16 +140,35 @@ typedef struct s_cmdinfo   //一个引号内的节点
 /*
 **	ERRORS
 */
-
 void	free_cmd(void *content);
 void	free_memory(t_ms *ms);
 void	print_error_msg(char *s, int error_id, t_ms *ms);
 
 /*
-**	PARSING
+**	LEXER
+*/
+void	free_token(void *content);
+t_list	*get_tokens(char *s);
+
+/*
+**	GRAMMAR
+*/
+char	*check_grammar(t_list *token_list);
+
+/*
+**	PARSER
 */
 int		check_rdl(t_ms *ms);
 t_list	*get_cmds(char *s, t_list *env_list);
+t_list	*get_stream(t_list *cmd_list);
+
+/*
+**	PARSER_UTILS
+*/
+int		is_redir(int flag);
+t_list	*remove_current_ite(t_list **cmd_list, t_list *ite);
+void	reset_array(char **array);
+t_cmd	new_io_cmd();
 
 /*
 **  BUILTINS
@@ -142,7 +183,7 @@ int    ft_export(t_cmd *cmd, t_list *env_list);
 int    ft_unset(t_cmd *cmd, t_list **env_list);
 
 /*
-**  UTILS
+**  BUILTIN UTILS
 */
 t_list  *get_env(char **env, t_list *env_list);
 void    ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
@@ -176,6 +217,7 @@ void	print_cmds(t_list *cmd_list);
 void	free_array(char **array);
 void	remove_elem_from_array(char **array);
 void	remove_from_list(t_list **head, t_list *elem);
+char	**array_join(char **a1, char **a2);
 
 /*
 **	EXEC
