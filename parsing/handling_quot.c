@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/01 17:18:03 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 15:16:40 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 //check dollar function
 // - if true -> return true else false
+static void _cmdinfo_(t_cmdinfo **cmdinfo, char *cmd, int i, int len)
+{
+        
+            *cmdinfo = creat_cmdinfo();
+            (*cmdinfo)->cmd = ft_substr(cmd, i, len);
+}
 
 t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
 {
@@ -32,8 +38,9 @@ t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
             len = 0;
             while (cmd[i + len] && cmd[i + len] != '\'' &&  cmd[i + len] != '"' && cmd[i + len] != ' ')
                 ++len;   //i不变
-            cmdinfo = creat_cmdinfo();
-            cmdinfo->cmd = ft_substr(cmd, i, len);  //取得一小节字符 没有符号
+            _cmdinfo_(&cmdinfo, cmd, i, len);
+            // cmdinfo = creat_cmdinfo();
+            // cmdinfo->cmd = ft_substr(cmd, i, len);  //取得一小节字符 没有符号
             if (check_dollar(cmdinfo->cmd))
             {
                 new_cmd = hanlding_dollar(cmdinfo->cmd, env_list);
@@ -68,8 +75,8 @@ t_list *sepa_cmd(char *cmd, t_list *env_list) //返回一个cmd链表的节点
                 len = 0;
                 while (cmd[i + len] && cmd[i + len] != '\'')
                     ++len;
-                cmdinfo = creat_cmdinfo();
-                cmdinfo->cmd = ft_substr(cmd, i, len);
+                // cmdinfo = creat_cmdinfo();
+                // cmdinfo->cmd = ft_substr(cmd, i, len);
                 i = i + len;
                 if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
                     cmdinfo->status = NO_TOUCH;
