@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 15:48:39 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 16:53:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_cmd	*init_cmd(void)
 	t_cmd *cmd = NULL;
 
 	cmd = malloc(sizeof(t_cmd));
-	cmd->in_stream.file = NULL;
-	cmd->in_stream.flag = 0;
+	cmd->in_streams = NULL;
+	cmd->in_stream_head = NULL;
 	cmd->out_streams = NULL;
 	cmd->out_streams_head = NULL;
 	return (cmd);
@@ -90,7 +90,6 @@ t_list	*get_cmds(char *s, t_list *env_list)
 		tmp = NULL;
 		if (ctmp->flag == DLR || ctmp->flag == DRR)
 			i++;
-		
 		ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
 		if (ctmp->flag == DLR || ctmp->flag == DRR)
 			i++;

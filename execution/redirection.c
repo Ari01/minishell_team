@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/04 18:57:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/05 17:06:01 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,15 @@ void	redirect(t_ms *ms, t_cmd *current_cmd)
 {
 	t_io	*io;
 
-	if (current_cmd->in_stream.flag == SLR)
-		redirect_in_out(ms, current_cmd->in_stream.file, STDIN_FILENO, O_RDWR);
-	else if (current_cmd->in_stream.flag == DLR)
-		read_from_current_input(ms, current_cmd->in_stream.file);
+	while (current_cmd->in_streams)
+	{
+		io = (t_io *)current_cmd->in_streams->content;
+		if (io->flag == SLR)
+			redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
+		else if (io->flag == DLR)
+			read_from_current_input(ms, io->file);
+		current_cmd->in_streams = current_cmd->in_streams->next;
+	}
 	while (current_cmd->out_streams)
 	{
 		io = (t_io *)current_cmd->out_streams->content;

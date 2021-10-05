@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 18:55:05 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 17:06:41 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/05 17:07:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ t_cmd	new_io_cmd()
 {
 	t_cmd	cmd;
 
-	cmd.in_stream.flag = 0;
-	cmd.in_stream.file = NULL;
+	cmd.in_streams = NULL;
 	cmd.out_streams = NULL;
 	return (cmd);
 }

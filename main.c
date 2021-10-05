@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 15:47:58 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 18:45:01 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	run_context(t_ms *ms)
 	while (ms->cmd_list_ite)
 	{
 		current_cmd = (t_cmd *)ms->cmd_list_ite->content;
-		if (current_cmd->in_stream.flag || current_cmd->out_streams)
+		if (current_cmd->in_streams || current_cmd->out_streams)
 			redirect(ms, current_cmd);
 		if (current_cmd->flag == '|')
 		{

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 15:45:55 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 16:53:04 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ typedef struct s_io
 typedef struct s_cmd
 {
     char    **cmd;
-	t_io	in_stream;
+	t_list	*in_streams;
+	t_list	*in_stream_head;
 	t_list	*out_streams;
 	t_list	*out_streams_head;
     int     flag;

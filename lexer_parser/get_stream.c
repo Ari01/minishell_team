@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/04 20:32:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/05 17:01:15 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,24 @@
 t_cmd	update_io(t_list *ite, t_cmd *current_cmd, t_cmd new_cmd)
 {
 	t_cmd	*next_cmd;
-	t_io	*out_stream;
+	t_io	*io;
 
 	next_cmd = (t_cmd *)ite->next->content;
+	io = malloc(sizeof(*io));
+	io->flag = current_cmd->flag;
+	io->file = ft_strdup(next_cmd->cmd[0]);
 	if (current_cmd->flag == SLR || current_cmd->flag == DLR)
-	{
-		free(new_cmd.in_stream.file);
-		new_cmd.in_stream.file = ft_strdup(next_cmd->cmd[0]);
-		new_cmd.in_stream.flag = current_cmd->flag;
-	}
+		ft_lstadd_back(&new_cmd.in_streams, ft_lstnew(io));
 	else
-	{
-		out_stream = malloc(sizeof(*out_stream));
-		out_stream->flag = current_cmd->flag;
-		out_stream->file = ft_strdup(next_cmd->cmd[0]);
-		ft_lstadd_back(&new_cmd.out_streams, ft_lstnew(out_stream));
-	}
+		ft_lstadd_back(&new_cmd.out_streams, ft_lstnew(io));
 	remove_elem_from_array(next_cmd->cmd);
 	return (new_cmd);
 }
 
 t_cmd	*save_redir(t_cmd *current_cmd, t_cmd new_cmd)
 {
-	current_cmd->in_stream.flag = new_cmd.in_stream.flag;
-	current_cmd->in_stream.file = new_cmd.in_stream.file;
+	current_cmd->in_streams = new_cmd.in_streams;
+	current_cmd->in_stream_head = current_cmd->in_streams;;
 	current_cmd->out_streams = new_cmd.out_streams;
 	current_cmd->out_streams_head = current_cmd->out_streams;
 	return (current_cmd);
