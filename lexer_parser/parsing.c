@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 15:37:03 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 15:48:39 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_cmd	*init_cmd(void)
 ** Ensuite, on regarde si la sous-chaine se termine par une pipe ou une redirection ou non
 ** On stocke dans ctmp->flag le flag correspondant (0 s'il n'y a ni pipe ni redirection)
 */
-t_list	*get_cmds(char *s)
+t_list	*get_cmds(char *s, t_list *env_list)
 {
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
