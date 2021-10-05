@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 15:47:58 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/05 18:21:21 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_ms	init_shell(char **env)
 	ms.history = init_history(ms.history);
 	ms.cmd_list_head = NULL;
 	ms.cmd_list_ite = NULL;
+	ms.cmd_ret = -1;
 	return (ms);
 }
 
@@ -72,7 +73,7 @@ void	run_shell(char **env)
 		}
 		else
 		{
-			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list);
+			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
 			//print_cmds(ms.cmd_list_ite);

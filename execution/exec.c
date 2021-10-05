@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/04 17:20:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/05 17:19:27 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 	{
 		dir = opendir(split[i]);
 		if (dir == NULL)
-			print_error_msg(strerror(errno), EXEC_ERR, ms);
+		{
+			
+			print_error_msg(strerror(errno), errno, ms);
+		}
 		if (ft_chdir(dir, cmd))
 		{
 			tmp = ft_strjoin("/", cmd);
@@ -62,11 +65,19 @@ void	ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 
 	pid = fork();
 	if (pid == -1)
-		print_error_msg(strerror(errno), EXEC_ERR, ms);
+	{
+		print_error_msg(strerror(errno), errno, ms);
+		
+	}
 	if (!pid)
 	{
+		printf("we are here\n");
 		if (execve(path, argv, envp) == -1)
-			print_error_msg(strerror(errno), EXEC_ERR, ms);
+		{
+			
+			print_error_msg(strerror(errno), errno, ms);
+			
+		}
 	}
 	else
 		waitpid(pid, NULL, 0);
@@ -86,6 +97,8 @@ void	run_exec(t_ms *ms, t_cmd *cmd)
 		if (path)
 			ft_execve(ms, path, cmd->cmd, NULL);
 		else
-			ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
+		{
+			print_error_msg(strerror(errno), errno, ms);
+		}
 	}
 }

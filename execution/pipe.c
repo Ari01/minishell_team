@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/04 19:41:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/05 17:20:05 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,18 @@ void	exec_child(t_ms *ms, int pipe_fd)
 	ms->cmd_list_ite = ms->cmd_list_ite->next;
 	cmd = *(t_cmd*)ms->cmd_list_ite->content;
 	if (dup2(pipe_fd, STDIN_FILENO) == -1)
-		print_error_msg(strerror(errno), PIPE_ERR, ms);
+	{
+		print_error_msg(strerror(errno), errno, ms);
+	}
 	if (cmd.in_stream.flag || cmd.out_streams)
 		redirect(ms, &cmd);
 	if (!cmd.out_streams_head)
 	{
 		if (dup2(ms->fd_out, STDOUT_FILENO) == -1)
+		{
+		
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
+		}
 	}
 	if (cmd.flag == '|')
 		run_pipe(ms);
@@ -41,7 +46,10 @@ void	exec_parent(t_ms *ms, int pipe_fd)
 	if (!cmd.out_streams_head)
 	{
 		if (dup2(pipe_fd, STDOUT_FILENO) == -1)
-			print_error_msg(strerror(errno), PIPE_ERR, ms);
+		{
+			
+			print_error_msg(strerror(errno), errno, ms);
+		}
 	}
 	run_cmd(ms, &cmd);
 	reset_fdin_fdout(ms);
@@ -53,9 +61,15 @@ void	run_pipe(t_ms *ms)
 	int		pipe_fd[2];
 
 	if (ms->cmd_list_ite->next == NULL)
+	{
+		
 		print_error_msg("syntax error : expected cmd after '|'", SYNTAX_ERR, ms);
+	}
 	if (pipe(pipe_fd) == -1)
+	{
+		
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
+	}
 	pid = fork();
 	if (!pid)
 	{
