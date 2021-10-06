@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 16:53:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/06 18:02:31 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char	*check_grammar(t_list *token_list);
 **	PARSER
 */
 int		check_rdl(t_ms *ms);
-t_list	*get_cmds(char *s, t_list *env_list);
+t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms);
 t_list	*get_stream(t_list *cmd_list);
 
 /*
@@ -243,11 +243,11 @@ char		*ft_join(char const *s1, char const *s2);
 t_cmdinfo	*creat_cmdinfo(void);
 t_quot		quote_init(void);
 int 		check_flag(char *cmd, int i);
-t_list 		*sepa_cmd(char *cmd, t_list *env_list);
-char 		**lst_to_tab(char *cmd, t_list *env_list);
+t_list 		*sepa_cmd(char *cmd, t_list *env_list, t_ms *ms);
+char 		**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms);
 t_cmd		*init_cmd(void);
 int			is_flag(char c);
-char  		*hanlding_dollar(char *cmd, t_list *env_list);
+char  		*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms);
 int 		check_dollar(char *cmd);
 
 #endif
