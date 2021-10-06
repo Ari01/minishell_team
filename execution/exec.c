@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 18:07:47 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/06 19:53:35 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 
 void	ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 {
-	int	pid;
+	int		pid;
+	char	*error_msg;
+	char	*freeptr;
 
 	pid = fork();
 	if (pid == -1)
@@ -69,7 +71,19 @@ void	ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 	if (!pid)
 	{
 		if (execve(path, argv, envp) == -1)
-			print_error_msg(strerror(errno), errno, ms);
+		{
+			if (errno == 2)
+			{
+				error_msg = "minishel: ";
+				error_msg = ft_strjoin(error_msg, path);
+				freeptr = error_msg;
+				error_msg = ft_strjoin(error_msg, ": command not found");
+				print_error_msg(error_msg, 5, ms);
+			}
+			else
+				print_error_msg(strerror(errno), errno, ms);
+			exit(EXIT_SUCCESS);
+		}
 	}
 	else
 		waitpid(pid, NULL, 0);
@@ -89,6 +103,6 @@ void	run_exec(t_ms *ms, t_cmd *cmd)
 		if (path)
 			ft_execve(ms, path, cmd->cmd, NULL);
 		else
-			print_error_msg(strerror(errno), errno, ms);
+			ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
 	}
 }

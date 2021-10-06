@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 17:51:19 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:53:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	free_memory(t_ms *ms)
 void	print_error_msg(char *s, int error_id, t_ms *ms)
 {
 	printf("%s\n", s);
-	printf("error id = %d\n", error_id);
 	free_memory(ms);
 	exit(error_id);
 }
