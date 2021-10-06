@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 18:45:01 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/06 17:20:10 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	run_context(t_ms *ms)
 		if (current_cmd->in_streams || current_cmd->out_streams)
 			redirect(ms, current_cmd);
 		if (current_cmd->flag == '|')
-		{
 			run_pipe(ms);
-			ms->cmd_list_ite = ms->cmd_list_ite->next;
-		}
 		else if (current_cmd->cmd[0])
 			run_cmd(ms, current_cmd);
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
