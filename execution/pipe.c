@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 17:31:31 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:25:56 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void	run_pipe(t_ms *ms)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
+		close(pipe_fd[0]);
 	}
 }
