@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 19:01:35 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/06 16:03:11 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 **	READ WRITE
 */
 # define BUFFER_SIZE 100000
-# define __WEXITSTATUS(status) (((status) & 0xff00) >> 8)
+
 /*
 **	PIPE AND REDIRECTION
 */
