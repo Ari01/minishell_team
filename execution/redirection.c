@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 17:06:01 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/06 18:04:03 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,15 @@ void	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 	else
 		fd = open(stream, flags);
 	if (fd == -1)
+	{
+		
 		print_error_msg(strerror(errno), FILE_ERR, ms);
+	}
 	if (dup2(fd, newfd) == -1)
+	{
+		
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
+	}
 	close(fd);
 }
 
@@ -41,7 +47,9 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
+	{
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	}
 	write(STDOUT_FILENO, "> ", 2);
 	rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
 	while (ft_strncmp(buff, delimiter, rd - 1) && rd >= 0)
@@ -53,7 +61,9 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	close(fd);
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT, 0666);
 	if (rd == -1 || fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+	{
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	}
 	close(fd);
 }
 

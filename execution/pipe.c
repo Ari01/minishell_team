@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 17:31:31 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/06 18:06:51 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	exec_child(t_ms *ms, int pipe_fd)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
 		close(pipe_fd);
 	}
-	run_cmd(ms, &cmd);
 }
 
 void	run_pipe(t_ms *ms)
