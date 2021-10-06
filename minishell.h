@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 18:02:31 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/06 20:10:10 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,5 +249,10 @@ t_cmd		*init_cmd(void);
 int			is_flag(char c);
 char  		*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms);
 int 		check_dollar(char *cmd);
-
+char	*ft_strlowcase(char *str);
+int			_wstatus(int status);
+int			_wifexited(int status);
+int			_wexitstatus(int status);
+int			_wifsignaled(int status);
+int			_wtermsig(int status);
 #endif
