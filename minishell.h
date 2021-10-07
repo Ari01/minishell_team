@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 20:10:10 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/07 18:24:48 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # define FILE_ERR		3
 # define READ_WRITE_ERR 4
 # define EXEC_ERR		5
-
 /*
 **	READ WRITE
 */

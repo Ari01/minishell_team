@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:33:30 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/06 19:46:32 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/07 18:25:58 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	_wstatus(int status)
 int	_wifexited(int status)
 {
 	return (_wstatus(status) == 0);
-}
 
+}
+WEXITED
 #if __DARWIN_UNIX03
 int	_wexitstatus(int status)
 {
@@ -46,4 +47,5 @@ int	_wexitstatus(int status)
 {
 	return (status >> 8);
 }
+WEXITSTATUS
 #endif
