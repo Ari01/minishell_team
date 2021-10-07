@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/04 16:56:36 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/07 18:24:59 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,18 @@ void print_msg(char *msg1, char *msg2, char *msg3, int fd)
         ft_putstr_fd(msg3, fd);
 }
 
+char	*ft_strlowcase(char *str)
+{
+	size_t	i;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			str[i] += 32;
+		++i;
+	}
+	return (str);
+}

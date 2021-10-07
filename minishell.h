@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 16:49:54 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:32:19 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # define FILE_ERR		3
 # define READ_WRITE_ERR 4
 # define EXEC_ERR		5
-
 /*
 **	READ WRITE
 */
@@ -251,5 +250,10 @@ t_cmd		*init_cmd(void);
 int			is_flag(char c);
 char  		*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms);
 int 		check_dollar(char *cmd);
-
+char	*ft_strlowcase(char *str);
+int			_wstatus(int status);
+int			_wifexited(int status);
+int			_wexitstatus(int status);
+int			_wifsignaled(int status);
+int			_wtermsig(int status);
 #endif

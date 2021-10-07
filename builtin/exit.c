@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:11:12 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/06 19:14:00 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:39:38 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,39 @@ static int	ft_strisdigit(char *str)
 	return (1);
 }
 
+// static int check_first(char *str)
+// {
+//     if(str[0] == '-')
+//         return (1);
+//     return(0);
+// }
+static int check_nbr(char *str)
+{
+    int i = 1;
+    while (str[i])
+    {
+        if (str[i] == '-' || str[i] == '+')
+            return (0);
+       i++;
+    }
+    return (1);
+}
 int ft_exit(t_cmd *cmd)
 {
     if(!cmd)
         return (ERROR);
+   
     else if (cmd && cmd->cmd[1] && cmd->cmd[2] && ft_strisdigit(cmd->cmd[1]))   //第一位都是数字。第二位存在不退出
     {
         print_msg("exit\n", "prompt: exit: too many arguments\n", NULL, STDERR_FILENO);
         return (ERROR);
     }
-    else if (cmd && cmd->cmd[1] && !(ft_strisdigit(cmd->cmd[1])))  //第一位有不是数字的 退出
+    else if (cmd && cmd->cmd[1] && !(ft_strisdigit(cmd->cmd[1])) && !check_nbr(cmd->cmd[1]))  //第一位有不是数字的 退出
     {
         print_msg("exit\nprompt: exit: ", cmd->cmd[1], ": numeric argument required\n", STDERR_FILENO);
         exit(0);
     }
+    
     else
     {
         ft_putstr_fd("exit\n", STDERR_FILENO);

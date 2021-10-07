@@ -6,127 +6,152 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/05 17:11:51 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/07 17:46:32 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//check dollar function
-// - if true -> return true else false
-// static void _cmdinfo_(t_cmdinfo **cmdinfo, char *cmd, int i, int len)
-// {
-        
-//             *cmdinfo = creat_cmdinfo();
-//             (*cmdinfo)->cmd = ft_substr(cmd, i, len);
-// }
+typedef struct s_quotinfo
+{
+    int i;
+    int len;
+    char *new_cmd;
+    t_list *list1;
+    t_cmdinfo *cmdinfo; //一个节点里面的数据
+} t_quotinfo;
+
+t_quotinfo quotinfo_init()
+{
+    t_quotinfo i;
+
+    i.list1 = NULL;  // 一个链表的一个节点
+    i.i = 0;
+    i.len = 0;
+    i.cmdinfo = NULL; //一个节点里面的数据
+    i.new_cmd = NULL;
+    return i;
+}
+void check_status(char c, t_quotinfo *quotinfo)
+{
+    if (c == ' ' || c == '\0')
+        quotinfo->cmdinfo->status = NO_TOUCH;
+    else
+        quotinfo->cmdinfo->status = TO_MERGE;
+}
+
+void parser_dollar(t_quotinfo *quotinfo, t_list *env_list, t_ms *ms)
+{
+    if (check_dollar(quotinfo->cmdinfo->cmd))
+    {
+        quotinfo->new_cmd = hanlding_dollar(quotinfo->cmdinfo->cmd, env_list, ms);
+        quotinfo->cmdinfo->cmd  = quotinfo->new_cmd;
+    }
+}
+
+t_list    *part_nq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo) 
+{
+    quotinfo->len = 0;
+    while (cmd[quotinfo->i + quotinfo->len] && cmd[quotinfo->i + quotinfo->len] != '\'' &&  cmd[quotinfo->i + quotinfo->len] != '"' && cmd[quotinfo->i + quotinfo->len] != ' ')
+        ++quotinfo->len;   //i不变
+    quotinfo->cmdinfo = creat_cmdinfo();
+    quotinfo->cmdinfo->cmd = ft_substr(cmd, quotinfo->i, quotinfo->len);  //取得一小节字符 没有符号
+    parser_dollar(quotinfo, env_list, ms);
+    quotinfo->i = quotinfo->i + quotinfo->len;
+    check_status(cmd[quotinfo->i], quotinfo);
+    ft_lstadd_back(&quotinfo->list1, ft_lstnew((void*)quotinfo->cmdinfo));
+    if(cmd[quotinfo->i] == '\0')
+        return (quotinfo->list1);
+    return NULL;
+}
+
+t_list    *part_sq(char *cmd, t_quotinfo *quotinfo)
+{
+    if (cmd[quotinfo->i] == '\'')   //如果下位还是单引号
+    {
+        quotinfo->cmdinfo = creat_cmdinfo();
+        quotinfo->cmdinfo->cmd = ft_strdup("");  //malloc一个空字符
+        check_status(cmd[quotinfo->i + 1], quotinfo);
+        ft_lstadd_back(&quotinfo->list1, ft_lstnew((void*)quotinfo->cmdinfo));
+        if(cmd[quotinfo->i] == '\0')
+            return (quotinfo->list1);
+    }
+    else
+    {
+        quotinfo->len = 0;
+        while (cmd[quotinfo->i + quotinfo->len] && cmd[quotinfo->i + quotinfo->len] != '\'')
+            ++quotinfo->len;
+        quotinfo->cmdinfo = creat_cmdinfo();
+        quotinfo->cmdinfo->cmd = ft_substr(cmd, quotinfo->i, quotinfo->len);
+        quotinfo->i = quotinfo->i + quotinfo->len;
+        check_status(cmd[quotinfo->i + 1], quotinfo);
+        ft_lstadd_back(&quotinfo->list1, ft_lstnew((void*)quotinfo->cmdinfo));
+        if(cmd[quotinfo->i] == '\0')
+            return (quotinfo->list1);
+    }
+    return NULL;
+}
+t_list    *part_dq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo)
+{
+    if (cmd[quotinfo->i] == '"')   //如果下位还是单引号
+    {
+        quotinfo->cmdinfo = creat_cmdinfo();
+        quotinfo->cmdinfo->cmd = ft_strdup("");  //malloc一个空字符
+        check_status(cmd[quotinfo->i + 1], quotinfo);
+        ft_lstadd_back(&quotinfo->list1, ft_lstnew((void*)quotinfo->cmdinfo));
+        if(cmd[quotinfo->i] == '\0')
+            return (quotinfo->list1);
+    }
+    else
+    {                
+        quotinfo->len = 0;
+        while (cmd[quotinfo->i + quotinfo->len] && cmd[quotinfo->i + quotinfo->len] != '"')
+            ++quotinfo->len;
+        quotinfo->cmdinfo = creat_cmdinfo();
+        quotinfo->cmdinfo->cmd = ft_substr(cmd, quotinfo->i, quotinfo->len);
+        parser_dollar(quotinfo, env_list, ms);
+        quotinfo->i = quotinfo->i + quotinfo->len;
+        check_status(cmd[quotinfo->i + 1], quotinfo);
+        ft_lstadd_back(&quotinfo->list1, ft_lstnew((void*)quotinfo->cmdinfo));
+        if(cmd[quotinfo->i] == '\0')
+            return (quotinfo->list1);
+    }
+    return NULL;
+}
+
 
 t_list *sepa_cmd(char *cmd, t_list *env_list, t_ms *ms) //返回一个cmd链表的节点
 {
-    t_list *list1 = NULL;  // 一个链表的一个节点
-    int i = 0;
-    int len = 0;
-    t_cmdinfo *cmdinfo; //一个节点里面的数据
-    char *new_cmd = NULL;
+    t_quotinfo quotinfo = quotinfo_init();
+    t_list *ret = NULL;
 
-    while (cmd && cmd[i] && cmd[i] == ' ')
-        ++i;
-    while (cmd[i])
+    while (cmd && cmd[quotinfo.i] && cmd[quotinfo.i] == ' ')
+        ++quotinfo.i;
+    while (cmd[quotinfo.i])
     {
-        if (cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != ' ')
+        if (cmd[quotinfo.i] != '\'' && cmd[quotinfo.i] != '"' && cmd[quotinfo.i] != ' ')
         {
-            len = 0;
-            while (cmd[i + len] && cmd[i + len] != '\'' &&  cmd[i + len] != '"' && cmd[i + len] != ' ')
-                ++len;   //i不变
-            //_cmdinfo_(&cmdinfo, cmd, i, len);
-            cmdinfo = creat_cmdinfo();
-            cmdinfo->cmd = ft_substr(cmd, i, len);  //取得一小节字符 没有符号
-            if (check_dollar(cmdinfo->cmd))
-            {
-                new_cmd = hanlding_dollar(cmdinfo->cmd, env_list, ms);
-                cmdinfo->cmd  = new_cmd;
-            }
-            i = i + len;
-            if (cmd[i] == ' ' || cmd[i] == '\0')
-                cmdinfo->status = NO_TOUCH;
-            else
-                cmdinfo->status = TO_MERGE;
-            ft_lstadd_back(&list1, ft_lstnew((void*)cmdinfo));
-            if(cmd[i] == '\0')
-                return (list1);
+            ret = part_nq(cmd, env_list, ms, &quotinfo);
+            if (ret != NULL)
+                return ret;
         }
-        if (cmd[i] == '\'')
+        if (cmd[quotinfo.i] == '\'')
         {
-            i++;
-            if (cmd[i] == '\'')   //如果下位还是单引号
-            {
-                cmdinfo = creat_cmdinfo();
-                cmdinfo->cmd = ft_strdup("");  //malloc一个空字符
-                if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
-                    cmdinfo->status = NO_TOUCH;
-                else
-                    cmdinfo->status = TO_MERGE;
-                ft_lstadd_back(&list1, ft_lstnew((void*)cmdinfo));
-                if(cmd[i] == '\0')
-                    return (list1);
-            }
-            else
-            {
-                len = 0;
-                while (cmd[i + len] && cmd[i + len] != '\'')
-                    ++len;
-                cmdinfo = creat_cmdinfo();
-                cmdinfo->cmd = ft_substr(cmd, i, len);
-                i = i + len;
-                if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
-                    cmdinfo->status = NO_TOUCH;
-                else
-                    cmdinfo->status = TO_MERGE;
-                ft_lstadd_back(&list1, ft_lstnew((void*)cmdinfo));
-                if(cmd[i] == '\0')
-                    return (list1);
-            }
+            quotinfo.i++;
+            ret = part_sq(cmd, &quotinfo);
+            if (ret != NULL)
+                return ret;
         }
-        if (cmd[i] == '"')
+        if (cmd[quotinfo.i] == '"')
         {
-            i++;
-            if (cmd[i] == '"')   //如果下位还是单引号
-            {
-                cmdinfo = creat_cmdinfo();
-                cmdinfo->cmd = ft_strdup("");  //malloc一个空字符
-                if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
-                    cmdinfo->status = NO_TOUCH;
-                else
-                    cmdinfo->status = TO_MERGE;
-                ft_lstadd_back(&list1, ft_lstnew((void*)cmdinfo));
-                if(cmd[i] == '\0')
-                    return (list1);
-            }
-            else
-            {                
-                len = 0;
-                while (cmd[i + len] && cmd[i + len] != '"')
-                    ++len;
-                cmdinfo = creat_cmdinfo();
-                cmdinfo->cmd = ft_substr(cmd, i, len);
-                if (check_dollar(cmdinfo->cmd))
-                {
-                    new_cmd = hanlding_dollar(cmdinfo->cmd, env_list, ms);
-                    cmdinfo->cmd  = new_cmd;
-                }
-                i = i + len;
-                if(cmd[i + 1] == ' ' || cmd[i + 1] == '\0')
-                    cmdinfo->status = NO_TOUCH;
-                else
-                    cmdinfo->status = TO_MERGE;
-                ft_lstadd_back(&list1, ft_lstnew((void*)cmdinfo));
-                if(cmd[i] == '\0')
-                    return (list1);
-            }
+            quotinfo.i++;
+            ret = part_dq(cmd, env_list, ms, &quotinfo);
+            if (ret != NULL)
+                return ret;
         }
-        ++i;    
+        ++quotinfo.i;    
     }
-    return (list1);
+    return (quotinfo.list1);
 }
 
 char *cmd_merge(t_list *list1)  //所有cmd的链表 里面有cmd->cmd ->status   //创建新地址保存字符串

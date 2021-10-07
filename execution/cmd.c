@@ -6,10 +6,10 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 18:07:04 by dchheang         ###   ########.fr       */
-/*   Updated: 2021/09/17 17:27:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/07 18:39:14 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -35,10 +35,41 @@ int		run_builtin(t_ms *ms, t_cmd *cmd)
 	return (ret);
 }
 
+static int check1(char *cmd)
+{
+	int i = 0;
+	while (cmd[i])
+	{
+		while (cmd[i] == '\'' || cmd[i] == '"')
+		{
+			i++;
+			if (cmd[i] == ' ')
+				return (1);
+		}
+	}
+	return (0);
+}
+
+static char *new_str(char *cmd1)
+{
+	char *str = NULL;
+	int i = 0;
+	int len = ft_strlen(cmd1);
+	while (cmd1[i] && (cmd[i] == '\'' || cmd[i] == '"' || cmd[i] == ' ' )
+		i++;
+	str = ft_substr(cmd1, i, len-i);
+	while (cmd1[i] && (cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != ' ' )
+		i++;
+	str = ft_substr(str, 0, len-i);
+	return (str);
+}
+
 int		run_cmd(t_ms *ms, t_cmd *cmd)
 {
-	int	ret;
-
+	 if (cmd && check1(cmd->cmd[0]))
+	 	print_msg("prompt:", new_str );
+	if (cmd && cmd->cmd[0])
+		cmd->cmd[0] = ft_strlowcase(cmd->cmd[0]);
 	if (is_builtin(cmd->cmd[0]))
 		ret = run_builtin(ms, cmd);
 	else
