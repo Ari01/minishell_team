@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 18:26:52 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:39:17 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,16 @@ int		ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 	if (!pid)
 	{
 		if (execve(path, argv, envp) == -1)
-			perror(path);
-		printf("errno = %d\n", errno);
+		{
+			printf("minishell: %s: command not found\n", path);
+			//perror(path);
+		}
 		exit(errno);
 	}
 	else
 	{
 		waitpid(pid, &signal, 0);
-		printf("signal = %d\n", signal);
+		//printf("signal = %d\n", signal);
 	}
 	return (signal);
 }

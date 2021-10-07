@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/07 17:46:32 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/07 18:42:10 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void parser_dollar(t_quotinfo *quotinfo, t_list *env_list, t_ms *ms)
 t_list    *part_nq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo) 
 {
     quotinfo->len = 0;
-    while (cmd[quotinfo->i + quotinfo->len] && cmd[quotinfo->i + quotinfo->len] != '\'' &&  cmd[quotinfo->i + quotinfo->len] != '"' && cmd[quotinfo->i + quotinfo->len] != ' ')
+    while (cmd[quotinfo->i + quotinfo->len] && cmd[quotinfo->i + quotinfo->len] != '\'' 
+        &&  cmd[quotinfo->i + quotinfo->len] != '"' && cmd[quotinfo->i + quotinfo->len] != ' ')
         ++quotinfo->len;   //i不变
     quotinfo->cmdinfo = creat_cmdinfo();
     quotinfo->cmdinfo->cmd = ft_substr(cmd, quotinfo->i, quotinfo->len);  //取得一小节字符 没有符号

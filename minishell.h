@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 18:32:19 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:20:35 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int		is_redir(int flag);
 t_list	*remove_current_ite(t_list **cmd_list, t_list *ite);
 void	reset_array(char **array);
 t_cmd	new_io_cmd();
+t_list	*ft_trim(t_list *cmd_list);
 
 /*
 **  BUILTINS

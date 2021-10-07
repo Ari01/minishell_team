@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 18:09:02 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 19:26:15 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int		run_context(t_ms *ms)
 			if (!pid)
 			{
 				ret = run_cmd(ms, current_cmd);
-				printf("rettt = %d\n", ret);
+				//printf("rettt = %d\n", ret);
 				exit(ret >> 8);
 			}
 			else
 			{
 				wait(&ret);
 				ret = ret >> 8;
-				printf("ret = %d\n", ret);
+				//printf("ret = %d\n", ret);
 			}
 		}
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
@@ -89,8 +89,10 @@ void	run_shell(char **env)
 		else
 		{
 			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
+			//ms.cmd_list_head = ft_trim(ms.cmd_list_head);
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
+			print_cmds(ms.cmd_list_ite);
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				ms.cmd_ret = run_context(&ms);
@@ -99,7 +101,6 @@ void	run_shell(char **env)
 		}
     }
 }
-
 
 int		main(int ac, char **av, char **env) {
 	(void)ac;

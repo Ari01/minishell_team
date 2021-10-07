@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/05 15:49:18 by xuwang           ###   ########.fr        #
+#    Updated: 2021/10/07 19:22:04 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS			= main.c \
 				  lexer_parser/parsing.c \
 				  lexer_parser/get_stream.c \
 				  lexer_parser/get_stream_utils.c \
+				  lexer_parser/ft_trim.c \
 				  execution/pipe.c \
 				  execution/cmd.c \
 				  execution/redirection.c \
