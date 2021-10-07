@@ -6,13 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 15:35:09 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 16:47:51 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_child(t_ms *ms, int pipe_fd)
+int		exec_child(t_ms *ms, int pipe_fd)
 {
 	t_cmd	cmd;
 
@@ -25,13 +25,14 @@ void	exec_child(t_ms *ms, int pipe_fd)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
 		close(pipe_fd);
 	}
-	run_cmd(ms, &cmd);
+	return (run_cmd(ms, &cmd));
 }
 
-void	run_pipe(t_ms *ms)
+int		run_pipe(t_ms *ms)
 {
 	int		pid;
 	int		pipe_fd[2];
+	int		signal;
 
 	if (pipe(pipe_fd) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
@@ -39,17 +40,17 @@ void	run_pipe(t_ms *ms)
 	if (!pid)
 	{
 		close(pipe_fd[0]);
-		exec_child(ms, pipe_fd[1]);
-		exit(EXIT_SUCCESS);
+		exit(exec_child(ms, pipe_fd[1]));
 	}
 	else
 	{
 		close(pipe_fd[1]);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &signal, 0);
 		if (dup2(ms->fd_out, STDOUT_FILENO) == -1)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
 		close(pipe_fd[0]);
 	}
+	return (signal);
 }

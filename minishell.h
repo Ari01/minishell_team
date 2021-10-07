@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 18:02:31 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/07 16:49:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,14 @@ typedef struct s_history
 
 typedef struct s_ms
 {
-	char	*rdl;
-	int		fd_in;
-	int		fd_out;
-	t_list	*cmd_list_head;
-	t_list	*cmd_list_ite;
-	t_list	*env_list;
-	t_history history;
-	int    cmd_ret;
+	char		*rdl;
+	int			fd_in;
+	int			fd_out;
+	t_list		*cmd_list_head;
+	t_list		*cmd_list_ite;
+	t_list		*env_list;
+	t_history	history;
+	int			cmd_ret;
 }	t_ms;
 
 /*
@@ -189,16 +189,18 @@ int    ft_unset(t_cmd *cmd, t_list **env_list);
 t_list  *get_env(char **env, t_list *env_list);
 void    ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
 void print_msg(char *msg1, char *msg2, char *msg3, int fd);
+
 /*
 **  HISTORY
 */
 t_history	init_history(t_history history);
 void  		ft_add_history(char *cmd, t_history history);
 void    ft_interrupt(int signe);
+
 /*
 **	PIPE
 */
-void	run_pipe(t_ms *ms);
+int		run_pipe(t_ms *ms);
 
 /*
 **	REDIRECTION
@@ -209,7 +211,12 @@ void	redirect(t_ms *ms, t_cmd *current_cmd);
 /*
 **	COMMANDS
 */
-void	run_cmd(t_ms *ms, t_cmd *cmd);
+int		run_cmd(t_ms *ms, t_cmd *cmd);
+
+/*
+**	EXEC
+*/
+int		run_exec(t_ms *ms, t_cmd *cmd);
 
 /*
 **	UTILS
@@ -219,11 +226,6 @@ void	free_array(char **array);
 void	remove_elem_from_array(char **array);
 void	remove_from_list(t_list **head, t_list *elem);
 char	**array_join(char **a1, char **a2);
-
-/*
-**	EXEC
-*/
-void	run_exec(t_ms *ms, t_cmd *cmd);
 
 /*
 **	VARS

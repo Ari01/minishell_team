@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 15:37:57 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 16:30:45 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 	return (NULL);
 }
 
-void	ft_execve(t_ms *ms, char *path, char **argv, char **envp)
+int		ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 {
 	int		pid;
+	int		signal;
 
 	pid = fork();
 	if (pid == -1)
@@ -69,26 +70,30 @@ void	ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 	if (!pid)
 	{
 		if (execve(path, argv, envp) == -1)
-			print_error_msg(strerror(errno), errno, ms);
+			perror(path);
+		exit(errno);
 	}
 	else
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &signal, 0);
+	return (signal);
 }
 
 // execve (char *path, char **arg, char **envp)
 // envp a ete mis a NULL pour les tests mais il faudra le modifier pour prendre la liste d'env var
-void	run_exec(t_ms *ms, t_cmd *cmd)
+int		run_exec(t_ms *ms, t_cmd *cmd)
 {
 	char	*path;
+	int		ret;
 
 	if (ft_strchr(cmd->cmd[0], '/'))
-		ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
+		ret = ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
 	else
 	{
 		path = get_exec_path(ms, cmd->cmd[0]);
 		if (path)
-			ft_execve(ms, path, cmd->cmd, NULL);
+			ret = ft_execve(ms, path, cmd->cmd, NULL);
 		else
-			ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
+			ret = ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
 	}
+	return (ret);
 }

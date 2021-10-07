@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 15:53:06 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 16:53:33 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,26 @@ t_ms	init_shell(char **env)
 	return (ms);
 }
 
-void	run_context(t_ms *ms)
+int		run_context(t_ms *ms)
 {
 	t_cmd	*current_cmd;
 	int		pid;
+	int		ret;
 
+	ret = 0;
 	while (ms->cmd_list_ite)
 	{
 		current_cmd = (t_cmd *)ms->cmd_list_ite->content;
 		if (current_cmd->in_streams || current_cmd->out_streams)
 			redirect(ms, current_cmd);
 		if (current_cmd->flag == '|')
-			run_pipe(ms);
+			ret = ms->cmd_ret = run_pipe(ms);
 		else if (current_cmd->cmd[0])
 		{
 			pid = fork();
 			if (!pid)
 			{
-				run_cmd(ms, current_cmd);
+				ret = run_cmd(ms, current_cmd);
 				exit(EXIT_SUCCESS);
 			}
 			else
@@ -52,6 +54,7 @@ void	run_context(t_ms *ms)
 		}
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
+	return (ret);
 }
 
 void	run_shell(char **env)
@@ -85,7 +88,7 @@ void	run_shell(char **env)
 			ms.cmd_list_ite = ms.cmd_list_head;
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
-				run_context(&ms);
+				ms.cmd_ret = run_context(&ms);
 			//free_memory(&ms);
 			reset_fdin_fdout(&ms);
 		}
