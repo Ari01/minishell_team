@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 19:29:54 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 15:53:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_ms	init_shell(char **env)
 void	run_context(t_ms *ms)
 {
 	t_cmd	*current_cmd;
+	int		pid;
 
 	while (ms->cmd_list_ite)
 	{
@@ -39,7 +40,16 @@ void	run_context(t_ms *ms)
 		if (current_cmd->flag == '|')
 			run_pipe(ms);
 		else if (current_cmd->cmd[0])
-			run_cmd(ms, current_cmd);
+		{
+			pid = fork();
+			if (!pid)
+			{
+				run_cmd(ms, current_cmd);
+				exit(EXIT_SUCCESS);
+			}
+			else
+				waitpid(pid, NULL, 0);
+		}
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
 }

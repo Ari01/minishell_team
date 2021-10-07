@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 19:30:09 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 15:57:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	len = ft_strlen(delimiter);
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
-	{
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	}
 	write(STDOUT_FILENO, "> ", 2);
 	rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
-	while (ft_strncmp(buff, delimiter, len) && rd >= 0)
+	while (ft_strncmp(buff, delimiter, len) && rd > 0)
 	{
 		write(STDOUT_FILENO, "> ", 2);
 		write(fd, buff, rd);
@@ -63,9 +61,7 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	close(fd);
 	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT, 0666);
 	if (rd == -1 || fd == -1 || dup2(fd, STDIN_FILENO) == -1)
-	{
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	}
 	close(fd);
 }
 

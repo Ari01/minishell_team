@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 19:30:17 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 15:35:09 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	exec_child(t_ms *ms, int pipe_fd)
 			print_error_msg(strerror(errno), PIPE_ERR, ms);
 		close(pipe_fd);
 	}
+	run_cmd(ms, &cmd);
 }
 
 void	run_pipe(t_ms *ms)
