@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 18:39:14 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:42:26 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		run_builtin(t_ms *ms, t_cmd *cmd)
 	return (ret);
 }
 
+/*
 static int check1(char *cmd)
 {
 	int i = 0;
@@ -62,12 +63,14 @@ static char *new_str(char *cmd1)
 		i++;
 	str = ft_substr(str, 0, len-i);
 	return (str);
-}
+}*/
 
 int		run_cmd(t_ms *ms, t_cmd *cmd)
 {
-	 if (cmd && check1(cmd->cmd[0]))
-	 	print_msg("prompt:", new_str );
+	int	ret;
+
+/*	 if (cmd && check1(cmd->cmd[0]))
+	 	print_msg("prompt:", new_str );*/
 	if (cmd && cmd->cmd[0])
 		cmd->cmd[0] = ft_strlowcase(cmd->cmd[0]);
 	if (is_builtin(cmd->cmd[0]))
