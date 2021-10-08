@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int ft_pwd(void)
+int	ft_pwd(void)
 {
-    char *path;
+	char	*path;
 
-    path = getcwd(NULL, 0);
-    if (!path)
-        return (ERROR);
-    ft_putendl_fd(path, STDOUT_FILENO);
-    free(path);
-    return(SUCCESS);
+	path = getcwd(NULL, 0);
+	if (!path)
+		return (ERROR);
+	ft_putendl_fd(path, STDOUT_FILENO);
+	free(path);
+	return (SUCCESS);
 }

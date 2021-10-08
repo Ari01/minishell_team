@@ -15,7 +15,7 @@
 
 static int	is_in_set(int c, char const *set)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (set[i])
@@ -29,7 +29,7 @@ static int	is_in_set(int c, char const *set)
 
 static int	get_substart(char const *s1, char const *set)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (is_in_set(s1[i], set))
@@ -49,7 +49,7 @@ static int	get_subend(char const *s1, char const *set)
 
 static char	*strnew(size_t size)
 {
-	char *new;
+	char	*new;
 
 	new = malloc(sizeof(*new) * size);
 	if (!new)
@@ -58,7 +58,7 @@ static char	*strnew(size_t size)
 	return (new);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	start;
 	size_t	end;

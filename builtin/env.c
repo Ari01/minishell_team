@@ -11,19 +11,18 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/* check if a env variable have "=" (value) */
 
-int ft_env(t_list *env_list, t_cmd *cmd)
+int	ft_env(t_list *env_list, t_cmd *cmd)
 {
-    if (!cmd || cmd->cmd[1] != NULL)
-        return(ERROR);
-    while (env_list)
-    {
-        if (ft_strchr((char *)env_list->content, '='))
-        {
-            print_msg((char *)env_list->content, "\n", NULL, STDOUT_FILENO);
-        }
-        env_list = env_list->next;
-    }
-    return (SUCCESS);
+	if (!cmd || cmd->cmd[1] != NULL)
+		return (ERROR);
+	while (env_list)
+	{
+		if (ft_strchr((char *)env_list->content, '='))
+		{
+			print_msg((char *)env_list->content, "\n", NULL, STDOUT_FILENO);
+		}
+		env_list = env_list->next;
+	}
+	return (SUCCESS);
 }

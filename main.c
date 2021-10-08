@@ -27,7 +27,7 @@ t_ms	init_shell(char **env)
 	return (ms);
 }
 
-int		run_context(t_ms *ms)
+int	run_context(t_ms *ms)
 {
 	t_cmd	*current_cmd;
 	int		pid;

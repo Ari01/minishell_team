@@ -22,7 +22,7 @@ static size_t	get_word_start(char const *s, int start, char *charset)
 
 static size_t	get_word_len(char const *s, int start, char *charset)
 {
-	size_t end;
+	size_t	end;
 
 	end = start;
 	while (s[end] && !ft_strchr(charset, s[end]))
@@ -32,9 +32,9 @@ static size_t	get_word_len(char const *s, int start, char *charset)
 
 static size_t	get_nwords(char const *s, char *charset)
 {
-	size_t start;
-	size_t len;
-	size_t nwords;
+	size_t	start;
+	size_t	len;
+	size_t	nwords;
 
 	start = 0;
 	len = 0;
@@ -52,7 +52,7 @@ static size_t	get_nwords(char const *s, char *charset)
 	return (nwords);
 }
 
-char			**ft_split(char const *s, char *charset)
+char	**ft_split(char const *s, char *charset)
 {
 	char	**split;
 	int		i;
@@ -62,14 +62,16 @@ char			**ft_split(char const *s, char *charset)
 	i = 0;
 	start = 0;
 	len = 0;
-	if (!(split = malloc(sizeof(*split) * (get_nwords(s, charset) + 1))))
+	split = malloc(sizeof(*split) * (get_nwords(s, charset) + 1));
+		if (!split)
 		return (NULL);
 	if (s)
 	{
 		while (s[start])
 		{
 			start = get_word_start(s, start, charset);
-			if ((len = get_word_len(s, start, charset)))
+			len = get_word_len(s, start, charset);
+			if (len)
 			{
 				split[i] = ft_substr(s, start, len);
 				i++;

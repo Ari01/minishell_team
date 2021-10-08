@@ -21,10 +21,10 @@ static char	*gnl_strjoin(char const *s1, char const *s2)
 
 	if (!s1 && !s2)
 		return (0);
-    if (s1)
-	    i = ft_strlen(s1);
-    else
-        i = 0;
+	if (s1)
+		i = ft_strlen(s1);
+	else
+		i = 0;
 	j = ft_strlen(s2);
 	len = i + j + 1;
 	tab = (char *)malloc(sizeof(char) * len);

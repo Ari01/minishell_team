@@ -39,13 +39,16 @@ SRCS			= main.c \
 				  builtin/exit.c \
 				  builtin/env.c \
 				  builtin/export.c \
+				  builtin/export_utils.c\
 				  builtin/unset.c \
 				  builtin/utils.c \
 				  history/history.c \
 				  signal/signal.c \
-				  parsing/handling_quot.c \
+				  parsing/handling_quot1.c \
+				  parsing/handling_quot2.c \
 				  parsing/parsing_utils.c \
-				  parsing/handling_dollar.c 
+				  parsing/handling_dollar1.c\
+				  parsing/handling_dollar2.c
 
 OBJS			= $(SRCS:.c=.o)
 
