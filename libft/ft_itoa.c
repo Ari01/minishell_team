@@ -29,6 +29,18 @@ size_t	get_nb_len(int n)
 	while ((unbr = unbr / 10))
 		len++;
 	return (len);
+	/*	int	i;
+
+	if (n == 0)
+		i = 1;
+	else
+		i = 0;
+	while (n)
+	{
+		n = n / 10;
+		i++;
+	}
+	return (i);*/
 }
 
 char	*ft_itoa(int n)

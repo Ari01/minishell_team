@@ -278,6 +278,7 @@ t_list	*part_dq(char *cmd, t_list *env_list,
 			t_ms *ms, t_quotinfo *quotinfo);
 t_cmdinfo	*creat_cmdinfo(void);
 t_quot	quote_init(void);
+t_quotinfo quotinfo_init(void);
 t_list	*sepa_cmd(char *cmd, t_list *env_list, t_ms *ms);
 t_cmd	*init_cmd(void);
 t_list	*check_env_exit(char *dollar, t_list *env_list);

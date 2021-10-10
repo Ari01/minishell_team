@@ -12,16 +12,38 @@
 
 #include "minishell.h"
 
-t_quotinfo	quotinfo_init(void)
+static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
+		t_list *env_list, t_ms *ms)
 {
-	t_quotinfo	i;
+	t_list	*ret1;
 
-	i.list1 = NULL;
-	i.i = 0;
-	i.len = 0;
-	i.cmdinfo = NULL;
-	i.new_cmd = NULL;
-	return (i);
+	ret1 = NULL;
+	while (cmd[quotinfo->i])
+	{
+		if (cmd[quotinfo->i] != '\''
+			&& cmd[quotinfo->i] != '"' && cmd[quotinfo->i] != ' ')
+		{
+			ret1 = part_nq(cmd, env_list, ms, quotinfo);
+			if (ret1 != NULL)
+				return (ret1);
+		}
+		if (cmd[quotinfo->i] == '\'')
+		{
+			quotinfo->i++;
+			ret1 = part_sq(cmd, quotinfo);
+			if (ret1 != NULL)
+				return (ret1);
+		}
+		if (cmd[quotinfo->i] == '"')
+		{
+			quotinfo->i++;
+			ret1 = part_dq(cmd, env_list, ms, quotinfo);
+			if (ret1 != NULL)
+				return (ret1);
+		}
+		++quotinfo->i;
+	}
+	return (quotinfo->list1);
 }
 
 t_list	*sepa_cmd(char *cmd, t_list *env_list, t_ms *ms)
@@ -33,32 +55,8 @@ t_list	*sepa_cmd(char *cmd, t_list *env_list, t_ms *ms)
 	ret = NULL;
 	while (cmd && cmd[quotinfo.i] && cmd[quotinfo.i] == ' ')
 		++quotinfo.i;
-	while (cmd[quotinfo.i])
-	{
-		if (cmd[quotinfo.i] != '\''
-			&& cmd[quotinfo.i] != '"' && cmd[quotinfo.i] != ' ')
-		{
-			ret = part_nq(cmd, env_list, ms, &quotinfo);
-			if (ret != NULL)
-				return (ret);
-		}
-		if (cmd[quotinfo.i] == '\'')
-		{
-			quotinfo.i++;
-			ret = part_sq(cmd, &quotinfo);
-			if (ret != NULL)
-				return (ret);
-		}
-		if (cmd[quotinfo.i] == '"')
-		{
-			quotinfo.i++;
-			ret = part_dq(cmd, env_list, ms, &quotinfo);
-			if (ret != NULL)
-				return (ret);
-		}
-		++quotinfo.i;
-	}
-	return (quotinfo.list1);
+	ret = sepa_part(&quotinfo, cmd, env_list, ms);
+	return (ret);
 }
 
 char	*cmd_merge(t_list *list1)

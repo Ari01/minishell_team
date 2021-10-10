@@ -12,64 +12,65 @@
 
 #include "minishell.h"
 
-size_t	ft_len(const char *s)
+t_quot	quote_init(void)
 {
-	const char	*str;
+	t_quot	quote_info;
 
-	if (!s)
-		return (0);
-	str = s;
-	while (*str)
-		++str;
-	return (str - s);
+	quote_info.quot = NO_Q;
+	quote_info.quot_status = STATUS_CLOSE;
+	return (quote_info);
 }
 
-char	*ft_join(char const *s1, char const *s2)
-{
-	size_t	len;
-	char	*str;
-	int		i;
-
-	if (!s1 && !s2)
-		return (NULL);
-	len = ft_len(s1) + ft_len(s2);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s1 && s1[i])
-		*str++ = s1[i++];
-	i = 0;
-	while (s2 && s2[i])
-		*str++ = s2[i++];
-	*str = '\0';
-	if (s1)
-		free((char *)s1);
-	return (str - len);
-}
-
-t_cmdinfo	*creat_cmdinfo(void)
-{
-	t_cmdinfo	*cmdinfo;
-
-	cmdinfo = NULL;
-	cmdinfo = malloc (sizeof(t_cmd));
-	if (cmdinfo)
+static void	check_part1(t_quot *quot, int i)
+{	
+	if (i == 1)
+		quot->quot = IS_SQ;
+	else if (i == 0)
+		quot->quot = IS_DQ;
+	if (quot->quot_status == STATUS_CLOSE)
+		quot->quot_status = STATUS_OPEN;
+	else
 	{
-		cmdinfo->cmd = NULL;
-		cmdinfo->status = NO_TOUCH;
+		quot->quot_status = STATUS_CLOSE;
+		quot->quot = NO_Q;
 	}
-	return (cmdinfo);
 }
 
-t_quotinfo	quotinfo_init(void)
+static int	check_part2(char *cmd, int i, t_quot *quot)
 {
-	t_quotinfo	i;
-
-	i.list1 = NULL;
-	i.i = 0;
-	i.len = 0;
-	i.cmdinfo = NULL;
-	i.new_cmd = NULL;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\'')
+		{
+			if (quot->quot == IS_DQ)
+			{
+				++i;
+				continue ;
+			}
+			check_part1(quot, 1);
+		}
+		else if (cmd[i] == '"')
+		{
+			if (quot->quot == IS_SQ)
+			{
+				++i;
+				continue ;
+			}
+			check_part1(quot, 0);
+		}
+		if (is_flag(cmd[i]) && quot->quot_status == STATUS_CLOSE)
+			return (i);
+		i++;
+	}
 	return (i);
+}
+
+int	check_flag(char *cmd, int i)
+{
+	t_quot	quot;
+	int		ret;
+
+	quot = quote_init();
+	ret = check_part2(cmd, i, &quot);
+	return (ret);
 }

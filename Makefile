@@ -46,6 +46,7 @@ SRCS			= main.c \
 				  signal/signal.c \
 				  parsing/handling_quot1.c \
 				  parsing/handling_quot2.c \
+				  parsing/handling_flag.c\
 				  parsing/parsing_utils.c \
 				  parsing/handling_dollar1.c\
 				  parsing/handling_dollar2.c

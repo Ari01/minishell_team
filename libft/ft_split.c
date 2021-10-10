@@ -63,7 +63,7 @@ char	**ft_split(char const *s, char *charset)
 	start = 0;
 	len = 0;
 	split = malloc(sizeof(*split) * (get_nwords(s, charset) + 1));
-		if (!split)
+	if (!split)
 		return (NULL);
 	if (s)
 	{
