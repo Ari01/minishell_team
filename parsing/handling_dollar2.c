@@ -35,7 +35,7 @@ t_list	*check_env_exit(char *dollar, t_list *env_list)
 	{
 		if (ft_strncmp(dollar, (char *)env_list->content, len) == 0
 			&& (((char *)env_list->content)[len] == '\0'
-				|| ((char *)env_list->content)[len] == '='))
+			|| ((char *)env_list->content)[len] == '='))
 		{
 			return (env_list);
 		}
@@ -71,10 +71,10 @@ t_dollar	init_dollar(void)
 	t_dollar	dolinfo;
 
 	dolinfo.i = 0;
-	dolinfo. start = 0;
-	dolinfo. len = 0;
-	dolinfo. dollar = NULL;
-	dolinfo. new_cmd = NULL;
-	dolinfo. c = NULL;
+	dolinfo.start = 0;
+	dolinfo.len = 0;
+	dolinfo.dollar = NULL;
+	dolinfo.new_cmd = NULL;
+	dolinfo.c = NULL;
 	return (dolinfo);
 }

@@ -40,13 +40,37 @@ static t_list	*check_exist(char *cmd, t_list *env_list)
 	{
 		if (ft_strncmp(cmd, (char *)env_list->content, len) == 0
 			&& (((char *)env_list->content)[len] == '\0'
-				|| ((char *)env_list->content)[len] == '='))
+			|| ((char *)env_list->content)[len] == '='))
 		{
 			return (env_list);
 		}
 		env_list = env_list->next;
 	}
 	return (NULL);
+}
+
+static void	del_part(t_list **tmp, t_list **to_del,
+		t_list **prev, t_list **env_list)
+{
+	while (*tmp && *tmp != *to_del)
+	{
+		*prev = *tmp;
+		*tmp = (*tmp)->next;
+	}
+	if (*tmp == *to_del)
+	{
+		if (*prev == NULL)
+			*env_list = (*tmp)->next;
+		else
+			(*prev)->next = (*tmp)->next;
+		if (*tmp)
+		{
+			free((*tmp)->content);
+			(*tmp)->content = NULL;
+			free(*tmp);
+			tmp = NULL;
+		}
+	}	
 }
 
 static t_list	*del_env(char *cmd, t_list *env_list)
@@ -60,7 +84,7 @@ static t_list	*del_env(char *cmd, t_list *env_list)
 	to_del = check_exist(cmd, env_list);
 	if (!to_del)
 		return (env_list);
-	while (tmp && tmp != to_del)
+	/*while (tmp && tmp != to_del)
 	{
 		prev = tmp;
 		tmp = tmp->next;
@@ -78,7 +102,8 @@ static t_list	*del_env(char *cmd, t_list *env_list)
 			free(tmp);
 			tmp = NULL;
 		}
-	}
+	}*/
+	del_part(&tmp, &to_del, &prev, &env_list);
 	return (env_list);
 }
 
@@ -100,3 +125,16 @@ int	ft_unset(t_cmd *cmd, t_list **env_list)
 	}
 	return (SUCCESS);
 }
+/*int main(int av, char **ac, char **env)
+{
+	(void)av;
+	(void)ac;
+	t_list *env_list;
+	env_list = get_env(env, env_list);
+	del_env("USER", env_list);
+	while (env_list)
+	{
+		printf("%s\n", (char *)env_list->content);
+		env_list = env_list->next;
+	}
+}*/

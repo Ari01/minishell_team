@@ -54,7 +54,7 @@ t_list	*check_name_exist(char *cmd, t_list *env_list)
 	{
 		if (ft_strncmp(cmd, (char *)env_list->content, len) == 0
 			&& (((char *)env_list->content)[len] == '\0'
-				|| ((char *)env_list->content)[len] == '='))
+			|| ((char *)env_list->content)[len] == '='))
 		{
 			return (env_list);
 		}

@@ -71,6 +71,21 @@ t_quot	quote_init(void)
 	return (quote_info);
 }
 
+static void	check_part1(t_quot *quot, int i)
+{	
+	if (i == 1)
+		quot->quot = IS_SQ;
+	else if (i == 0)
+		quot->quot = IS_DQ;
+	if (quot->quot_status == STATUS_CLOSE)
+		quot->quot_status = STATUS_OPEN;
+	else
+	{
+		quot->quot_status = STATUS_CLOSE;
+		quot->quot = NO_Q;
+	}
+}
+
 int	check_flag(char *cmd, int i)
 {
 	t_quot	quot;
@@ -85,14 +100,7 @@ int	check_flag(char *cmd, int i)
 				++i;
 				continue ;
 			}
-			quot.quot = IS_SQ;
-			if (quot.quot_status == STATUS_CLOSE)
-				quot.quot_status = STATUS_OPEN;
-			else
-			{
-				quot.quot_status = STATUS_CLOSE;
-				quot.quot = NO_Q;
-			}
+			check_part1(&quot, 1);
 		}
 		else if (cmd[i] == '"')
 		{
@@ -101,14 +109,7 @@ int	check_flag(char *cmd, int i)
 				++i;
 				continue ;
 			}
-			quot.quot = IS_DQ;
-			if (quot.quot_status == STATUS_CLOSE)
-				quot.quot_status = STATUS_OPEN;
-			else
-			{
-				quot.quot_status = STATUS_CLOSE;
-				quot.quot = NO_Q;
-			}
+			check_part1(&quot, 0);
 		}
 		if (is_flag(cmd[i]) && quot.quot_status == STATUS_CLOSE)
 			return (i);
