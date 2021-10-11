@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:58:59 by user42            #+#    #+#             */
-/*   Updated: 2021/10/05 18:35:52 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/11 14:47:50 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ size_t	get_nb_len(int n)
 	}
 	if (unbr < 10)
 		return (len);
-	while ((unbr = unbr / 10))
+	while (unbr)
+	{ 
+		unbr = unbr / 10;
 		len++;
+	}
 	return (len);
 	/*	int	i;
 

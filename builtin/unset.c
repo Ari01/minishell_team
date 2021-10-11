@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/04 16:56:04 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/11 14:54:10 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,11 @@ static t_list	*del_env(char *cmd, t_list *env_list)
 	to_del = check_exist(cmd, env_list);
 	if (!to_del)
 		return (env_list);
-	/*while (tmp && tmp != to_del)
+	del_part(&tmp, &to_del, &prev, &env_list);
+	return (env_list);
+}
+
+/*while (tmp && tmp != to_del)
 	{
 		prev = tmp;
 		tmp = tmp->next;
@@ -103,10 +107,6 @@ static t_list	*del_env(char *cmd, t_list *env_list)
 			tmp = NULL;
 		}
 	}*/
-	del_part(&tmp, &to_del, &prev, &env_list);
-	return (env_list);
-}
-
 int	ft_unset(t_cmd *cmd, t_list **env_list)
 {
 	int	i;
@@ -125,16 +125,3 @@ int	ft_unset(t_cmd *cmd, t_list **env_list)
 	}
 	return (SUCCESS);
 }
-/*int main(int av, char **ac, char **env)
-{
-	(void)av;
-	(void)ac;
-	t_list *env_list;
-	env_list = get_env(env, env_list);
-	del_env("USER", env_list);
-	while (env_list)
-	{
-		printf("%s\n", (char *)env_list->content);
-		env_list = env_list->next;
-	}
-}*/

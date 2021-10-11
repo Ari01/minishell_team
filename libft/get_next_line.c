@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:21:24 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/15 17:52:03 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/11 14:44:05 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,30 @@
 
 static char	*gnl_strjoin(char const *s1, char const *s2)
 {
-	char	*tab;
-	size_t	len;
-	size_t	i;
-	size_t	j;
+	t_gnl	gnl;
 
+	gnl = init_gnl();
 	if (!s1 && !s2)
 		return (0);
 	if (s1)
-		i = ft_strlen(s1);
+		gnl.len1 = ft_strlen(s1);
 	else
-		i = 0;
-	j = ft_strlen(s2);
-	len = i + j + 1;
-	tab = (char *)malloc(sizeof(char) * len);
-	if (!tab)
+		gnl.len1 = 0;
+	gnl.len2 = ft_strlen(s2);
+	gnl.len = gnl.len1 + gnl.len2 + 1;
+	gnl.tab = (char *)malloc(sizeof(char) * gnl.len);
+	if (!gnl.tab)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1 && i < len && s1[i])
+	while (s1 && gnl.i < gnl.len && s1[gnl.i])
 	{
-		tab[i] = s1[i];
-		i++;
+		gnl.tab[gnl.i] = s1[gnl.i];
+		gnl.i++;
 	}
-	while (s2 && i < len && s2[j])
-		tab[i++] = s2[j++];
-	tab[i] = '\0';
+	while (s2 && gnl.i < gnl.len && s2[gnl.j])
+		gnl.tab[gnl.i++] = s2[gnl.j++];
+	gnl.tab[gnl.i] = '\0';
 	free((char *)s1);
-	return (tab);
+	return (gnl.tab);
 }
 
 static char	*first_line(char *str)

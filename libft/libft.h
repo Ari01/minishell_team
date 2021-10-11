@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:37:58 by user42            #+#    #+#             */
-/*   Updated: 2021/09/16 16:13:09 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:45:18 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,16 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef struct s_gnl
+{
+	char	*tab;
+	size_t	len;
+	size_t	i;
+	size_t	j;
+	size_t	len1;
+	size_t	len2;
+}t_gnl;
+
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **alst, t_list *new);
 int					ft_lstsize(t_list *lst);
@@ -95,5 +105,6 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+t_gnl				init_gnl(void);
 
 #endif

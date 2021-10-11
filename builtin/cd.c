@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/06 19:58:01 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/11 14:53:49 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,25 @@ static int	check_file(t_cmd *cmd)
 	return (1);
 }
 
+static int	check_home(void)
+{
+	if (chdir(getenv("HOME")) == -1)
+	{
+		print_msg("cd: HOME not set\n", NULL, NULL, STDERR_FILENO);
+		return (ERROR);
+	}
+	return (SUCCESS);
+}
+
 int	ft_cd(t_cmd *cmd)
 {
-	if (cmd && cmd->cmd[1] == NULL)
+	if (!cmd)
 		return (ERROR);
+	if (cmd && ! cmd->cmd[1])
+	{
+		if (check_home() == ERROR)
+			return (ERROR);
+	}
 	else if (cmd && cmd->cmd[1] != NULL && !(check_file(cmd)))
 	{
 		print_msg("prompt: cd: ", cmd->cmd[1],

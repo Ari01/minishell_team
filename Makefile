@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/07 19:22:04 by xuwang           ###   ########.fr        #
+#    Updated: 2021/10/11 15:33:21 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS			= main.c \
 				  signal/signal.c \
 				  parsing/handling_quot1.c \
 				  parsing/handling_quot2.c \
+				  parsing/handling_quot3.c \
 				  parsing/handling_flag.c\
 				  parsing/parsing_utils.c \
 				  parsing/handling_dollar1.c\
