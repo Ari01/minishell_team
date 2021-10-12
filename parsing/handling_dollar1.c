@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handling_dollar.c                                  :+:      :+:    :+:   */
+/*   handling_dollar1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/07 20:01:53 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/12 17:43:09 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms)
 {
 	t_dollar	dolinfo;
 
-	dolinfo = init_dollar();
+	ft_bzero(&dolinfo, sizeof(t_dollar));
 	while (cmd[dolinfo.i])
 	{
 		if (cmd[dolinfo.i] == '$' && cmd[dolinfo.i + 1] != ' '

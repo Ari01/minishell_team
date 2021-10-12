@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/11 15:33:21 by xuwang           ###   ########.fr        #
+#    Updated: 2021/10/12 17:44:53 by xuwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,9 @@ SRCS			= main.c \
 				  parsing/handling_flag.c\
 				  parsing/parsing_utils.c \
 				  parsing/handling_dollar1.c\
-				  parsing/handling_dollar2.c
+				  parsing/handling_dollar2.c \
+				  parsing/ret_utils.c \
+				  parsing/ret_utils2.c 
 
 OBJS			= $(SRCS:.c=.o)
 

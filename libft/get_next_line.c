@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:21:24 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/11 14:44:05 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/12 17:34:56 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*gnl_strjoin(char const *s1, char const *s2)
 {
 	t_gnl	gnl;
 
-	gnl = init_gnl();
+	ft_bzero(&gnl, sizeof(t_gnl));
 	if (!s1 && !s2)
 		return (0);
 	if (s1)

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/11 15:32:55 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/12 17:50:01 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_list	*sepa_cmd(char *cmd, t_list *env_list, t_ms *ms)
 	t_quotinfo	quotinfo;
 	t_list		*ret;
 
-	quotinfo = quotinfo_init();
+	ft_bzero(&quotinfo, sizeof(t_quotinfo));
 	ret = NULL;
 	while (cmd && cmd[quotinfo.i] && cmd[quotinfo.i] == ' ')
 		++quotinfo.i;

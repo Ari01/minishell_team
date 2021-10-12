@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   handling_dollar2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:41:18 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 18:47:45 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/12 17:43:15 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,4 @@ int	check_env_len(char *env)
 	len = ft_strlen(env);
 	i = len - start;
 	return (i);
-}
-
-t_dollar	init_dollar(void)
-{
-	t_dollar	dolinfo;
-
-	dolinfo.i = 0;
-	dolinfo.start = 0;
-	dolinfo.len = 0;
-	dolinfo.dollar = NULL;
-	dolinfo.new_cmd = NULL;
-	dolinfo.c = NULL;
-	return (dolinfo);
 }

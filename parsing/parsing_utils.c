@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:41:18 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 18:47:45 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/12 17:45:45 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,4 @@ t_cmdinfo	*creat_cmdinfo(void)
 		cmdinfo->status = NO_TOUCH;
 	}
 	return (cmdinfo);
-}
-
-t_quotinfo	quotinfo_init(void)
-{
-	t_quotinfo	i;
-
-	i.list1 = NULL;
-	i.i = 0;
-	i.len = 0;
-	i.cmdinfo = NULL;
-	i.new_cmd = NULL;
-	return (i);
 }
