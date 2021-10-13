@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/12 17:43:09 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/13 14:24:57 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
 	}
 	else if (cmd[dolinfo->i] == '?')
 	{
+		printf("cmd ret = %d, itoa = %s\n", ms->cmd_ret, ft_itoa(ms->cmd_ret));
 		dolinfo->new_cmd = ft_join(dolinfo->new_cmd, ft_itoa(ms->cmd_ret));
 		++dolinfo->i;
 		if (cmd[dolinfo->i] == '$')

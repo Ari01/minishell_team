@@ -6,7 +6,7 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/13 11:50:44 by dchheang         ###   ########.fr        #
+#    Updated: 2021/10/13 14:18:16 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ $(NAME) :		$(OBJS) $(LIBFT)
 				$(CC) $(CFLAGS) $(INC) $(OBJS) -o $@ $(LFLAGS)
 
 debug :			$(OBJS) $(LIBFT)
-				$(CC) $(CFLAGS) -g3 -fsanitize=address $(INC) $(OBJS) -o $@ $(LFLAGS)
+				$(CC) $(CFLAGS) -fsanitize=address $(INC) $(OBJS) -o $@ $(LFLAGS)
 
 $(LIBFT) :		
 				$(MAKE) bonus -C $(LIBFTDIR)

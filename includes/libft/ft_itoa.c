@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:58:59 by user42            #+#    #+#             */
-/*   Updated: 2021/10/13 10:06:37 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 14:38:16 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	get_nb_len(int n)
 	size_t			len;
 	unsigned int	unbr;
 
-	len = 1;
+	len = 0;
 	unbr = n;
 	if (n < 0)
 	{
@@ -25,7 +25,7 @@ size_t	get_nb_len(int n)
 		unbr = -n;
 	}
 	if (unbr < 10)
-		return (len);
+		return (1);
 	while (unbr)
 	{
 		unbr = unbr / 10;
@@ -47,16 +47,15 @@ char	*ft_itoa(int n)
 	s = malloc(sizeof(*s) * (len + 1));
 	if (!s)
 		return (NULL);
-	s[0] = '0';
 	if (n < 0)
 	{
 		unbr = -n;
 		s[0] = '-';
 	}
 	s[len] = 0;
-	while (unbr)
+	while (len--)
 	{
-		s[--len] = unbr % 10 + '0';
+		s[len] = unbr % 10 + '0';
 		unbr = unbr / 10;
 	}
 	return (s);
