@@ -12,46 +12,53 @@
 
 #include "minishell.h"
 
-typedef struct s_echo
+int	check_is_name(char *s)
 {
 	int	i;
-	int	n;
-}t_echo;
 
-static t_echo	init_echo(void)
-{
-	t_echo	echo;
-
-	echo.i = 1;
-	echo.n = 0;
-	return (echo);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=')
+			break ;
+		if (!(s[i] >= 'A' && s[i] <= 'Z') && !(s[i] >= 'a' && s[i] <= 'z')
+			&& s[i] != '_' )
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int	ft_echo(t_cmd *cmd)
+int	check_change(char *s)
 {
-	t_echo	echo;
+	int	i;
 
-	echo = init_echo();
-	if (!cmd || !cmd->cmd[echo.i])
+	i = 0;
+	while (s[i])
 	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		return (ERROR);
+		if (s[i] == '=')
+			return (1);
+		i++;
 	}
-	if (!cmd->cmd[1])
-		ft_putendl_fd("", STDOUT_FILENO);
-	while (cmd && cmd->cmd[echo.i] && (ft_strcmp(cmd->cmd[echo.i], "-n") == 0))
+	return (0);
+}
+
+t_list	*check_name_exist(char *cmd, t_list *env_list)
+{
+	int	len;
+
+	len = 0;
+	while (cmd[len] && cmd[len] != '=')
+		len++;
+	while (env_list)
 	{
-		echo.i++;
-		echo.n = 1;
+		if (ft_strncmp(cmd, (char *)env_list->content, len) == 0
+			&& (((char *)env_list->content)[len] == '\0'
+			|| ((char *)env_list->content)[len] == '='))
+		{
+			return (env_list);
+		}
+		env_list = env_list->next;
 	}
-	while (cmd && cmd->cmd[echo.i])
-	{
-		ft_putstr_fd(cmd->cmd[echo.i], STDOUT_FILENO);
-		if (cmd->cmd[echo.i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		else if (!cmd->cmd[echo.i + 1] && echo.n == 0)
-			ft_putstr_fd("\n", STDOUT_FILENO);
-		echo.i++;
-	}
-	return (SUCCESS);
+	return (NULL);
 }

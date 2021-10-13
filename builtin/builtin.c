@@ -16,7 +16,7 @@ int	is_builtin(char *s)
 {
 	char	**split;
 	int		i;
-	
+
 	split = ft_split(BUILTINS, " ");
 	i = 0;
 	while (split[i])

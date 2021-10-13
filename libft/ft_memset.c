@@ -18,7 +18,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	unsigned char	*scpy;
 	unsigned char	ccpy;
 
-	scpy = (unsigned char*)s;
+	scpy = (unsigned char *)s;
 	ccpy = (unsigned char)c;
 	i = 0;
 	while (i < n)

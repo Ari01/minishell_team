@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 08:26:42 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:24:03 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ms	init_shell(char **env)
 	return (ms);
 }
 
-int		run_context(t_ms *ms)
+int	run_context(t_ms *ms)
 {
 	t_cmd	*current_cmd;
 	int		pid;
@@ -87,8 +87,10 @@ void	run_shell(char **env)
 		else
 		{
 			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
+			//ms.cmd_list_head = ft_trim(ms.cmd_list_head);
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
+			//print_cmds(ms.cmd_list_ite);
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				ms.cmd_ret = run_context(&ms);
@@ -97,7 +99,6 @@ void	run_shell(char **env)
 		}
     }
 }
-
 
 int		main(int ac, char **av, char **env) {
 	(void)ac;

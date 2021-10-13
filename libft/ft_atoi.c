@@ -44,7 +44,7 @@ static int	convert_atoi(const char *s, int start, int end, int sign)
 	return (res);
 }
 
-int			ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
 	int		i;
 	int		sign;

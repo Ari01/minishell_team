@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:41:18 by xuwang            #+#    #+#             */
-/*   Updated: 2021/09/26 18:47:45 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/12 17:45:45 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,66 +48,16 @@ char	*ft_join(char const *s1, char const *s2)
 	return (str - len);
 }
 
-t_cmdinfo *creat_cmdinfo(void)
+t_cmdinfo	*creat_cmdinfo(void)
 {
-    t_cmdinfo *cmdinfo = NULL;
-    cmdinfo = malloc (sizeof(t_cmd));
-    if (cmdinfo)
-    {
-        cmdinfo->cmd = NULL;
-        cmdinfo->status = NO_TOUCH;
-    }
-    return (cmdinfo);
-}
+	t_cmdinfo	*cmdinfo;
 
-t_quot quote_init(void) {
-    t_quot quote_info;
-    
-    quote_info.quot = NO_Q;
-    quote_info.quot_status = STATUS_CLOSE;
-    return quote_info;
-}
-
-int check_flag(char *cmd, int i)
-{
-	t_quot quot= quote_init();
-	while(cmd[i])
+	cmdinfo = NULL;
+	cmdinfo = malloc (sizeof(t_cmd));
+	if (cmdinfo)
 	{
-		if (cmd[i] == '\'')
-		{
-			if (quot.quot == IS_DQ)
-            {
-                ++i;
-                continue;
-            }
-            quot.quot = IS_SQ;
-            if (quot.quot_status == STATUS_CLOSE) {
-                quot.quot_status = STATUS_OPEN;
-			}
-			else {
-                quot.quot_status = STATUS_CLOSE;
-                quot.quot = NO_Q;
-			}
-		}
-		else if (cmd[i] == '"')
-		{
-			if (quot.quot == IS_SQ)
-            {
-                ++i;
-                continue;
-            }
-            quot.quot = IS_DQ;
-            if (quot.quot_status == STATUS_CLOSE) {
-                quot.quot_status = STATUS_OPEN;
-			}
-			else {
-                quot.quot_status = STATUS_CLOSE;
-                quot.quot = NO_Q;
-			}
-		}
-		if (is_flag(cmd[i]) && quot.quot_status == STATUS_CLOSE)
-			return (i);
-		i++;
+		cmdinfo->cmd = NULL;
+		cmdinfo->status = NO_TOUCH;
 	}
-	return (i);
+	return (cmdinfo);
 }
