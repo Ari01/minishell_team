@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 19:09:55 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 08:33:48 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	ft_chdir(DIR *dir, char *file_name)
 
 char	*get_exec_path(t_ms *ms, char *cmd)
 {
-	int				i;
-	char			*path;
-	char			*tmp;
-	char			**split;
-	DIR				*dir;
+	int		i;
+	char	*path;
+	char	*tmp;
+	char	**split;
+	DIR		*dir;
 
 	i = 0;
 	path = get_var(ms->env_list, "PATH");
@@ -41,12 +41,7 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 	while (split[i])
 	{
 		dir = opendir(split[i]);
-		if (dir == NULL)
-		{
-			
-			print_error_msg(strerror(errno), errno, ms);
-		}
-		if (ft_chdir(dir, cmd))
+		if (dir && ft_chdir(dir, cmd))
 		{
 			tmp = ft_strjoin("/", cmd);
 			path = ft_strjoin(split[i], tmp);
@@ -77,7 +72,6 @@ int		ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 	{
 		waitpid(pid, &signal, 0);
 		signal = WEXITSTATUS(signal);
-		printf("signal = %d\n", signal);
 	}
 	return (signal);
 }
@@ -97,7 +91,10 @@ int		run_exec(t_ms *ms, t_cmd *cmd)
 		if (path)
 			ret = ft_execve(ms, path, cmd->cmd, NULL);
 		else
-			ret = ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
+		{
+			printf("minishell: %s: command not found\n", cmd->cmd[0]);
+			ret = 127;
+		}
 	}
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 19:05:59 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 08:26:42 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ int		run_context(t_ms *ms)
 			if (!pid)
 			{
 				ret = run_cmd(ms, current_cmd);
-				printf("rettt = %d\n", ret);
 				exit(ret);
 			}
 			else
 			{
 				waitpid(pid, &ret, 0);
-				printf("ret = %d\n", ret);
+				ret = WEXITSTATUS(ret);
 			}
 		}
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
