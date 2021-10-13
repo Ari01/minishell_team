@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	free_io(void *content)
+{
+	t_io	*io;
+
+	io = (t_io *)content;
+	free(io->file);
+	free(io);
+}
+
 void	free_cmd(void *content)
 {
 	t_cmd	*cmd;
@@ -25,6 +34,8 @@ void	free_cmd(void *content)
 		i++;
 	}
 	free(cmd->cmd);
+	ft_lstclear(&cmd->out_streams_head, &free_io);
+	ft_lstclear(&cmd->in_stream_head, &free_io);
 	free(cmd);
 }
 

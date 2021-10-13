@@ -21,6 +21,7 @@ t_list	*remove_current_ite(t_list **cmd_list, t_list *ite)
 {
 	t_list	*itmp;
 
+	(void)cmd_list;
 	itmp = ite;
 	ite = ite->next;
 	remove_from_list(cmd_list, itmp);

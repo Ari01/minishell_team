@@ -22,7 +22,10 @@ int	is_builtin(char *s)
 	while (split[i])
 	{
 		if (!ft_strcmp(s, split[i]))
+		{
+			free_array(split);
 			return (1);
+		}
 		i++;
 	}
 	free_array(split);

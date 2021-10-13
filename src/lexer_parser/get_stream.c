@@ -44,6 +44,7 @@ t_cmd	*get_next_redir(t_list **cmd_list,
 	t_cmd *new_cmd)
 {
 	t_cmd	*next_cmd;
+	char	**tmp;
 
 	next_cmd = current_cmd;
 	while (*ite && is_redir(next_cmd->flag))
@@ -56,7 +57,9 @@ t_cmd	*get_next_redir(t_list **cmd_list,
 		next_cmd = (t_cmd *)(*ite)->content;
 		if (next_cmd->cmd[0])
 		{
-			current_cmd->cmd = array_join(current_cmd->cmd, next_cmd->cmd);
+			tmp = array_join(current_cmd->cmd, next_cmd->cmd);
+			free_array(current_cmd->cmd);	
+			current_cmd->cmd = tmp;
 			reset_array(next_cmd->cmd);
 		}
 	}

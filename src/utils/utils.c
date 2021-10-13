@@ -40,7 +40,7 @@ void	remove_elem_from_array(char **array)
 	int	i;
 
 	i = 0;
-	while (array[i])
+	while (array[i + 1])
 	{
 		array[i] = array[i + 1];
 		i++;

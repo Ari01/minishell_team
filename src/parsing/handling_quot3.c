@@ -72,6 +72,7 @@ char	**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms)
 	tmp = sepa_cmd(cmd, env_list, ms);
 	list_after_parsing = new_list(tmp);
 	len = ft_lstsize(list_after_parsing);
+	ft_lstclear(&tmp, free);
 	cmds = malloc(sizeof(char *) * (len + 1));
 	tmp = list_after_parsing;
 	while (tmp && i < len)
