@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/12 17:41:35 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/13 11:25:24 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_quot
 {
 	int	quot;
 	int	quot_status;
-
 }		t_quot;
 
 /*
@@ -106,6 +105,7 @@ typedef struct s_history
 typedef struct s_ms
 {
 	char		*rdl;
+	char		**envp;
 	int			fd_in;
 	int			fd_out;
 	t_list		*cmd_list_head;
@@ -160,7 +160,7 @@ typedef struct s_quotinfo
 }		t_quotinfo;
 
 /*
- ** HISTORT
+ ** HISTORY
 */
 t_history	init_history(t_history history);
 void		ft_add_history(char *cmd, t_history history);
@@ -229,6 +229,7 @@ int			run_cmd(t_ms *ms, t_cmd *cmd);
  **	EXEC
  */
 int			run_exec(t_ms *ms, t_cmd *cmd);
+void		run_shell(char **env);
 /*
  **	UTILS
  */

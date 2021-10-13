@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 16:03:36 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 17:43:27 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:50:00 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*new_token(char *value, int id)
 	return (token);
 }
 
-int		add_redir_tok(t_list **tok_list, char redir, char next)
+int	add_redir_tok(t_list **tok_list, char redir, char next)
 {
 	t_token	*token;
 	int		ret;

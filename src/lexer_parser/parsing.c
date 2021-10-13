@@ -6,20 +6,18 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/06 18:03:44 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/13 11:02:21 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-int		is_flag(char c)
+int	is_flag(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
-
-int		get_flag(char *s)
+int	get_flag(char *s)
 {
 	if (!is_flag(*s))
 		return (0);
@@ -30,7 +28,7 @@ int		get_flag(char *s)
 	return (*s);
 }
 
-int		check_rdl(t_ms *ms)
+int	check_rdl(t_ms *ms)
 {
 	if (ms->rdl[0] == '|')
 	{
@@ -42,9 +40,10 @@ int		check_rdl(t_ms *ms)
 		return (0);
 	return (1);
 }
+
 t_cmd	*init_cmd(void)
 {
-	t_cmd *cmd = NULL;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	cmd->in_streams = NULL;
@@ -57,11 +56,12 @@ t_cmd	*init_cmd(void)
 /*
 ** Entree : la chaine de caractere entree dans le prompt et captee par readline
 ** Sortie : une liste de t_cmd
-** On parcourt la chaine de caractere jusqu'a tomber sur un caractere pipe ou redirection '|', '<' ou '>'
-** On recupere la sous-chaine correspondante, que l'on split a l'aide du separateur ' '
-** Les chaines splitees representent les commandes et les arguments, que l'on stocke alors dans t_cmd ctmp->cmd
-** Ensuite, on regarde si la sous-chaine se termine par une pipe ou une redirection ou non
-** On stocke dans ctmp->flag le flag correspondant (0 s'il n'y a ni pipe ni redirection)
+** On parcourt la chaine de caractere jusqu'a tomber sur | > <
+** On split la sous-chaine correspondante avec le separateur ' '
+** Les chaines splitees representent les commandes et les arguments
+que l'on stocke alors dans t_cmd ctmp->cmd
+** On stocke dans ctmp->flag le flag correspondant
+(0 s'il n'y a ni pipe ni redirection)
 */
 t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms)
 {
@@ -77,20 +77,16 @@ t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms)
 	{
 		start = i;
 		i = check_flag(s, i);
-		tmp = ft_substr(s, start, i - start); //截断一个pipe 获取里面的cmd 放进数组里
+		tmp = ft_substr(s, start, i - start);
 		ctmp = init_cmd();
 		ctmp->cmd = lst_to_tab(tmp, env_list, ms);
 		ctmp->flag = get_flag(&s[i]);
 		free(tmp);
-		tmp = NULL;
 		if (ctmp->flag == DLR || ctmp->flag == DRR)
 			i++;
 		ft_lstadd_back(&cmd_list, ft_lstnew(ctmp));
-		if (ctmp->flag == DLR || ctmp->flag == DRR)
-			i++;
 		if (s[i])
 			i++;
 	}
 	return (cmd_list);
 }
-

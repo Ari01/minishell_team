@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 09:04:38 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:45:54 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 	return (NULL);
 }
 
-int		ft_execve(t_ms *ms, char *path, char **argv, char **envp)
+int	ft_execve(t_ms *ms, char *path, char **argv)
 {
 	int		pid;
 	int		signal;
@@ -64,7 +64,7 @@ int		ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 		print_error_msg(strerror(errno), errno, ms);
 	if (!pid)
 	{
-		if (execve(path, argv, envp) == -1)
+		if (execve(path, argv, ms->envp) == -1)
 			perror(path);
 		exit(errno);
 	}
@@ -76,20 +76,18 @@ int		ft_execve(t_ms *ms, char *path, char **argv, char **envp)
 	return (signal);
 }
 
-// execve (char *path, char **arg, char **envp)
-// envp a ete mis a NULL pour les tests mais il faudra le modifier pour prendre la liste d'env var
-int		run_exec(t_ms *ms, t_cmd *cmd)
+int	run_exec(t_ms *ms, t_cmd *cmd)
 {
 	char	*path;
 	int		ret;
 
 	if (ft_strchr(cmd->cmd[0], '/'))
-		ret = ft_execve(ms, cmd->cmd[0], cmd->cmd, NULL);
+		ret = ft_execve(ms, cmd->cmd[0], cmd->cmd);
 	else
 	{
 		path = get_exec_path(ms, cmd->cmd[0]);
 		if (path)
-			ret = ft_execve(ms, path, cmd->cmd, NULL);
+			ret = ft_execve(ms, path, cmd->cmd);
 		else
 		{
 			printf("minishell: %s: command not found\n", cmd->cmd[0]);

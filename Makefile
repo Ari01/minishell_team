@@ -6,59 +6,61 @@
 #    By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/12 17:44:53 by xuwang           ###   ########.fr        #
+#    Updated: 2021/10/13 11:50:44 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # VAR
 
 NAME			= minishell
-LIBFT 			= libft/libft.a
-INC				= -I.
+LIBFTDIR		= includes/libft
+LIBFT 			= $(LIBFTDIR)/libft.a
+INC				= -I includes
 
-SRCS			= main.c \
-				  lexer_parser/lexer.c \
-				  lexer_parser/grammar.c \
-				  lexer_parser/parsing.c \
-				  lexer_parser/get_stream.c \
-				  lexer_parser/get_stream_utils.c \
-				  lexer_parser/ft_trim.c \
-				  execution/pipe.c \
-				  execution/cmd.c \
-				  execution/redirection.c \
-				  execution/exec.c \
-				  execution/stream.c \
-				  execution/var.c \
-				  utils/error.c \
-				  utils/utils.c \
-				  utils/print.c \
-				  builtin/builtin.c \
-				  builtin/echo.c \
-				  builtin/cd.c \
-				  builtin/pwd.c \
-				  builtin/exit.c \
-				  builtin/env.c \
-				  builtin/export.c \
-				  builtin/export_utils.c\
-				  builtin/unset.c \
-				  builtin/utils.c \
-				  history/history.c \
-				  signal/signal.c \
-				  parsing/handling_quot1.c \
-				  parsing/handling_quot2.c \
-				  parsing/handling_quot3.c \
-				  parsing/handling_flag.c\
-				  parsing/parsing_utils.c \
-				  parsing/handling_dollar1.c\
-				  parsing/handling_dollar2.c \
-				  parsing/ret_utils.c \
-				  parsing/ret_utils2.c 
+SRCS			= src/main/main.c \
+				src/main/minishell.c \
+				src/lexer_parser/lexer.c \
+				src/lexer_parser/grammar.c \
+				src/lexer_parser/parsing.c \
+				src/lexer_parser/get_stream.c \
+				src/lexer_parser/get_stream_utils.c \
+				src/lexer_parser/ft_trim.c \
+				src/execution/pipe.c \
+				src/execution/cmd.c \
+				src/execution/redirection.c \
+				src/execution/exec.c \
+				src/execution/stream.c \
+				src/execution/var.c \
+				src/utils/error.c \
+				src/utils/utils.c \
+				src/utils/print.c \
+				src/builtin/builtin.c \
+				src/builtin/echo.c \
+				src/builtin/cd.c \
+				src/builtin/pwd.c \
+				src/builtin/exit.c \
+				src/builtin/env.c \
+				src/builtin/export.c \
+				src/builtin/export_utils.c\
+				src/builtin/unset.c \
+				src/builtin/utils.c \
+				src/history/history.c \
+				src/signal/signal.c \
+				src/parsing/handling_quot1.c \
+				src/parsing/handling_quot2.c \
+				src/parsing/handling_quot3.c \
+				src/parsing/handling_flag.c\
+				src/parsing/parsing_utils.c \
+				src/parsing/handling_dollar1.c\
+				src/parsing/handling_dollar2.c \
+				src/parsing/ret_utils.c \
+				src/parsing/ret_utils2.c 
 
 OBJS			= $(SRCS:.c=.o)
 
 CC				= clang
 CFLAGS			= -Wall -Wextra -Werror #-g3 -fsanitize=address
-LFLAGS			= -L libft -lft -lreadline
+LFLAGS			= -L $(LIBFTDIR) -lft -lreadline
 RM				= rm -f
 
 # RULES 
@@ -72,17 +74,17 @@ debug :			$(OBJS) $(LIBFT)
 				$(CC) $(CFLAGS) -g3 -fsanitize=address $(INC) $(OBJS) -o $@ $(LFLAGS)
 
 $(LIBFT) :		
-				$(MAKE) bonus -C libft
+				$(MAKE) bonus -C $(LIBFTDIR)
 
 .c.o :
 				$(CC) $(CFLAGS) $(INC) -c $< -o $(<:.c=.o)
 
 clean :
-				$(MAKE) clean -C libft
+				$(MAKE) clean -C $(LIBFTDIR)
 				$(RM) $(OBJS)
 
 fclean :		clean
-				$(MAKE) fclean -C libft
+				$(MAKE) fclean -C $(LIBFTDIR)
 				$(RM) $(NAME)
 				$(RM) .*.swp
 				$(RM) */.*.swp

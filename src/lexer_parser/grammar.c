@@ -6,13 +6,13 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:30:08 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/30 17:36:36 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:49:33 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_redir(t_list *token_list)
+int	check_redir(t_list *token_list)
 {
 	t_token	*token;
 	t_token	*next_token;
@@ -42,6 +42,7 @@ char	*check_pipe(t_list *token_list)
 t_list	*check_cmd(t_list *token_list, char **error_pos)
 {
 	t_token	*token;
+
 	token = (t_token *)token_list->content;
 	while (token_list && token->id == REDIR_TOK)
 	{

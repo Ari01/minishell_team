@@ -6,13 +6,13 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 18:55:05 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/05 17:07:08 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:49:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_redir(int flag)
+int	is_redir(int flag)
 {
 	return (flag == SLR || flag == DLR || flag == SRR || flag == DRR);
 }
@@ -29,7 +29,7 @@ t_list	*remove_current_ite(t_list **cmd_list, t_list *ite)
 
 void	reset_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -40,7 +40,7 @@ void	reset_array(char **array)
 	}
 }
 
-t_cmd	new_io_cmd()
+t_cmd	new_io_cmd(void)
 {
 	t_cmd	cmd;
 

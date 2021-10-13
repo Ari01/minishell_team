@@ -6,17 +6,17 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/07 16:47:51 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:03:16 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		exec_child(t_ms *ms, int pipe_fd)
+int	exec_child(t_ms *ms, int pipe_fd)
 {
 	t_cmd	cmd;
 
-	cmd = *(t_cmd*)ms->cmd_list_ite->content;
+	cmd = *(t_cmd *)ms->cmd_list_ite->content;
 	if (cmd.in_streams || cmd.out_streams)
 		redirect(ms, &cmd);
 	if (!cmd.out_streams_head)
@@ -28,7 +28,7 @@ int		exec_child(t_ms *ms, int pipe_fd)
 	return (run_cmd(ms, &cmd));
 }
 
-int		run_pipe(t_ms *ms)
+int	run_pipe(t_ms *ms)
 {
 	int		pid;
 	int		pipe_fd[2];

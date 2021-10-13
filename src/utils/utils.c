@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 18:36:52 by dchheang          #+#    #+#             */
-/*   Updated: 2021/09/28 14:50:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/13 11:12:30 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_array(char **array)
 	free(array);
 }
 
-int		get_array_len(char **a)
+int	get_array_len(char **a)
 {
 	int	i;
 
