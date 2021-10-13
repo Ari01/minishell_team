@@ -73,12 +73,14 @@ char	**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms)
 	list_after_parsing = new_list(tmp);
 	len = ft_lstsize(list_after_parsing);
 	cmds = malloc(sizeof(char *) * (len + 1));
-	while (list_after_parsing && i < len)
+	tmp = list_after_parsing;
+	while (tmp && i < len)
 	{
-		cmds[i] = list_after_parsing->content;
-		list_after_parsing = list_after_parsing -> next;
+		cmds[i] = ft_strdup((char *)tmp->content);
+		tmp = tmp->next;
 		i++;
 	}
+	ft_lstclear(&list_after_parsing, &free);
 	cmds[i] = NULL;
 	return (cmds);
 }

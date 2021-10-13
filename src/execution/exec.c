@@ -23,17 +23,16 @@ int	ft_chdir(DIR *dir, char *file_name)
 			return (1);
 		dirent = readdir(dir);
 	}
-	closedir(dir);
 	return (0);
 }
 
 char	*get_exec_path(t_ms *ms, char *cmd)
 {
-	int		i;
+	int	i;
 	char	*path;
 	char	*tmp;
 	char	**split;
-	DIR		*dir;
+	DIR	*dir;
 
 	i = 0;
 	path = get_var(ms->env_list, "PATH");
@@ -47,8 +46,10 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 			path = ft_strjoin(split[i], tmp);
 			free(tmp);
 			free_array(split);
+			closedir(dir);
 			return (path);
 		}
+		closedir(dir);
 		i++;
 	}
 	return (NULL);
@@ -90,9 +91,10 @@ int	run_exec(t_ms *ms, t_cmd *cmd)
 			ret = ft_execve(ms, path, cmd->cmd);
 		else
 		{
-			printf("minishell: %s: command not found\n", cmd->cmd[0]);
+			printf(" %s: command not found\n", cmd->cmd[0]);
 			ret = 127;
 		}
+		free(path);
 	}
 	return (ret);
 }

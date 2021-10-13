@@ -26,6 +26,7 @@ void	creat_history(t_history *history)
 		home = getcwd(NULL, 0);
 	}
 	path = ft_strjoin(home, "/.minishell_history");
+	free(home);
 	history->path = path;
 	history->fd = open(history->path, O_RDWR | O_CREAT | O_APPEND, 0777);
 	if (history->fd == -1)

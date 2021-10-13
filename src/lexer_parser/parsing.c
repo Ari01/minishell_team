@@ -68,8 +68,8 @@ t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms)
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
 	char	*tmp;
-	int		start;
-	int		i;
+	int	start;
+	int	i;
 
 	i = 0;
 	cmd_list = NULL;

@@ -40,7 +40,9 @@ int	run_pipe(t_ms *ms)
 	if (!pid)
 	{
 		close(pipe_fd[0]);
-		exit(exec_child(ms, pipe_fd[1]));
+		signal = exec_child(ms, pipe_fd[1]);
+		close(pipe_fd[1]);
+		exit(signal);
 	}
 	else
 	{

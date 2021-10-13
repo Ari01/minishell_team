@@ -70,11 +70,7 @@ int	check_error(t_ms *ms)
 	char	*check;
 
 	if (!ms->rdl)
-	{
-		rl_clear_history();
-		ft_lstclear(&ms->env_list, &free);
 		print_error_msg("exit", 0, ms);
-	}
 	token_list = NULL;
 	token_list = get_tokens(ms->rdl);
 	check = check_grammar(token_list);
@@ -89,14 +85,14 @@ int	check_error(t_ms *ms)
 	return (0);
 }
 
-void	run_shell(char **env)
+void	run_shell(char **av, char **env)
 {
 	t_ms	ms;
 
 	ms = init_shell(env);
-	while (1)
+	if (1)
 	{
-		ms.rdl = readline("prompt> ");
+		ms.rdl = av[1];
 		if (!check_error(&ms))
 		{
 			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
@@ -107,7 +103,7 @@ void	run_shell(char **env)
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				ms.cmd_ret = run_context(&ms);
-			free_memory(&ms);
+			//free_memory(&ms);
 			reset_fdin_fdout(&ms);
 		}
 	}
