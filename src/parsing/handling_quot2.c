@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handling_quot.c                                    :+:      :+:    :+:   */
+/*   handling_quot2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/07 18:42:10 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/15 16:02:19 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	parser_dollar(t_quotinfo *quotinfo, t_list *env_list, t_ms *ms)
 	{
 		quotinfo->new_cmd
 			= hanlding_dollar(quotinfo->cmdinfo->cmd, env_list, ms);
+		if (quotinfo->cmdinfo->cmd)
+			free(quotinfo->cmdinfo->cmd);
 		quotinfo->cmdinfo->cmd = quotinfo->new_cmd;
 	}
 }
@@ -46,6 +48,7 @@ t_list	*part_nq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo)
 	ft_lstadd_back(&quotinfo->list1, ft_lstnew((void *)quotinfo->cmdinfo));
 	if (cmd[quotinfo->i] == '\0')
 		return (quotinfo->list1);
+	// printf("[%s] - [%p]\n", quotinfo->cmdinfo->cmd, quotinfo->cmdinfo->cmd); debug1
 	return (NULL);
 }
 

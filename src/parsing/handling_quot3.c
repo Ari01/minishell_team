@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handling_quot3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:28:14 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/11 15:28:45 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/15 16:01:00 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms)
 		tmp = tmp->next;
 		i++;
 	}
-	ft_lstclear(&list_after_parsing, &free);
+	ft_lstclear(&list_after_parsing, free);
 	cmds[i] = NULL;
 	return (cmds);
 }

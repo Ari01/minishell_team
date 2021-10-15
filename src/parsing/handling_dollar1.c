@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handling_dollar1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/13 14:24:57 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/15 15:24:55 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	part2_dollar(char *cmd, t_list *env_list, t_dollar *dolinfo)
 
 void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
 {
+	char *tmp;
+
+	tmp = NULL;
 	if (cmd[dolinfo->i] >= '0' && cmd[dolinfo->i] <= '9')
 	{
 		dolinfo->new_cmd = ft_join(dolinfo->new_cmd, "");
@@ -57,8 +60,9 @@ void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
 	}
 	else if (cmd[dolinfo->i] == '?')
 	{
-		printf("cmd ret = %d, itoa = %s\n", ms->cmd_ret, ft_itoa(ms->cmd_ret));
-		dolinfo->new_cmd = ft_join(dolinfo->new_cmd, ft_itoa(ms->cmd_ret));
+		tmp = ft_itoa(ms->cmd_ret);
+		dolinfo->new_cmd = ft_join(dolinfo->new_cmd, tmp);
+		free(tmp);
 		++dolinfo->i;
 		if (cmd[dolinfo->i] == '$')
 			--dolinfo->i;

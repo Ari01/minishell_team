@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 10:45:54 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/15 15:11:30 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 		closedir(dir);
 		i++;
 	}
+	free_array(split);
 	return (NULL);
 }
 
@@ -87,8 +88,9 @@ int	run_exec(t_ms *ms, t_cmd *cmd)
 	else
 	{
 		path = get_exec_path(ms, cmd->cmd[0]);
-		if (path)
+		if (path) {
 			ret = ft_execve(ms, path, cmd->cmd);
+		}
 		else
 		{
 			printf(" %s: command not found\n", cmd->cmd[0]);
