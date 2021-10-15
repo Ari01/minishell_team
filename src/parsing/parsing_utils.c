@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:41:18 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/12 17:45:45 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/15 16:52:31 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ t_cmdinfo	*creat_cmdinfo(void)
 {
 	t_cmdinfo	*cmdinfo;
 
-	cmdinfo = NULL;
-	cmdinfo = malloc (sizeof(t_cmd));
+	cmdinfo = malloc(sizeof(t_cmdinfo));
 	if (cmdinfo)
 	{
 		cmdinfo->cmd = NULL;

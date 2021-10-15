@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:28:14 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/15 16:01:00 by kaye             ###   ########.fr       */
+/*   Updated: 2021/10/15 16:18:13 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms)
 	len = ft_lstsize(list_after_parsing);
 	ft_lstclear(&tmp, free);
 	cmds = malloc(sizeof(char *) * (len + 1));
+	if (!cmds) // add here malloc protect
+		return (NULL);
 	tmp = list_after_parsing;
 	while (tmp && i < len)
 	{
