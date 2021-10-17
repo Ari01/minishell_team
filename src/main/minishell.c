@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 04:30:29 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 07:04:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ int	run_context(t_ms *ms)
 			redirect(ms, current_cmd);
 		if (current_cmd->flag == '|')
 			ret = run_pipe(ms);
-		else if (current_cmd->cmd[0])
-			ret = run_cmd(ms, current_cmd);
-		ms->cmd_list_ite = ms->cmd_list_ite->next;
+		else
+		{
+			if (current_cmd->cmd[0])
+				ret = run_cmd(ms, current_cmd);
+			ms->cmd_list_ite = ms->cmd_list_ite->next;
+		}
 	}
 	return (ret);
 }
