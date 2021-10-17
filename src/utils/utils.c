@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 18:36:52 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 11:12:30 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 08:18:29 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,15 @@ int	get_array_len(char **a)
 
 void	remove_elem_from_array(char **array)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	while (array[i + 1])
+	free(array[i]);
+	while (array[i])
 	{
 		array[i] = array[i + 1];
 		i++;
 	}
-	free(array[i]);
-	array[i] = NULL;
 }
 
 void	remove_from_list(t_list **head, t_list *elem)
