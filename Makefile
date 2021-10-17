@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/15 14:44:45 by kaye             ###   ########.fr        #
+#    Updated: 2021/10/17 04:47:23 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,6 +88,7 @@ fclean :		clean
 				$(RM) $(NAME)
 				$(RM) .*.swp
 				$(RM) */.*.swp
+				$(RM) */*/.*.swp
 
 re :			clean fclean all
 
