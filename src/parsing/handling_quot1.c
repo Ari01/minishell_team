@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/15 16:35:50 by kaye             ###   ########.fr       */
+/*   Updated: 2021/10/17 09:59:01 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static	t_list	*_part1_(t_quotinfo *quotinfo, char *cmd,
 	return (NULL);
 }
 
-
-// some modif if - if -> if - else if - else maybe will get some bug
+/* some modif if - if -> if - else if - else maybe will get some bug */
 static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
 		t_list *env_list, t_ms *ms)
 {
@@ -46,7 +45,7 @@ static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
 			if (ret != NULL)
 				return (ret);
 		}
-		//here
+		// here
 		else if (cmd[quotinfo->i] == '\'')
 		{
 			quotinfo->i++;
@@ -54,7 +53,7 @@ static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
 			if (ret != NULL)
 				return (ret);
 		}
-		//here
+		// here
 		else
 			ret = _part1_(quotinfo, cmd, env_list, ms);
 		if (ret != NULL)

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 08:18:03 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 09:31:28 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_cmd	*get_next_redir(t_list **cmd_list,
 		if (next_cmd->cmd[0])
 		{
 			tmp = array_join(current_cmd->cmd, next_cmd->cmd);
-			free_array(current_cmd->cmd);	
+			free_array(current_cmd->cmd);
 			current_cmd->cmd = tmp;
 			reset_array(next_cmd->cmd);
 		}

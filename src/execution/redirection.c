@@ -6,19 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 10:05:25 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 09:30:50 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_fdin_fdout(t_ms *ms)
-{
-	dup2(ms->fd_in, STDIN_FILENO);
-	dup2(ms->fd_out, STDOUT_FILENO);
-}
-
-void	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
+int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 {
 	int		fd;
 
@@ -27,10 +21,16 @@ void	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 	else
 		fd = open(stream, flags);
 	if (fd == -1)
-		print_error_msg(strerror(errno), FILE_ERR, ms);
+	{
+		close(fd);
+		return (ft_execve(ms, stream, NULL));
+	}
 	if (dup2(fd, newfd) == -1)
+	{
+		close(fd);
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
-	close(fd);
+	}
+	return (0);
 }
 
 void	read_from_current_input(t_ms *ms, char *delimiter)
@@ -59,31 +59,62 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	close(fd);
 }
 
-void	redirect(t_ms *ms, t_cmd *current_cmd)
+int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 {
+	int		ret;
 	t_io	*io;
 
+	ret = 0;
 	while (current_cmd->in_streams)
 	{
 		io = (t_io *)current_cmd->in_streams->content;
 		if (io->flag == SLR)
-			redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
+		{
+			ret = redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
+			if (ret)
+				return (ret);
+		}
 		else if (io->flag == DLR)
 			read_from_current_input(ms, io->file);
 		current_cmd->in_streams = current_cmd->in_streams->next;
 	}
+	return (ret);
+}
+
+int	redirect_out(t_ms *ms, t_cmd *current_cmd)
+{
+	int		ret;
+	t_io	*io;
+
+	ret = 0;
 	while (current_cmd->out_streams)
 	{
 		io = (t_io *)current_cmd->out_streams->content;
 		if (io->flag == SRR)
-			redirect_in_out(ms,
-				io->file, STDOUT_FILENO,
-				O_RDWR | O_CREAT | O_TRUNC);
+		{
+			ret = redirect_in_out(ms, io->file, STDOUT_FILENO,
+					O_RDWR | O_CREAT | O_TRUNC);
+			if (!ret)
+				return (ret);
+		}
 		else if (io->flag == DRR)
-			redirect_in_out(ms,
-				io->file,
-				STDOUT_FILENO,
-				O_RDWR | O_CREAT | O_APPEND);
+		{
+			ret = redirect_in_out(ms, io->file, STDOUT_FILENO,
+					O_RDWR | O_CREAT | O_APPEND);
+			if (!ret)
+				return (ret);
+		}
 		current_cmd->out_streams = current_cmd->out_streams->next;
 	}
+	return (ret);
+}
+
+int	redirect(t_ms *ms, t_cmd *current_cmd)
+{
+	int		ret;
+
+	ret = redirect_in(ms, current_cmd);
+	if (!ret)
+		ret = redirect_out(ms, current_cmd);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 11:02:21 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 09:31:47 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms)
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
 	char	*tmp;
-	int	start;
-	int	i;
+	int		start;
+	int		i;
 
 	i = 0;
 	cmd_list = NULL;

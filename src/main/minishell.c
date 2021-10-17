@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 08:21:42 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 09:36:12 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ int	run_context(t_ms *ms)
 	{
 		current_cmd = (t_cmd *)ms->cmd_list_ite->content;
 		if (current_cmd->in_streams || current_cmd->out_streams)
-			redirect(ms, current_cmd);
+			ret = redirect(ms, current_cmd);
+		if (ret)
+			break ;
 		if (current_cmd->flag == '|')
-			ret = run_pipe(ms);
+			run_pipe(ms);
 		else
 		{
 			if (current_cmd->cmd[0])
@@ -83,14 +85,15 @@ int	check_error(t_ms *ms)
 	token_list = NULL;
 	token_list = get_tokens(ms->rdl);
 	check = check_grammar(token_list);
-	ft_lstclear(&token_list, &free_token);
 	if (check)
 	{
 		printf("parse error near %s\n", check);
 		free(ms->rdl);
 		ms->rdl = NULL;
+		ft_lstclear(&token_list, &free_token);
 		return (1);
 	}
+	ft_lstclear(&token_list, &free_token);
 	return (0);
 }
 
@@ -105,10 +108,8 @@ void	run_shell(char **env)
 		if (!check_error(&ms))
 		{
 			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
-			//ms.cmd_list_head = ft_trim(ms.cmd_list_head);
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
-			//print_cmds(ms.cmd_list_ite);
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				ms.cmd_ret = run_context(&ms);

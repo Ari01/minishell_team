@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 08:02:21 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 09:22:55 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,21 +165,25 @@ typedef struct s_quotinfo
 t_history	init_history(t_history history);
 void		ft_add_history(char *cmd, t_history history);
 void		ft_interrupt(int signe);
+
 /*
  **	ERRORS
  */
 void		free_cmd(void *content);
 void		free_memory(t_ms *ms);
 void		print_error_msg(char *s, int error_id, t_ms *ms);
+
 /*
  **	LEXER
  */
 void		free_token(void *content);
 t_list		*get_tokens(char *s);
+
 /*
  **	GRAMMAR
  */
 char		*check_grammar(t_list *token_list);
+
 /*
  **	PARSER
  */
@@ -195,6 +199,7 @@ t_list		*remove_current_ite(t_list **cmd_list, t_list *ite);
 void		reset_array(char **array);
 t_cmd		new_io_cmd(void);
 t_list		*ft_trim(t_list *cmd_list);
+
 /*
  **  BUILTINS
  */
@@ -212,24 +217,30 @@ void		ft_list_sort(t_list **begin_list, int (*ft_strcmp)());
 void		print_msg(char *msg1, char *msg2, char *msg3, int fd);
 t_list		*check_name_exist(char *cmd, t_list *env_list);
 t_list		*get_env(char **env, t_list *env_list);
+
 /*
  **	PIPE
  */
-int			run_pipe(t_ms *ms);
+void		run_pipe(t_ms *ms);
+
 /*
  **	REDIRECTION
  */
 void		reset_fdin_fdout(t_ms *ms);
-void		redirect(t_ms *ms, t_cmd *current_cmd);
+int			redirect(t_ms *ms, t_cmd *current_cmd);
+
 /*
  **	COMMANDS
  */
 int			run_cmd(t_ms *ms, t_cmd *cmd);
+
 /*
  **	EXEC
  */
+int			ft_execve(t_ms *ms, char *path, char **argv);
 int			run_exec(t_ms *ms, t_cmd *cmd);
 void		run_shell(char **env);
+
 /*
  **	UTILS
  */

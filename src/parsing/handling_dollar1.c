@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/15 16:25:49 by kaye             ###   ########.fr       */
+/*   Updated: 2021/10/17 09:57:04 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	part2_dollar(char *cmd, t_list *env_list, t_dollar *dolinfo)
 
 void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = NULL;
 	if (cmd[dolinfo->i] >= '0' && cmd[dolinfo->i] <= '9')
