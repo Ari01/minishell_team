@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/15 15:11:30 by kaye             ###   ########.fr       */
+/*   Updated: 2021/10/17 03:53:32 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ char	*get_exec_path(t_ms *ms, char *cmd)
 			tmp = ft_strjoin("/", cmd);
 			path = ft_strjoin(split[i], tmp);
 			free(tmp);
-			free_array(split);
 			closedir(dir);
+			free_array(split);
 			return (path);
 		}
 		closedir(dir);

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/13 14:59:35 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/17 04:14:10 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	check_error(t_ms *ms)
 	{
 		rl_clear_history();
 		ft_lstclear(&ms->env_list, &free);
+		close(ms->history.fd);
+		free(ms->history.path);
 		print_error_msg("exit", 0, ms);
 	}
 	token_list = NULL;
@@ -100,10 +102,10 @@ void	run_shell(char **env)
 		if (!check_error(&ms))
 		{
 			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
-			//ms.cmd_list_head = ft_trim(ms.cmd_list_head);
+			ms.cmd_list_head = ft_trim(ms.cmd_list_head);
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
-			//print_cmds(ms.cmd_list_ite);
+			print_cmds(ms.cmd_list_ite);
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
 				ms.cmd_ret = run_context(&ms);
