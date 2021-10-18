@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 12:23:00 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 12:38:24 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	char	*rdl;
 	int		len;
 	int		nline;
-	int		fd;
+	int		pipe_fd[2];
 
 	signal(SIGINT, SIG_DFL);
-	fd = open("tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
-	if (fd == -1)
+	if (pipe(pipe_fd) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	nline = 1;
 	len = ft_strlen(delimiter);
@@ -55,11 +54,12 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 		ft_putendl_fd(rdl, pipe_fd[1]);
 		nline++;
 		free(rdl);
-		rdl = NULL;
 		rdl = readline("> ");
 	}
 	check_read_from_input(rdl, nline, delimiter);
-	rdl = NULL;
+	close(pipe_fd[1]);
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 	signal(SIGINT, ft_interrupt);
 }
 
@@ -79,7 +79,11 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 				return (ret);
 		}
 		else if (io->flag == DLR)
+		{
+			if (dup2(ms->fd_in, STDIN_FILENO) == -1)
+				print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 			read_from_current_input(ms, io->file);
+		}
 		current_cmd->in_streams = current_cmd->in_streams->next;
 	}
 	return (ret);
