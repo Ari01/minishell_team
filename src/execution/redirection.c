@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 09:08:25 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 10:44:03 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,29 @@ int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 void	read_from_current_input(t_ms *ms, char *delimiter)
 {
 	int		rd;
-	int		fd;
 	int		len;
 	char	buff[BUFFER_SIZE];
+	int		nline;
+	int		pipe_fd[2];
 
+	if (pipe(pipe_fd) == -1)
+		print_error_msg(strerror(errno), PIPE_ERR, ms);
+	nline = 1;
 	len = ft_strlen(delimiter);
-	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
-	if (fd == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 	write(STDOUT_FILENO, "> ", 2);
 	rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
 	while (ft_strncmp(buff, delimiter, len) && rd > 0)
 	{
 		write(STDOUT_FILENO, "> ", 2);
-		write(fd, buff, rd);
+		write(pipe_fd[1], buff, rd);
+		nline++;
 		rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
 	}
-	close(fd);
-	fd = open("./tmp/heredoc.txt", O_RDWR | O_CREAT, 0666);
-	if (rd == -1 || fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+	check_read_from_input(rd, nline, delimiter);
+	close(pipe_fd[1]);
+	if (rd == -1 || dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	close(fd);
+	close(pipe_fd[0]);
 }
 
 int	redirect_in(t_ms *ms, t_cmd *current_cmd)
@@ -87,6 +89,7 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 int	redirect_out(t_ms *ms, t_cmd *current_cmd)
 {
 	int		ret;
+	int		flags;
 	t_io	*io;
 
 	ret = 0;
@@ -94,19 +97,12 @@ int	redirect_out(t_ms *ms, t_cmd *current_cmd)
 	{
 		io = (t_io *)current_cmd->out_streams->content;
 		if (io->flag == SRR)
-		{
-			ret = redirect_in_out(ms, io->file, STDOUT_FILENO,
-					O_RDWR | O_CREAT | O_TRUNC);
-			if (!ret)
-				return (ret);
-		}
+			flags = O_RDWR | O_CREAT | O_TRUNC;
 		else if (io->flag == DRR)
-		{
-			ret = redirect_in_out(ms, io->file, STDOUT_FILENO,
-					O_RDWR | O_CREAT | O_APPEND);
-			if (!ret)
-				return (ret);
-		}
+			flags = O_RDWR | O_CREAT | O_APPEND;
+		ret = redirect_in_out(ms, io->file, STDOUT_FILENO, flags);
+		if (ret)
+			break ;
 		current_cmd->out_streams = current_cmd->out_streams->next;
 	}
 	return (ret);
