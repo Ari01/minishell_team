@@ -6,44 +6,52 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 03:59:57 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 09:41:43 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_io(void *content)
+void	check_exit(t_ms *ms)
 {
-	t_io	*io;
-
-	io = (t_io *)content;
-	free(io->file);
-	free(io);
-}
-
-void	free_cmd(void *content)
-{
-	t_cmd	*cmd;
-	int		i;
-
-	i = 0;
-	cmd = (t_cmd *)content;
-	while (cmd->cmd[i])
+	if (!ms->rdl)
 	{
-		free(cmd->cmd[i]);
-		i++;
+		rl_clear_history();
+		ft_lstclear(&ms->env_list, &free);
+		close(ms->history.fd);
+		free(ms->history.path);
+		print_error_msg("exit", 0, ms);
 	}
-	free(cmd->cmd);
-	ft_lstclear(&cmd->out_streams_head, &free_io);
-	ft_lstclear(&cmd->in_stream_head, &free_io);
-	free(cmd);
 }
 
-void	free_memory(t_ms *ms)
+int	check_parsing(t_ms *ms, t_list *token_list)
 {
-	free(ms->rdl);
-	ms->rdl = NULL;
-	ft_lstclear(&ms->cmd_list_head, &free_cmd);
+	char	*check;
+
+	check = check_grammar(token_list);
+	if (check)
+	{
+		printf("minishell: erreur de syntaxe près du symbole inattendu « %s »\n",
+			check);
+		free(ms->rdl);
+		ms->rdl = NULL;
+		ms->cmd_ret = 2;
+		return (1);
+	}
+	return (0);
+}
+
+int	check_error(t_ms *ms)
+{
+	int		ret;
+	t_list	*token_list;
+
+	check_exit(ms);
+	token_list = NULL;
+	token_list = get_tokens(ms->rdl);
+	ret = check_parsing(ms, token_list);
+	ft_lstclear(&token_list, &free_token);
+	return (ret);
 }
 
 void	print_error_msg(char *s, int error_id, t_ms *ms)

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 09:22:55 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 09:39:13 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,7 @@ void		ft_interrupt(int signe);
 /*
  **	ERRORS
  */
-void		free_cmd(void *content);
-void		free_memory(t_ms *ms);
+int			check_error(t_ms *ms);
 void		print_error_msg(char *s, int error_id, t_ms *ms);
 
 /*
@@ -245,10 +244,16 @@ void		run_shell(char **env);
  **	UTILS
  */
 void		print_cmds(t_list *cmd_list);
-void		free_array(char **array);
 void		remove_elem_from_array(char **array);
 void		remove_from_list(t_list **head, t_list *elem);
 char		**array_join(char **a1, char **a2);
+
+/*
+**	ERRORS
+*/
+void		free_cmd(void *content);
+void		free_memory(t_ms *ms);
+void		free_array(char **array);
 
 /*
  **	VARS

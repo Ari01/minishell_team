@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/17 04:47:23 by dchheang         ###   ########.fr        #
+#    Updated: 2021/10/18 09:41:05 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ INC				= -I includes
 
 SRCS			= src/main/main.c \
 				src/main/minishell.c \
+				src/utils/memory.c \
 				src/lexer_parser/lexer.c \
 				src/lexer_parser/grammar.c \
 				src/lexer_parser/parsing.c \

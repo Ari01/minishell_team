@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 09:36:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 09:29:45 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,34 +67,6 @@ int	run_context(t_ms *ms)
 		}
 	}
 	return (ret);
-}
-
-int	check_error(t_ms *ms)
-{
-	t_list	*token_list;
-	char	*check;
-
-	if (!ms->rdl)
-	{
-		rl_clear_history();
-		ft_lstclear(&ms->env_list, &free);
-		close(ms->history.fd);
-		free(ms->history.path);
-		print_error_msg("exit", 0, ms);
-	}
-	token_list = NULL;
-	token_list = get_tokens(ms->rdl);
-	check = check_grammar(token_list);
-	if (check)
-	{
-		printf("parse error near %s\n", check);
-		free(ms->rdl);
-		ms->rdl = NULL;
-		ft_lstclear(&token_list, &free_token);
-		return (1);
-	}
-	ft_lstclear(&token_list, &free_token);
-	return (0);
 }
 
 void	run_shell(char **env)

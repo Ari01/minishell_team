@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 09:30:50 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 09:08:25 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 {
 	int		fd;
+	char	*tmp;
 
 	if (flags & O_CREAT)
 		fd = open(stream, flags, 0666);
@@ -22,8 +23,10 @@ int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 		fd = open(stream, flags);
 	if (fd == -1)
 	{
-		close(fd);
-		return (ft_execve(ms, stream, NULL));
+		tmp = ft_strjoin("minishell: ", stream);
+		perror(tmp);
+		free(tmp);
+		return (1);
 	}
 	if (dup2(fd, newfd) == -1)
 	{
