@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 12:06:06 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 12:23:00 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 	char	*rdl;
 	int		len;
 	int		nline;
-	int		pipe_fd[2];
+	int		fd;
 
 	signal(SIGINT, SIG_DFL);
-	if (pipe(pipe_fd) == -1)
+	fd = open("tmp/heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (fd == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	nline = 1;
 	len = ft_strlen(delimiter);
@@ -54,13 +55,11 @@ void	read_from_current_input(t_ms *ms, char *delimiter)
 		ft_putendl_fd(rdl, pipe_fd[1]);
 		nline++;
 		free(rdl);
+		rdl = NULL;
 		rdl = readline("> ");
 	}
 	check_read_from_input(rdl, nline, delimiter);
-	close(pipe_fd[1]);
-	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	close(pipe_fd[0]);
+	rdl = NULL;
 	signal(SIGINT, ft_interrupt);
 }
 
