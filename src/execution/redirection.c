@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 10:44:03 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/18 12:06:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,30 @@ int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 
 void	read_from_current_input(t_ms *ms, char *delimiter)
 {
-	int		rd;
+	char	*rdl;
 	int		len;
-	char	buff[BUFFER_SIZE];
 	int		nline;
 	int		pipe_fd[2];
 
+	signal(SIGINT, SIG_DFL);
 	if (pipe(pipe_fd) == -1)
 		print_error_msg(strerror(errno), PIPE_ERR, ms);
 	nline = 1;
 	len = ft_strlen(delimiter);
-	write(STDOUT_FILENO, "> ", 2);
-	rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
-	while (ft_strncmp(buff, delimiter, len) && rd > 0)
+	rdl = readline("> ");
+	while (rdl && ft_strncmp(rdl, delimiter, len))
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		write(pipe_fd[1], buff, rd);
+		ft_putendl_fd(rdl, pipe_fd[1]);
 		nline++;
-		rd = read(ms->fd_in, buff, BUFFER_SIZE - 1);
+		free(rdl);
+		rdl = readline("> ");
 	}
-	check_read_from_input(rd, nline, delimiter);
+	check_read_from_input(rdl, nline, delimiter);
 	close(pipe_fd[1]);
-	if (rd == -1 || dup2(pipe_fd[0], STDIN_FILENO) == -1)
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 	close(pipe_fd[0]);
+	signal(SIGINT, ft_interrupt);
 }
 
 int	redirect_in(t_ms *ms, t_cmd *current_cmd)
