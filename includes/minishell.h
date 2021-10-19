@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:43:47 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:14:52 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,15 @@ typedef struct s_quotinfo
 	t_cmdinfo	*cmdinfo;
 }		t_quotinfo;
 
+typedef struct s_lsttab
+{
+	char	**cmds;
+	int		len;
+	int		i;
+	t_list	*tmp;
+	t_list	*list_after_parsing;
+}	t_lsttab;
+
 /*
  ** HISTORY
 */
@@ -252,6 +261,8 @@ char		**array_join(char **a1, char **a2);
 /*
 **	ERRORS
 */
+
+void		exit_child(t_ms *ms, int signal);
 void		free_cmd(void *content);
 void		free_memory(t_ms *ms);
 void		free_array(char **array);

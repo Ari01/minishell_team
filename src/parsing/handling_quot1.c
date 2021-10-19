@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 12:41:21 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:52:46 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static	t_list	*_part1_(t_quotinfo *quotinfo, char *cmd,
 	return (NULL);
 }
 
-/* some modif if - if -> if - else if - else maybe will get some bug */
 static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
 		t_list *env_list)
 {
@@ -37,7 +36,6 @@ static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
 	ret = NULL;
 	while (cmd[quotinfo->i])
 	{
-		// here
 		if (cmd[quotinfo->i] != '\''
 			&& cmd[quotinfo->i] != '"' && cmd[quotinfo->i] != ' ')
 		{
@@ -45,17 +43,14 @@ static	t_list	*sepa_part(t_quotinfo *quotinfo, char *cmd,
 			if (ret != NULL)
 				return (ret);
 		}
-		// here
-		else if (cmd[quotinfo->i] == '\'')
+		if (cmd[quotinfo->i] == '\'')
 		{
 			quotinfo->i++;
 			ret = part_sq(cmd, quotinfo);
 			if (ret != NULL)
 				return (ret);
 		}
-		// here
-		else
-			ret = _part1_(quotinfo, cmd, env_list);
+		ret = _part1_(quotinfo, cmd, env_list);
 		if (ret != NULL)
 			return (ret);
 		++quotinfo->i;

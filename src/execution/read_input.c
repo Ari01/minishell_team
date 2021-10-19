@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 13:15:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:20:45 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	check_read(int *status, char *delimiter)
 		nline++;
 	}
 	close(fd);
-	msg = "minishell: avertissement : « here-document » à la ligne";
+	msg = "minishell: warning: here-document at line ";
 	if (*status == 1)
 	{
-		printf("%s %d délimité par la fin du fichier (au lieu de « %s »)\n",
+		printf("%s %d delimited by end-of-file (wanted `%s')\n",
 			msg, nline, delimiter);
 		*status = 0;
 	}

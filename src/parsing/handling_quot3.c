@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:28:14 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 12:42:24 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:04:36 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,32 +58,24 @@ t_list	*new_list(t_list *cmd)
 
 char	**lst_to_tab(char *cmd, t_list *env_list)
 {
-	char	**cmds;
-	int		len;
-	int		i;
-	t_list	*tmp;
-	t_list	*list_after_parsing;
+	t_lsttab	lsttab;
 
-	cmds = NULL;
-	len = 0;
-	i = 0;
-	tmp = NULL;
-	list_after_parsing = NULL;
-	tmp = sepa_cmd(cmd, env_list);
-	list_after_parsing = new_list(tmp);
-	len = ft_lstsize(list_after_parsing);
-	ft_lstclear(&tmp, free);
-	cmds = malloc(sizeof(char *) * (len + 1));
-	if (!cmds) // add here malloc protect
+	ft_bzero(&lsttab, sizeof(t_lsttab));
+	lsttab.tmp = sepa_cmd(cmd, env_list);
+	lsttab.list_after_parsing = new_list(lsttab.tmp);
+	lsttab.len = ft_lstsize(lsttab.list_after_parsing);
+	ft_lstclear(&lsttab.tmp, free);
+	lsttab.cmds = malloc(sizeof(char *) * (lsttab.len + 1));
+	if (!lsttab.cmds)
 		return (NULL);
-	tmp = list_after_parsing;
-	while (tmp && i < len)
+	lsttab.tmp = lsttab.list_after_parsing;
+	while (lsttab.tmp && lsttab.i < lsttab.len)
 	{
-		cmds[i] = ft_strdup((char *)tmp->content);
-		tmp = tmp->next;
-		i++;
+		lsttab.cmds[lsttab.i] = ft_strdup((char *)lsttab.tmp->content);
+		lsttab.tmp = lsttab.tmp->next;
+		lsttab.i++;
 	}
-	ft_lstclear(&list_after_parsing, free);
-	cmds[i] = NULL;
-	return (cmds);
+	ft_lstclear(&lsttab.list_after_parsing, free);
+	lsttab.cmds[lsttab.i] = NULL;
+	return (lsttab.cmds);
 }

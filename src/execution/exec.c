@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:58:55 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:22:44 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ft_execve(t_ms *ms, char *path, char **argv)
 	int		pid;
 	int		signal;
 
+	signal = 0;
 	pid = fork();
 	if (pid == -1)
 		print_error_msg(strerror(errno), errno, ms);
@@ -67,7 +68,7 @@ int	ft_execve(t_ms *ms, char *path, char **argv)
 	{
 		if (execve(path, argv, ms->envp) == -1)
 			perror(path);
-		exit(errno);
+		exit_child(ms, errno);
 	}
 	else
 	{

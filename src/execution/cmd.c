@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 08:39:17 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:15:34 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	run_fork_builtin(t_ms *ms, t_cmd *cmd)
 			signal = ft_pwd();
 		else if (!ft_strcmp(cmd->cmd[0], "env"))
 			signal = ft_env(ms->env_list, cmd);
-		exit(signal);
+		exit_child(ms, signal);
 	}
 	else
 	{

@@ -6,11 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 09:53:08 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:16:45 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_cmd_ret;
 
 int	get_npipe(t_ms *ms)
 {
@@ -31,7 +33,7 @@ int	get_npipe(t_ms *ms)
 	return (ret);
 }
 
-void	wait_for_all(t_ms *ms, int npipe)
+void	wait_for_all(int npipe)
 {
 	int	signal;
 	int	i;
@@ -40,7 +42,7 @@ void	wait_for_all(t_ms *ms, int npipe)
 	while (i < npipe)
 	{
 		wait(&signal);
-		ms->cmd_ret = WEXITSTATUS(signal);
+		g_cmd_ret = WEXITSTATUS(signal);
 		i++;
 	}
 }
@@ -63,7 +65,7 @@ void	exec_child(t_ms *ms, int *pipe_fd)
 		reset_fdin_fdout(ms);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	exit(signal);
+	exit_child(ms, signal);
 }
 
 void	exec_parent(t_ms *ms, int *pipe_fd)
@@ -99,5 +101,5 @@ void	run_pipe(t_ms *ms)
 		i++;
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
-	wait_for_all(ms, npipe);
+	wait_for_all(npipe);
 }

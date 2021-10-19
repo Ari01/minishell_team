@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 12:36:25 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:54:44 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parser_dollar(t_quotinfo *quotinfo, t_list *env_list)
 		quotinfo->new_cmd
 			= hanlding_dollar(quotinfo->cmdinfo->cmd, env_list);
 		if (quotinfo->cmdinfo->cmd)
-			free(quotinfo->cmdinfo->cmd); // leak 1 
+			free(quotinfo->cmdinfo->cmd);
 		quotinfo->cmdinfo->cmd = quotinfo->new_cmd;
 	}
 }

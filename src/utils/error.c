@@ -6,11 +6,13 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:02:15 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:47:18 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_cmd_ret;
 
 void	check_exit(t_ms *ms)
 {
@@ -35,7 +37,7 @@ int	check_parsing(t_ms *ms, t_list *token_list)
 			check);
 		free(ms->rdl);
 		ms->rdl = NULL;
-		ms->cmd_ret = 2;
+		g_cmd_ret = 2;
 		return (1);
 	}
 	return (0);
