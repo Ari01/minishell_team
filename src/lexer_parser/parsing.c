@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 09:31:47 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:43:34 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ que l'on stocke alors dans t_cmd ctmp->cmd
 ** On stocke dans ctmp->flag le flag correspondant
 (0 s'il n'y a ni pipe ni redirection)
 */
-t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms)
+t_list	*get_cmds(char *s, t_list *env_list)
 {
 	t_list	*cmd_list;
 	t_cmd	*ctmp;
@@ -79,7 +79,7 @@ t_list	*get_cmds(char *s, t_list *env_list, t_ms *ms)
 		i = check_flag(s, i);
 		tmp = ft_substr(s, start, i - start);
 		ctmp = init_cmd();
-		ctmp->cmd = lst_to_tab(tmp, env_list, ms);
+		ctmp->cmd = lst_to_tab(tmp, env_list);
 		ctmp->flag = get_flag(&s[i]);
 		free(tmp);
 		if (ctmp->flag == DLR || ctmp->flag == DRR)

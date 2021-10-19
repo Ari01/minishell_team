@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 09:03:38 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:58:55 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	ft_execve(t_ms *ms, char *path, char **argv)
 	{
 		waitpid(pid, &signal, 0);
 		signal = WEXITSTATUS(signal);
+		if (signal == 13)
+			signal = 126;
 	}
 	return (signal);
 }

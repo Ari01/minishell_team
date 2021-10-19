@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:26:36 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:44:15 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	run_shell(char **env)
 		ms.rdl = readline("prompt> ");
 		if (!check_error(&ms))
 		{
-			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list, &ms);
+			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list);
 			ms.cmd_list_head = get_stream(ms.cmd_list_head);
 			ms.cmd_list_ite = ms.cmd_list_head;
 			ft_add_history(ms.rdl, ms.history);

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:29:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:43:47 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ char		*check_grammar(t_list *token_list);
  **	PARSER
  */
 int			check_rdl(t_ms *ms);
-t_list		*get_cmds(char *s, t_list *env_list, t_ms *ms);
+t_list		*get_cmds(char *s, t_list *env_list);
 t_list		*get_stream(t_list *cmd_list);
 
 /*
@@ -273,24 +273,21 @@ void		catch_sig(int signum);
 size_t		ft_len(const char *s);
 char		*ft_join(char const *s1, char const *s2);
 int			check_flag(char *cmd, int i);
-char		**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms);
+char		**lst_to_tab(char *cmd, t_list *env_list);
 int			is_flag(char c);
 char		*hanlding_dollar(char *cmd, t_list *env_list);
 int			check_env_len(char *env);
 int			check_env_start(char *env);
 int			check_dollar(char *cmd);
 void		check_status(char c, t_quotinfo *quotinfo);
-void		parser_dollar(t_quotinfo *quotinfo, t_list *env_list, t_ms *ms);
-t_list		*part_nq(char *cmd, t_list *env_list,
-				t_ms *ms, t_quotinfo *quotinfo);
+void		parser_dollar(t_quotinfo *quotinfo, t_list *env_list);
+t_list		*part_nq(char *cmd, t_list *env_list, t_quotinfo *quotinfo);
 t_list		*part_sq(char *cmd, t_quotinfo *quotinfo);
-
-t_list		*part_dq(char *cmd, t_list *env_list,
-				t_ms *ms, t_quotinfo *quotinfo);
+t_list		*part_dq(char *cmd, t_list *env_list, t_quotinfo *quotinfo);
 t_cmdinfo	*creat_cmdinfo(void);
 t_quot		quote_init(void);
 t_quotinfo	quotinfo_init(void);
-t_list		*sepa_cmd(char *cmd, t_list *env_list, t_ms *ms);
+t_list		*sepa_cmd(char *cmd, t_list *env_list);
 t_cmd		*init_cmd(void);
 t_list		*check_env_exit(char *dollar, t_list *env_list);
 t_dollar	init_dollar(void);

@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:34:34 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/15 16:50:59 by kaye             ###   ########.fr       */
+/*   Updated: 2021/10/19 12:36:25 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ void	check_status(char c, t_quotinfo *quotinfo)
 		quotinfo->cmdinfo->status = TO_MERGE;
 }
 
-void	parser_dollar(t_quotinfo *quotinfo, t_list *env_list, t_ms *ms)
+void	parser_dollar(t_quotinfo *quotinfo, t_list *env_list)
 {
 	if (check_dollar(quotinfo->cmdinfo->cmd))
 	{
 		quotinfo->new_cmd
-			= hanlding_dollar(quotinfo->cmdinfo->cmd, env_list, ms);
+			= hanlding_dollar(quotinfo->cmdinfo->cmd, env_list);
 		if (quotinfo->cmdinfo->cmd)
 			free(quotinfo->cmdinfo->cmd); // leak 1 
 		quotinfo->cmdinfo->cmd = quotinfo->new_cmd;
 	}
 }
 
-t_list	*part_nq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo)
+t_list	*part_nq(char *cmd, t_list *env_list, t_quotinfo *quotinfo)
 {
 	quotinfo->len = 0;
 	while (cmd[quotinfo->i + quotinfo->len]
@@ -42,7 +42,7 @@ t_list	*part_nq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo)
 		++quotinfo->len;
 	quotinfo->cmdinfo = creat_cmdinfo();
 	quotinfo->cmdinfo->cmd = ft_substr(cmd, quotinfo->i, quotinfo->len);
-	parser_dollar(quotinfo, env_list, ms);
+	parser_dollar(quotinfo, env_list);
 	quotinfo->i = quotinfo->i + quotinfo->len;
 	check_status(cmd[quotinfo->i], quotinfo);
 	ft_lstadd_back(&quotinfo->list1, ft_lstnew((void *)quotinfo->cmdinfo));
@@ -79,7 +79,7 @@ t_list	*part_sq(char *cmd, t_quotinfo *quotinfo)
 	return (NULL);
 }
 
-t_list	*part_dq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo)
+t_list	*part_dq(char *cmd, t_list *env_list, t_quotinfo *quotinfo)
 {
 	if (cmd[quotinfo->i] == '"')
 	{
@@ -98,7 +98,7 @@ t_list	*part_dq(char *cmd, t_list *env_list, t_ms *ms, t_quotinfo *quotinfo)
 			++quotinfo->len;
 		quotinfo->cmdinfo = creat_cmdinfo();
 		quotinfo->cmdinfo->cmd = ft_substr(cmd, quotinfo->i, quotinfo->len);
-		parser_dollar(quotinfo, env_list, ms);
+		parser_dollar(quotinfo, env_list);
 		quotinfo->i = quotinfo->i + quotinfo->len;
 		check_status(cmd[quotinfo->i + 1], quotinfo);
 		ft_lstadd_back(&quotinfo->list1, ft_lstnew((void *)quotinfo->cmdinfo));

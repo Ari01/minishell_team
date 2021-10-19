@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:28:14 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/15 16:18:13 by kaye             ###   ########.fr       */
+/*   Updated: 2021/10/19 12:42:24 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_list	*new_list(t_list *cmd)
 	return (new_list);
 }
 
-char	**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms)
+char	**lst_to_tab(char *cmd, t_list *env_list)
 {
 	char	**cmds;
 	int		len;
@@ -69,7 +69,7 @@ char	**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms)
 	i = 0;
 	tmp = NULL;
 	list_after_parsing = NULL;
-	tmp = sepa_cmd(cmd, env_list, ms);
+	tmp = sepa_cmd(cmd, env_list);
 	list_after_parsing = new_list(tmp);
 	len = ft_lstsize(list_after_parsing);
 	ft_lstclear(&tmp, free);
