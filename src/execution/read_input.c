@@ -6,17 +6,20 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:20:45 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:57:57 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern t_ms	g_ms;
+
 void	interrupt_read(int signum)
 {
 	(void)signum;
 	ft_putstr_fd("\n", STDOUT_FILENO);
-	exit(130);
+	free(g_ms.stdin_rdl);
+	exit_child(&g_ms, 130);
 }
 
 void	check_read(int *status, char *delimiter)
@@ -50,25 +53,24 @@ void	check_read(int *status, char *delimiter)
 void	ft_readline(int fd, char *delimiter)
 {
 	int		len;
-	char	*rdl;
 
 	len = ft_strlen(delimiter);
 	signal(SIGINT, interrupt_read);
 	while (1)
 	{
-		rdl = readline("> ");
-		if (!rdl)
-			exit(1);
-		if (!ft_strncmp(rdl, delimiter, len))
+		g_ms.stdin_rdl = readline("> ");
+		if (!g_ms.stdin_rdl)
+			exit_child(&g_ms, 1);
+		if (!ft_strncmp(g_ms.stdin_rdl, delimiter, len))
 		{
-			free(rdl);
-			exit(0);
+			free(g_ms.stdin_rdl);
+			exit_child(&g_ms, 0);
 		}
-		ft_putendl_fd(rdl, fd);
-		free(rdl);
-		rdl = NULL;
+		ft_putendl_fd(g_ms.stdin_rdl, fd);
+		free(g_ms.stdin_rdl);
+		g_ms.stdin_rdl = NULL;
 	}
-	exit(0);
+	exit_child(&g_ms, 0);
 }
 
 int	read_from_current_input(t_ms *ms, char *delimiter)

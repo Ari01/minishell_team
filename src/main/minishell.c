@@ -6,23 +6,21 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:21:37 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 18:15:17 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_cmd_ret = 0;
+t_ms	g_ms;
 
-t_ms	init_shell(char **env)
+t_ms	init_shell(void)
 {
 	t_ms	ms;
 
 	ms.fd_in = dup(STDIN_FILENO);
 	ms.fd_out = dup(STDOUT_FILENO);
 	ms.env_list = NULL;
-	ms.env_list = get_env(env, ms.env_list);
-	ms.envp = env;
 	ms.history = init_history(ms.history);
 	ms.cmd_list_head = NULL;
 	ms.cmd_list_ite = NULL;
@@ -72,22 +70,22 @@ int	run_context(t_ms *ms)
 
 void	run_shell(char **env)
 {
-	t_ms	ms;
-
-	ms = init_shell(env);
+	g_ms = init_shell();
+	g_ms.env_list = get_env(env, g_ms.env_list);
+	g_ms.envp = env;
 	while (1)
 	{
-		ms.rdl = readline("prompt> ");
-		if (!check_error(&ms))
+		g_ms.rdl = readline("prompt> ");
+		if (!check_error(&g_ms))
 		{
-			ms.cmd_list_head = get_cmds(ms.rdl, ms.env_list);
-			ms.cmd_list_head = get_stream(ms.cmd_list_head);
-			ms.cmd_list_ite = ms.cmd_list_head;
-			ft_add_history(ms.rdl, ms.history);
-			if (ms.cmd_list_ite)
-				g_cmd_ret = run_context(&ms);
-			free_memory(&ms);
-			reset_fdin_fdout(&ms);
+			g_ms.cmd_list_head = get_cmds(g_ms.rdl, g_ms.env_list);
+			g_ms.cmd_list_head = get_stream(g_ms.cmd_list_head);
+			g_ms.cmd_list_ite = g_ms.cmd_list_head;
+			ft_add_history(g_ms.rdl, g_ms.history);
+			if (g_ms.cmd_list_ite)
+				g_ms.cmd_ret = run_context(&g_ms);
+			free_memory(&g_ms);
+			reset_fdin_fdout(&g_ms);
 		}
 	}
 }

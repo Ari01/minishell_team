@@ -6,13 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 14:27:37 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 15:49:13 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:34:53 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_cmd_ret;
+extern t_ms	g_ms;
 
 #if defined(__APPLE__) && defined(__MACH__)
 
@@ -24,7 +24,7 @@ void	ft_interrupt(int signe)
 		ft_putstr_fd("prompt> ", STDIN_FILENO);
 		rl_on_new_line();
 		rl_redisplay();
-		g_cmd_ret = 130;
+		g_ms.cmd_ret = 130;
 	}
 }
 
@@ -38,7 +38,7 @@ void	ft_interrupt(int signe)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_cmd_ret = 130;
+		g_ms.cmd_ret = 130;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:14:52 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 18:17:20 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_history
 typedef struct s_ms
 {
 	char		*rdl;
+	char		*stdin_rdl;
 	char		**envp;
 	int			fd_in;
 	int			fd_out;

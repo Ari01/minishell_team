@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/06 16:01:51 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/19 18:03:05 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	add_chang_export(char *cmd, t_list *env_list)
 	if (check_is_name(cmd) && to_change == NULL)
 		ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(cmd)));
 	else if (check_is_name(cmd) && to_change != NULL && (check_change(cmd)))
-		to_change->content = (void *)cmd;
+	{
+		free(to_change->content);
+		to_change->content = ft_strdup(cmd);
+	}
 }
 
 static void	print_export(char *str)
@@ -45,31 +48,41 @@ static void	print_export(char *str)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-int	ft_export(t_cmd *cmd, t_list *env_list)
+int	check_export(t_cmd *cmd, int ret)
 {
 	int	i;
-	int	j;
 
-	j = 1;
-	if (!cmd)
-		return (ERROR);
-	while (cmd && cmd->cmd[j])
-	{
-		if (!(check_is_name(cmd->cmd[j])))
-			print_msg("minishell: export: `", cmd->cmd[j],
-				"\': not a valid identifier\n", STDERR_FILENO);
-		j++;
-	}
 	i = 1;
 	while (cmd && cmd->cmd[i])
 	{
-		add_chang_export(cmd->cmd[i++], env_list);
+		if (!(check_is_name(cmd->cmd[i])))
+		{
+			print_msg("minishell: export: `", cmd->cmd[i],
+				"\': not a valid identifier\n", STDERR_FILENO);
+			ret = ERROR;
+		}
+		i++;
 	}
+	return (ret);
+}
+
+int	ft_export(t_cmd *cmd, t_list *env_list)
+{
+	int	i;
+	int	ret;
+
+	ret = SUCCESS;
+	if (!cmd)
+		return (ERROR);
+	ret = check_export(cmd, ret);
+	i = 1;
+	while (cmd && cmd->cmd[i])
+		add_chang_export(cmd->cmd[i++], env_list);
 	ft_list_sort(&env_list, &ft_strcmp);
 	while (cmd && cmd->cmd[1] == NULL && env_list && env_list->content)
 	{
 		print_export((char *)env_list->content);
 		env_list = env_list->next;
 	}
-	return (SUCCESS);
+	return (ret);
 }

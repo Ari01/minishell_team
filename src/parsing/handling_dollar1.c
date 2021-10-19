@@ -6,13 +6,13 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 15:48:47 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:36:56 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_cmd_ret;
+extern t_ms	g_ms;
 
 void	part1_dollar(char *cmd, t_dollar *dolinfo)
 {
@@ -62,7 +62,7 @@ void	part3_dollar(char *cmd, t_list *env_list, t_dollar *dolinfo)
 	}
 	else if (cmd[dolinfo->i] == '?')
 	{
-		tmp = ft_itoa(g_cmd_ret);
+		tmp = ft_itoa(g_ms.cmd_ret);
 		dolinfo->new_cmd = ft_join(dolinfo->new_cmd, tmp);
 		free(tmp);
 		++dolinfo->i;

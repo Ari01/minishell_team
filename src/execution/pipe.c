@@ -6,13 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:16:45 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:35:40 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_cmd_ret;
+extern t_ms	g_ms;
 
 int	get_npipe(t_ms *ms)
 {
@@ -42,7 +42,7 @@ void	wait_for_all(int npipe)
 	while (i < npipe)
 	{
 		wait(&signal);
-		g_cmd_ret = WEXITSTATUS(signal);
+		g_ms.cmd_ret = WEXITSTATUS(signal);
 		i++;
 	}
 }

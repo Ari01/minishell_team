@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 12:47:05 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 18:07:52 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,6 @@ static t_list	*del_env(char *cmd, t_list *env_list)
 	return (env_list);
 }
 
-/*while (tmp && tmp != to_del)
-	{
-		prev = tmp;
-		tmp = tmp->next;
-	}
-	if (tmp == to_del)
-	{
-		if (prev == NULL)
-			env_list = tmp->next;
-		else
-			prev->next = tmp->next;
-		if (tmp)
-		{
-			free(tmp->content);
-			tmp->content = NULL;
-			free(tmp);
-			tmp = NULL;
-		}
-	}*/
 int	ft_unset(t_cmd *cmd, t_list **env_list)
 {
 	int	i;
@@ -117,8 +98,11 @@ int	ft_unset(t_cmd *cmd, t_list **env_list)
 	while (cmd && cmd->cmd[i])
 	{
 		if (!(check_is_cmd(cmd->cmd[i])))
+		{
 			print_msg("minishell: unset: `", cmd->cmd[i],
 				"\': not a valid identifier\n", STDERR_FILENO);
+			return (ERROR);
+		}
 		else
 			*env_list = del_env(cmd->cmd[i], *env_list);
 		i++;
