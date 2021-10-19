@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:08:13 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 13:16:32 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 				print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 			ret = read_from_current_input(ms, io->file);
 			signal(SIGINT, ft_interrupt);
+			if (ret == 130)
+				break;
 		}
 		current_cmd->in_streams = current_cmd->in_streams->next;
 	}
