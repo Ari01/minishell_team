@@ -6,23 +6,11 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 12:00:41 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:02:15 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	check_read_from_input(char *rdl, int nline, char *delimiter)
-{
-	char	*msg;
-
-	msg = "minishell: avertissement : « here-document » à la ligne";
-	if (!rdl)
-		printf("%s %d délimité par la fin du fichier (au lieu de « %s »)\n",
-			msg, nline, delimiter);
-	else
-		free(rdl);
-}
 
 void	check_exit(t_ms *ms)
 {

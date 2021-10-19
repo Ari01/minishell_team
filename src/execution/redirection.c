@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 12:38:24 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:08:13 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,6 @@ int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 	return (0);
 }
 
-void	read_from_current_input(t_ms *ms, char *delimiter)
-{
-	char	*rdl;
-	int		len;
-	int		nline;
-	int		pipe_fd[2];
-
-	signal(SIGINT, SIG_DFL);
-	if (pipe(pipe_fd) == -1)
-		print_error_msg(strerror(errno), PIPE_ERR, ms);
-	nline = 1;
-	len = ft_strlen(delimiter);
-	rdl = readline("> ");
-	while (rdl && ft_strncmp(rdl, delimiter, len))
-	{
-		ft_putendl_fd(rdl, pipe_fd[1]);
-		nline++;
-		free(rdl);
-		rdl = readline("> ");
-	}
-	check_read_from_input(rdl, nline, delimiter);
-	close(pipe_fd[1]);
-	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	signal(SIGINT, ft_interrupt);
-}
-
 int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 {
 	int		ret;
@@ -82,7 +55,8 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 		{
 			if (dup2(ms->fd_in, STDIN_FILENO) == -1)
 				print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-			read_from_current_input(ms, io->file);
+			ret = read_from_current_input(ms, io->file);
+			signal(SIGINT, ft_interrupt);
 		}
 		current_cmd->in_streams = current_cmd->in_streams->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 12:02:00 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:29:12 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ void		ft_interrupt(int signe);
 /*
  **	ERRORS
  */
-void		check_read_from_input(char *rdl, int nline, char *delimiter);
 int			check_error(t_ms *ms);
 void		print_error_msg(char *s, int error_id, t_ms *ms);
 
@@ -226,6 +225,7 @@ void		run_pipe(t_ms *ms);
 /*
  **	REDIRECTION
  */
+int			read_from_current_input(t_ms *ms, char *delimiter);
 void		reset_fdin_fdout(t_ms *ms);
 int			redirect(t_ms *ms, t_cmd *current_cmd);
 
@@ -275,7 +275,7 @@ char		*ft_join(char const *s1, char const *s2);
 int			check_flag(char *cmd, int i);
 char		**lst_to_tab(char *cmd, t_list *env_list, t_ms *ms);
 int			is_flag(char c);
-char		*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms);
+char		*hanlding_dollar(char *cmd, t_list *env_list);
 int			check_env_len(char *env);
 int			check_env_start(char *env);
 int			check_dollar(char *cmd);

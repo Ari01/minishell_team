@@ -6,11 +6,13 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/18 09:29:45 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:26:36 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	cmd_ret = 0;
 
 t_ms	init_shell(char **env)
 {
@@ -84,7 +86,7 @@ void	run_shell(char **env)
 			ms.cmd_list_ite = ms.cmd_list_head;
 			ft_add_history(ms.rdl, ms.history);
 			if (ms.cmd_list_ite)
-				ms.cmd_ret = run_context(&ms);
+				cmd_ret = run_context(&ms);
 			free_memory(&ms);
 			reset_fdin_fdout(&ms);
 		}

@@ -6,11 +6,13 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:54:05 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/17 09:57:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:28:46 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	cmd_ret;
 
 void	part1_dollar(char *cmd, t_dollar *dolinfo)
 {
@@ -47,7 +49,7 @@ void	part2_dollar(char *cmd, t_list *env_list, t_dollar *dolinfo)
 	dolinfo->i = dolinfo->i + dolinfo->len - 1;
 }
 
-void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
+void	part3_dollar(char *cmd, t_list *env_list, t_dollar *dolinfo)
 {
 	char	*tmp;
 
@@ -60,7 +62,7 @@ void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
 	}
 	else if (cmd[dolinfo->i] == '?')
 	{
-		tmp = ft_itoa(ms->cmd_ret);
+		tmp = ft_itoa(cmd_ret);
 		dolinfo->new_cmd = ft_join(dolinfo->new_cmd, tmp);
 		free(tmp);
 		++dolinfo->i;
@@ -74,7 +76,7 @@ void	part3_dollar(char *cmd, t_list *env_list, t_ms *ms, t_dollar *dolinfo)
 	}
 }
 
-char	*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms)
+char	*hanlding_dollar(char *cmd, t_list *env_list)
 {
 	t_dollar	dolinfo;
 
@@ -85,7 +87,7 @@ char	*hanlding_dollar(char *cmd, t_list *env_list, t_ms *ms)
 			&& cmd[dolinfo.i + 1] != '\0' && cmd[dolinfo.i + 1] != '$')
 		{
 			dolinfo.i++;
-			part3_dollar(cmd, env_list, ms, &dolinfo);
+			part3_dollar(cmd, env_list, &dolinfo);
 		}
 		else
 		{
