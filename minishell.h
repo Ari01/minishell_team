@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/12 17:41:35 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/19 14:06:38 by xuwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,14 @@ typedef struct s_ms
 	int			cmd_ret;
 }		t_ms;
 
+typedef struct s_lttab
+{
+	char	**cmds;
+	int		len;
+	int		i;
+	t_list	*tmp;
+	t_list	*list_after_parsing;
+}	t_lsttab;
 /*
  **	PARSING
  */
