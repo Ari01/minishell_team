@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 18:17:20 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/20 07:49:03 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,12 +214,13 @@ t_list		*ft_trim(t_list *cmd_list);
  */
 int			is_builtin(char *s);
 int			ft_echo(t_cmd *cmd);
-int			ft_cd(t_cmd *cmd);
+int			ft_cd(t_cmd *cmd, t_list *env_list);
 int			ft_pwd(void);
 int			ft_exit(t_cmd *cmd);
 int			ft_env(t_list *env_list, t_cmd *cmd);
 int			ft_export(t_cmd *cmd, t_list *env_list);
 int			check_is_name(char *s);
+t_list		*check_exist(char *cmd, t_list *env_list);
 int			check_change(char *s);
 int			ft_unset(t_cmd *cmd, t_list **env_list);
 void		ft_list_sort(t_list **begin_list, int (*ft_strcmp)());

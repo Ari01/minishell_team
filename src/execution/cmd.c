@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:27:35 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 17:31:10 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/20 06:33:20 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	run_builtin(t_ms *ms, t_cmd *cmd)
 
 	ret = 0;
 	if (!ft_strcmp(cmd->cmd[0], "cd"))
-		ret = ft_cd(cmd);
+		ret = ft_cd(cmd, ms->env_list);
 	else if (!ft_strcmp(cmd->cmd[0], "exit"))
 		ret = ft_exit(cmd);
 	else if (!ft_strcmp(cmd->cmd[0], "export"))
