@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/19 18:14:44 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/20 06:05:44 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_home(void)
 {
 	if (chdir(getenv("HOME")) == -1)
 	{
-		print_msg("cd: HOME not set\n", NULL, NULL, STDERR_FILENO);
+		print_msg("minishell: cd: HOME not set\n", NULL, NULL, STDOUT_FILENO);
 		return (ERROR);
 	}
 	return (SUCCESS);
