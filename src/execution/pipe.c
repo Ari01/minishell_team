@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:35:40 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 11:48:06 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_npipe(t_ms *ms)
 	return (ret);
 }
 
-void	wait_for_all(int npipe)
+void	wait_for_all(t_ms *ms, int error_fd, int npipe)
 {
 	int	signal;
 	int	i;
@@ -45,6 +45,8 @@ void	wait_for_all(int npipe)
 		g_ms.cmd_ret = WEXITSTATUS(signal);
 		i++;
 	}
+	ft_dup2(ms->fd_err, STDERR_FILENO);
+	read_error()
 }
 
 void	exec_child(t_ms *ms, int *pipe_fd)
@@ -82,11 +84,14 @@ void	run_pipe(t_ms *ms)
 {
 	int		pid;
 	int		pipe_fd[2];
+	int		error_fd;
 	int		i;
 	int		npipe;
 
 	i = 0;
 	npipe = get_npipe(ms);
+	error_fd = ft_open("tmp/error_file.txt", O_RDWR | O_TRUNC | O_CREAT, 0666, ms);
+	ft_dup2(pipe_err, STDERR_FILENO)
 	while (i < npipe)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -101,5 +106,5 @@ void	run_pipe(t_ms *ms)
 		i++;
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
-	wait_for_all(npipe);
+	wait_for_all(ms, error_fd, npipe);
 }
