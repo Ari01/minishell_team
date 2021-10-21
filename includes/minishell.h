@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/21 12:22:39 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 15:59:31 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef struct s_ms
 	int			fd_in;
 	int			fd_out;
 	int			fd_err;
+	int			open_fd;
 	t_list		*cmd_list_head;
 	t_list		*cmd_list_ite;
 	t_list		*env_list;
@@ -307,6 +308,7 @@ int			run_pipe(t_ms *ms);
 /*
  **	REDIRECTION
  */
+void		init_error_fd(t_ms *ms);
 void		read_error(t_ms *ms);
 int			read_from_current_input(t_ms *ms, char *delimiter);
 void		reset_fds(t_ms *ms);

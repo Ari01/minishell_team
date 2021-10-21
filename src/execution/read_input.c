@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:57:57 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 16:12:12 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	interrupt_read(int signum)
 	(void)signum;
 	ft_putstr_fd("\n", STDOUT_FILENO);
 	free(g_ms.stdin_rdl);
+	g_ms.stdin_rdl = NULL;
+	close(g_ms.open_fd);
 	exit_child(&g_ms, 130);
 }
 
@@ -50,26 +52,33 @@ void	check_read(int *status, char *delimiter)
 	}
 }
 
-void	ft_readline(int fd, char *delimiter)
+void	ft_readline(char *delimiter)
 {
 	int		len;
 
+	g_ms.open_fd = ft_open("tmp/heredoc.txt", O_RDWR | O_TRUNC | O_CREAT, 0666, &g_ms);
 	len = ft_strlen(delimiter);
 	signal(SIGINT, interrupt_read);
 	while (1)
 	{
 		g_ms.stdin_rdl = readline("> ");
 		if (!g_ms.stdin_rdl)
+		{
+			printf("nul go 1\n");
+			close(g_ms.open_fd);
 			exit_child(&g_ms, 1);
+		}
 		if (!ft_strncmp(g_ms.stdin_rdl, delimiter, len))
 		{
 			free(g_ms.stdin_rdl);
-			exit_child(&g_ms, 0);
+			g_ms.stdin_rdl = NULL;
+			break;
 		}
-		ft_putendl_fd(g_ms.stdin_rdl, fd);
+		ft_putendl_fd(g_ms.stdin_rdl, g_ms.open_fd);
 		free(g_ms.stdin_rdl);
 		g_ms.stdin_rdl = NULL;
 	}
+	close(g_ms.open_fd);
 	exit_child(&g_ms, 0);
 }
 
@@ -80,24 +89,18 @@ int	read_from_current_input(t_ms *ms, char *delimiter)
 	int		status;
 
 	status = 0;
-	fd = open("tmp/heredoc.txt", O_RDWR | O_TRUNC | O_CREAT, 0666);
-	if (fd == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	pid = fork();
-	if (pid == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	pid = ft_fork(ms);
 	if (!pid)
-		ft_readline(fd, delimiter);
+		ft_readline(delimiter);
 	else
 	{
 		wait(&status);
 		status = WEXITSTATUS(status);
+		printf("status = %d\n", status);
 	}
 	check_read(&status, delimiter);
-	close(fd);
-	fd = open("tmp/heredoc.txt", O_RDONLY);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
+	ft_dup2(fd, STDIN_FILENO, ms);
 	close(fd);
 	return (status);
 }
