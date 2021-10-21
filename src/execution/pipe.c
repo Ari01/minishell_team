@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:35:40 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 11:37:35 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,14 @@ void	run_pipe(t_ms *ms)
 {
 	int		pid;
 	int		pipe_fd[2];
+	int		error_fd;
 	int		i;
 	int		npipe;
 
 	i = 0;
 	npipe = get_npipe(ms);
+	error_fd = ft_open("tmp/error_file.txt", O_RDWR | O_CREAT | O_TRUNC, ms);
+	ft_dup2(error_fd, STRERROR_FILENO, ms);
 	while (i < npipe)
 	{
 		if (pipe(pipe_fd) == -1)
