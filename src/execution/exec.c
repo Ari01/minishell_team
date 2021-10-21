@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 19:42:50 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/20 05:59:48 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 11:54:22 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	run_exec(t_ms *ms, t_cmd *cmd)
 			ret = ft_execve(ms, path, cmd->cmd);
 		else
 		{
-			printf(" minishell: %s: command not found\n", cmd->cmd[0]);
+			print_msg(" minishell: ", cmd->cmd[0], "command not found", STDERR_FILENO);
 			ret = 127;
 		}
 		free(path);

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/20 07:41:45 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 11:59:48 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_ms	init_shell(void)
 
 	ms.fd_in = dup(STDIN_FILENO);
 	ms.fd_out = dup(STDOUT_FILENO);
+	ms.fd_err = dup(STDERR_FILENO);
 	ms.env_list = NULL;
 	ms.history = init_history(ms.history);
 	ms.cmd_list_head = NULL;
@@ -85,7 +86,7 @@ void	run_shell(char **env)
 			if (g_ms.cmd_list_ite)
 				g_ms.cmd_ret = run_context(&g_ms);
 			free_memory(&g_ms);
-			reset_fdin_fdout(&g_ms);
+			reset_fds(&g_ms);
 		}
 	}
 }

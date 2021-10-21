@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   read_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/09 16:33:41 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/21 12:19:07 by dchheang         ###   ########.fr       */
+/*   Created: 2021/10/21 10:07:07 by dchheang          #+#    #+#             */
+/*   Updated: 2021/10/21 12:22:11 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_fds(t_ms *ms)
+void	read_error(t_ms *ms)
 {
-	ft_dup2(ms->fd_in, STDIN_FILENO, ms);
-	ft_dup2(ms->fd_out, STDOUT_FILENO, ms);
-}
+	char	buff[BUFFER_SIZE];
+	int		rd;
+	int		fd;
 
-int	main(int ac, char **av, char **env)
-{
-	(void)ac;
-	(void)av;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, ft_interrupt);
-	run_shell(env);
-	return (0);
+	fd = ft_open("tmp/error_file.txt", O_RDONLY, 0, ms);
+	rd = read(fd, buff, BUFFER_SIZE - 1);
+	while (rd > 0)
+	{
+		write(STDERR_FILENO, buff, rd);
+		rd = read(fd, buff, BUFFER_SIZE - 1);
+	}
+	close(fd);
 }
