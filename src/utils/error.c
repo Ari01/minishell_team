@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 18:16:18 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/20 08:08:38 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_error(t_ms *ms)
 
 void	print_error_msg(char *s, int error_id, t_ms *ms)
 {
-	printf("%s\n", s);
+	ft_putendl_fd(s, STDERR_FILENO);
 	free_memory(ms);
 	exit(error_id);
 }

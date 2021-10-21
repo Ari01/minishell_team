@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/20 07:49:03 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 10:48:33 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 # include <signal.h>
 # include "libft/libft.h"
 
+/**************************************************
+**					CONSTANTES
+**************************************************/
+
 /*
  **	ERRORS
  */
@@ -43,6 +47,8 @@
 # define FILE_ERR		3
 # define READ_WRITE_ERR 4
 # define EXEC_ERR		5
+# define DUP_ERR		6
+# define OPEN_ERR		7
 
 /*
  **	READ WRITE
@@ -69,12 +75,6 @@
 # define NO_Q 0
 # define IS_DOLLAR 1
 
-typedef struct s_quot
-{
-	int	quot;
-	int	quot_status;
-}		t_quot;
-
 /*
  **	TOKENS
  */
@@ -87,9 +87,13 @@ typedef struct s_quot
  */
 # define BUILTINS "cd echo env exit export pwd unset"
 
+/**************************************************
+**					STRUCTURES
+**************************************************/
+
 /*
- ** STRUCT
- */
+** MINISHELL
+*/
 typedef struct s_token
 {
 	char	*value;
@@ -109,6 +113,7 @@ typedef struct s_ms
 	char		**envp;
 	int			fd_in;
 	int			fd_out;
+	int			fd_err;
 	t_list		*cmd_list_head;
 	t_list		*cmd_list_ite;
 	t_list		*env_list;
@@ -151,6 +156,12 @@ typedef struct s_dollar
 	char	*c;
 }		t_dollar;
 
+typedef struct s_quot
+{
+	int	quot;
+	int	quot_status;
+}		t_quot;
+
 typedef struct s_quotinfo
 {
 	int			i;
@@ -169,6 +180,22 @@ typedef struct s_lsttab
 	t_list	*list_after_parsing;
 }	t_lsttab;
 
+/**************************************************
+**					FUNCTIONS
+**************************************************/
+
+/*
+**********	I. MINISHELL ************
+*/
+
+/*
+**	MEMORY
+*/
+void		exit_child(t_ms *ms, int signal);
+void		free_cmd(void *content);
+void		free_memory(t_ms *ms);
+void		free_array(char **array);
+
 /*
  ** HISTORY
 */
@@ -182,26 +209,70 @@ void		ft_interrupt(int signe);
 int			check_error(t_ms *ms);
 void		print_error_msg(char *s, int error_id, t_ms *ms);
 
+
+/*
+ **	UTILS
+ */
+void		print_cmds(t_list *cmd_list);
+void		remove_elem_from_array(char **array);
+void		remove_from_list(t_list **head, t_list *elem);
+char		**array_join(char **a1, char **a2);
+
+/*
+**********	II. LEXER PARSER ************
+*/
+
 /*
  **	LEXER
  */
 void		free_token(void *content);
 t_list		*get_tokens(char *s);
-
-/*
- **	GRAMMAR
- */
 char		*check_grammar(t_list *token_list);
 
 /*
  **	PARSER
+ */
+size_t		ft_len(const char *s);
+char		*ft_join(char const *s1, char const *s2);
+int			check_flag(char *cmd, int i);
+char		**lst_to_tab(char *cmd, t_list *env_list);
+int			is_flag(char c);
+char		*hanlding_dollar(char *cmd, t_list *env_list);
+int			check_env_len(char *env);
+int			check_env_start(char *env);
+int			check_dollar(char *cmd);
+void		check_status(char c, t_quotinfo *quotinfo);
+void		parser_dollar(t_quotinfo *quotinfo, t_list *env_list);
+t_list		*part_nq(char *cmd, t_list *env_list, t_quotinfo *quotinfo);
+t_list		*part_sq(char *cmd, t_quotinfo *quotinfo);
+t_list		*part_dq(char *cmd, t_list *env_list, t_quotinfo *quotinfo);
+t_cmdinfo	*creat_cmdinfo(void);
+t_quot		quote_init(void);
+t_quotinfo	quotinfo_init(void);
+t_list		*sepa_cmd(char *cmd, t_list *env_list);
+t_cmd		*init_cmd(void);
+t_list		*check_env_exit(char *dollar, t_list *env_list);
+t_dollar	init_dollar(void);
+char		*ft_strlowcase(char *str);
+int			_wstatus(int status);
+int			_wifexited(int status);
+int			_wexitstatus(int status);
+int			_wifsignaled(int status);
+int			_wtermsig(int status);
+
+/*
+**********	III. EXECUTION ************
+*/
+
+/*
+ **	PARSER EXEC
  */
 int			check_rdl(t_ms *ms);
 t_list		*get_cmds(char *s, t_list *env_list);
 t_list		*get_stream(t_list *cmd_list);
 
 /*
- **	PARSER_UTILS
+ **	PARSER UTILS
  */
 int			is_redir(int flag);
 t_list		*remove_current_ite(t_list **cmd_list, t_list *ite);
@@ -231,13 +302,14 @@ t_list		*get_env(char **env, t_list *env_list);
 /*
  **	PIPE
  */
-void		run_pipe(t_ms *ms);
+int			run_pipe(t_ms *ms);
 
 /*
  **	REDIRECTION
  */
+void		read_error(int error_fd, t_ms *ms);
 int			read_from_current_input(t_ms *ms, char *delimiter);
-void		reset_fdin_fdout(t_ms *ms);
+void		reset_fds(t_ms *ms);
 int			redirect(t_ms *ms, t_cmd *current_cmd);
 
 /*
@@ -253,23 +325,6 @@ int			run_exec(t_ms *ms, t_cmd *cmd);
 void		run_shell(char **env);
 
 /*
- **	UTILS
- */
-void		print_cmds(t_list *cmd_list);
-void		remove_elem_from_array(char **array);
-void		remove_from_list(t_list **head, t_list *elem);
-char		**array_join(char **a1, char **a2);
-
-/*
-**	ERRORS
-*/
-
-void		exit_child(t_ms *ms, int signal);
-void		free_cmd(void *content);
-void		free_memory(t_ms *ms);
-void		free_array(char **array);
-
-/*
  **	VARS
  */
 void		print_var_list(t_list *env_list);
@@ -281,34 +336,11 @@ char		*get_var(t_list *env_list, char *name);
 void		catch_sig(int signum);
 
 /*
- **	PARSING
- */
-size_t		ft_len(const char *s);
-char		*ft_join(char const *s1, char const *s2);
-int			check_flag(char *cmd, int i);
-char		**lst_to_tab(char *cmd, t_list *env_list);
-int			is_flag(char c);
-char		*hanlding_dollar(char *cmd, t_list *env_list);
-int			check_env_len(char *env);
-int			check_env_start(char *env);
-int			check_dollar(char *cmd);
-void		check_status(char c, t_quotinfo *quotinfo);
-void		parser_dollar(t_quotinfo *quotinfo, t_list *env_list);
-t_list		*part_nq(char *cmd, t_list *env_list, t_quotinfo *quotinfo);
-t_list		*part_sq(char *cmd, t_quotinfo *quotinfo);
-t_list		*part_dq(char *cmd, t_list *env_list, t_quotinfo *quotinfo);
-t_cmdinfo	*creat_cmdinfo(void);
-t_quot		quote_init(void);
-t_quotinfo	quotinfo_init(void);
-t_list		*sepa_cmd(char *cmd, t_list *env_list);
-t_cmd		*init_cmd(void);
-t_list		*check_env_exit(char *dollar, t_list *env_list);
-t_dollar	init_dollar(void);
-char		*ft_strlowcase(char *str);
-int			_wstatus(int status);
-int			_wifexited(int status);
-int			_wexitstatus(int status);
-int			_wifsignaled(int status);
-int			_wtermsig(int status);
+**	EXEC UTILS
+*/
+int			ft_open(char *path, int flags, int permissions, t_ms *ms);
+void		ft_pipe(int *pipe_fd, t_ms *ms);
+void		ft_dup2(int oldfd, int newfd, t_ms *ms);
+int			ft_fork(t_ms *ms);
 
 #endif

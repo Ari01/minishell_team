@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:47:49 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/07 18:24:59 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/20 08:15:28 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void	print_msg(char *msg1, char *msg2, char *msg3, int fd)
 		ft_putstr_fd(msg1, fd);
 	if (msg2)
 		ft_putstr_fd(msg2, fd);
+	ft_putstr_fd(": ", fd);
 	if (msg3)
-		ft_putstr_fd(msg3, fd);
+		ft_putendl_fd(msg3, fd);
 }
 
 char	*ft_strlowcase(char *str)

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:43:34 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/20 08:23:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,6 @@ int	get_flag(char *s)
 	if (*s == '>' && (*(s + 1) == '>'))
 		return (DRR);
 	return (*s);
-}
-
-int	check_rdl(t_ms *ms)
-{
-	if (ms->rdl[0] == '|')
-	{
-		printf("parsing error\n");
-		free_memory(ms);
-		return (0);
-	}
-	if (!ms->cmd_list_ite)
-		return (0);
-	return (1);
 }
 
 t_cmd	*init_cmd(void)

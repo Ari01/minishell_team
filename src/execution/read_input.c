@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 16:57:57 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/21 10:59:18 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,8 @@ int	read_from_current_input(t_ms *ms, char *delimiter)
 	int		status;
 
 	status = 0;
-	fd = open("tmp/heredoc.txt", O_RDWR | O_TRUNC | O_CREAT, 0666);
-	if (fd == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-	pid = fork();
-	if (pid == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	fd = ft_open("tmp/heredoc.txt", O_RDWR | O_TRUNC | O_CREAT, 0666, ms);
+	pid = ft_fork(ms);
 	if (!pid)
 		ft_readline(fd, delimiter);
 	else
@@ -95,9 +91,8 @@ int	read_from_current_input(t_ms *ms, char *delimiter)
 	}
 	check_read(&status, delimiter);
 	close(fd);
-	fd = open("tmp/heredoc.txt", O_RDONLY);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+	fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
+	ft_dup2(fd, STDIN_FILENO, ms);
 	close(fd);
 	return (status);
 }
