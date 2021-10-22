@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/21 15:59:31 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/22 09:21:58 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ int			run_pipe(t_ms *ms);
  **	REDIRECTION
  */
 void		init_error_fd(t_ms *ms);
+void		dup_error_fd(t_ms *ms);
 void		read_error(t_ms *ms);
 int			read_from_current_input(t_ms *ms, char *delimiter);
 void		reset_fds(t_ms *ms);
