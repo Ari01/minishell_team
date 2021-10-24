@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/21 15:14:32 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/24 14:32:01 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_ms	init_shell(void)
 	ms.fd_in = dup(STDIN_FILENO);
 	ms.fd_out = dup(STDOUT_FILENO);
 	ms.fd_err = dup(STDERR_FILENO);
+	ms.cmd_ret = 0;
 	ms.env_list = NULL;
 	ms.history = init_history(ms.history);
 	ms.cmd_list_head = NULL;
@@ -30,17 +31,19 @@ t_ms	init_shell(void)
 
 int	run_simple_cmd(t_ms *ms, t_cmd *current_cmd)
 {
-	int	pid;
 	int	ret;
 
-	pid = fork();
-	if (!pid)
-		exit(run_cmd(ms, current_cmd));
-	else
+	init_error_fd(ms);
+	dup_error_fd(ms);
+	ret = redirect(ms, current_cmd);
+	ft_dup2(ms->fd_err, STDERR_FILENO, ms);
+	if (ret)
 	{
-		waitpid(pid, &ret, 0);
-		ret = WEXITSTATUS(ret);
+		read_error(ms);
+		return (ret);
 	}
+	if (current_cmd->cmd[0])
+		ret = run_cmd(ms, current_cmd);
 	return (ret);
 }
 
@@ -57,11 +60,7 @@ int	run_context(t_ms *ms)
 			ret = run_pipe(ms);
 		else
 		{
-			ret = redirect(ms, current_cmd);
-			if (ret)
-				break;
-			if (current_cmd->cmd[0])
-				ret = run_cmd(ms, current_cmd);
+			ret = run_simple_cmd(ms, current_cmd);	
 			ms->cmd_list_ite = ms->cmd_list_ite->next;
 		}
 	}

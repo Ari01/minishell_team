@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/22 08:03:20 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/24 12:38:19 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,16 @@ void	interrupt_read(int signum)
 	exit_child(&g_ms, 130);
 }
 
-void	check_read(int *status, char *delimiter)
+int	get_nline(t_ms *ms)
 {
-	char	*msg;
-	char	*line;
-	int		nline;
 	int		fd;
 	int		rd;
+	int		nline;
+	char	*line;
 
-	nline = 0;
-	fd = open("tmp/heredoc.txt", O_RDONLY);
 	rd = 1;
+	nline = 0;
+	fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
 	while (rd > 0)
 	{
 		rd = get_next_line(fd, &line);
@@ -42,7 +41,18 @@ void	check_read(int *status, char *delimiter)
 		line = NULL;
 		nline++;
 	}
+	if (rd == -1)
+		print_error_msg(strerror(errno), errno, ms);
 	close(fd);
+	return (nline);
+}
+
+void	check_read(t_ms *ms, int *status, char *delimiter)
+{
+	char	*msg;
+	int		nline;
+
+	nline = get_nline(ms);
 	msg = "minishell: warning: here-document at line ";
 	if (*status == 1)
 	{
@@ -81,13 +91,12 @@ void	ft_readline(t_ms *ms, char *delimiter)
 	exit_child(ms, 0);
 }
 
-int	read_from_current_input(t_ms *ms, char *delimiter)
+int	read_from_current_input(t_ms *ms, int error, char *delimiter)
 {
 	int		fd;
 	int		pid;
 	int		status;
 
-	status = 0;
 	pid = ft_fork(ms);
 	if (!pid)
 		ft_readline(ms, delimiter);
@@ -96,9 +105,14 @@ int	read_from_current_input(t_ms *ms, char *delimiter)
 		waitpid(pid, &status, 0);
 		status = WEXITSTATUS(status);
 	}
-	check_read(&status, delimiter);
-	fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
-	ft_dup2(fd, STDIN_FILENO, ms);
-	close(fd);
-	return (status);
+	check_read(ms, &status, delimiter);
+	printf("error = %d\n", error);
+	if (!error)
+	{
+		fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
+		ft_dup2(fd, STDIN_FILENO, ms);
+		close(fd);
+		return (status);
+	}
+	return (error);
 }

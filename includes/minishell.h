@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/22 09:21:58 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/24 14:23:49 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ typedef struct s_lsttab
 **********	I. MINISHELL ************
 */
 
+void		run_shell(char **env);
+
 /*
 **	MEMORY
 */
@@ -311,8 +313,10 @@ int			run_pipe(t_ms *ms);
 void		init_error_fd(t_ms *ms);
 void		dup_error_fd(t_ms *ms);
 void		read_error(t_ms *ms);
-int			read_from_current_input(t_ms *ms, char *delimiter);
+int			read_from_current_input(t_ms *ms, int error, char *delimiter);
 void		reset_fds(t_ms *ms);
+int			redirect_pipe(t_ms *ms);
+int			redirect_out(t_ms *ms, t_cmd *current_cmd);
 int			redirect(t_ms *ms, t_cmd *current_cmd);
 
 /*
@@ -325,7 +329,6 @@ int			run_cmd(t_ms *ms, t_cmd *cmd);
  */
 int			ft_execve(t_ms *ms, char *path, char **argv);
 int			run_exec(t_ms *ms, t_cmd *cmd);
-void		run_shell(char **env);
 
 /*
  **	VARS

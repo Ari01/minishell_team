@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:17:10 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/17 09:31:28 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/23 12:08:42 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ t_list	*get_stream(t_list *cmd_list)
 	{
 		current_cmd = (t_cmd *)ite->content;
 		if (is_redir(current_cmd->flag))
+		{
 			get_redir(&cmd_list, &ite, current_cmd);
+			ite = ite->next;
+		}
 		else if (!current_cmd->cmd[0] && current_cmd->flag)
 			ite = remove_current_ite(&cmd_list, ite);
 		else

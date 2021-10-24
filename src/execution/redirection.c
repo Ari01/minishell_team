@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/22 10:12:35 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/24 13:48:07 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,14 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 		io = (t_io *)current_cmd->in_streams->content;
 		if (io->flag == SLR)
 		{
-			ret = redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
-			if (ret)
-				return (ret);
+			if (!ret)
+				ret = redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
 		}
 		else if (io->flag == DLR)
 		{
 			if (dup2(ms->fd_in, STDIN_FILENO) == -1)
 				print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
-			ret = read_from_current_input(ms, io->file);
+			ret = read_from_current_input(ms, ret, io->file);
 			signal(SIGINT, ft_interrupt);
 			if (ret == 130)
 				break ;
@@ -83,6 +82,22 @@ int	redirect_out(t_ms *ms, t_cmd *current_cmd)
 		current_cmd->out_streams = current_cmd->out_streams->next;
 	}
 	return (ret);
+}
+
+int	redirect_pipe(t_ms *ms)
+{
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)ms->cmd_list_ite->content;
+	dup_error_fd(ms);
+	ms->cmd_ret = redirect(ms, cmd);
+	ft_dup2(ms->fd_err, STDERR_FILENO, ms);
+	if (ms->cmd_ret == 130)
+	{
+		ms->cmd_list_ite = NULL;
+		return (1);
+	}
+	return (0);
 }
 
 int	redirect(t_ms *ms, t_cmd *current_cmd)

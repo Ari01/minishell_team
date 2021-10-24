@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/22 09:21:31 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/24 14:36:34 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	wait_for_all(t_ms *ms, int npipe, int last_pid)
 
 	i = 0;
 	ret = 0;
-	read_error(ms);
 	while (i < npipe)
 	{
 		pid = wait(&signal);
@@ -50,6 +49,10 @@ int	wait_for_all(t_ms *ms, int npipe, int last_pid)
 			ret = WEXITSTATUS(signal);
 		i++;
 	}
+	if (ms->cmd_ret == 130)
+		return (130);
+	else
+		read_error(ms);
 	return (ret);
 }
 
@@ -62,6 +65,7 @@ void	exec_child(t_ms *ms, int *pipe_fd, int i, int npipe)
 	signal = ms->cmd_ret;
 	if (!signal)
 	{
+		dup_error_fd(ms);
 		if (!cmd->out_streams_head && i != npipe - 1)
 			ft_dup2(pipe_fd[1], STDOUT_FILENO, ms);
 		signal = run_cmd(ms, cmd);
@@ -73,6 +77,9 @@ void	exec_child(t_ms *ms, int *pipe_fd, int i, int npipe)
 
 void	exec_parent(t_ms *ms, int *pipe_fd, int i, int npipe)
 {
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)ms->cmd_list_ite->content;
 	close(pipe_fd[1]);
 	if (i != npipe - 1)
 		ft_dup2(pipe_fd[0], STDIN_FILENO, ms);
@@ -91,9 +98,9 @@ int	run_pipe(t_ms *ms)
 	init_error_fd(ms);
 	while (i < npipe)
 	{
-		dup_error_fd(ms);
-		ms->cmd_ret = redirect(ms, (t_cmd *)ms->cmd_list_ite->content);
-		ft_dup2(ms->fd_err, STDERR_FILENO, ms);
+		ft_dup2(ms->fd_out, STDOUT_FILENO, ms);
+		if (redirect_pipe(ms))
+			break;
 		ft_pipe(pipe_fd, ms);
 		pid = ft_fork(ms);
 		if (!pid)
@@ -103,5 +110,5 @@ int	run_pipe(t_ms *ms)
 		i++;
 		ms->cmd_list_ite = ms->cmd_list_ite->next;
 	}
-	return (wait_for_all(ms, npipe, pid));
+	return (wait_for_all(ms, i, pid));
 }
