@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/24 13:48:07 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:30:17 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,17 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 	while (current_cmd->in_streams)
 	{
 		io = (t_io *)current_cmd->in_streams->content;
-		if (io->flag == SLR)
-		{
-			if (!ret)
-				ret = redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
-		}
+		if (io->flag == SLR && !ret)
+			ret = redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
 		else if (io->flag == DLR)
 		{
-			if (dup2(ms->fd_in, STDIN_FILENO) == -1)
-				print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
+			ft_dup2(ms->fd_in, STDIN_FILENO, ms);
 			ret = read_from_current_input(ms, ret, io->file);
 			signal(SIGINT, ft_interrupt);
 			if (ret == 130)
 				break ;
+			if (!current_cmd->in_streams->next)
+				current_cmd->dlr = 1;
 		}
 		current_cmd->in_streams = current_cmd->in_streams->next;
 	}

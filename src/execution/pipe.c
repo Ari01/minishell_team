@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/24 14:36:34 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/27 17:02:32 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,40 +56,56 @@ int	wait_for_all(t_ms *ms, int npipe, int last_pid)
 	return (ret);
 }
 
-void	exec_child(t_ms *ms, int *pipe_fd, int i, int npipe)
+void	exec_child(t_ms *ms, int pipe_fd[2][2], int i, int npipe)
 {
 	t_cmd	*cmd;
 	int		signal;
 
 	cmd = (t_cmd *)ms->cmd_list_ite->content;
+	close(pipe_fd[0][1]);
 	signal = ms->cmd_ret;
 	if (!signal)
 	{
 		dup_error_fd(ms);
+		if (cmd->dlr)
+			ft_dup2(pipe_fd[0][0], STDIN_FILENO, ms);
 		if (!cmd->out_streams_head && i != npipe - 1)
-			ft_dup2(pipe_fd[1], STDOUT_FILENO, ms);
+			ft_dup2(pipe_fd[1][1], STDOUT_FILENO, ms);
 		signal = run_cmd(ms, cmd);
 	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+	close(pipe_fd[0][0]);
+	close(pipe_fd[1][1]);
+	close(pipe_fd[1][0]);
 	exit_child(ms, signal);
 }
 
-void	exec_parent(t_ms *ms, int *pipe_fd, int i, int npipe)
+void	exec_parent(t_ms *ms, int pipe_fd[2][2], int i, int npipe)
 {
 	t_cmd	*cmd;
+	char	*line;
 
 	cmd = (t_cmd *)ms->cmd_list_ite->content;
-	close(pipe_fd[1]);
+	close(pipe_fd[1][1]);
+	if (cmd->dlr && !ms->cmd_ret)
+	{
+		while (get_next_line(STDIN_FILENO, &line) > 0)
+		{
+			ft_putendl_fd(line, pipe_fd[0][1]);
+			free(line);
+			line = NULL;
+		}
+	}
+	close(pipe_fd[0][0]);
+	close(pipe_fd[0][1]);
 	if (i != npipe - 1)
-		ft_dup2(pipe_fd[0], STDIN_FILENO, ms);
-	close(pipe_fd[0]);
+		ft_dup2(pipe_fd[1][0], STDIN_FILENO, ms);
+	close(pipe_fd[1][0]);
 }
 
 int	run_pipe(t_ms *ms)
 {
 	int		pid;
-	int		pipe_fd[2];
+	int		pipe_fd[2][2];
 	int		i;
 	int		npipe;
 
@@ -101,7 +117,8 @@ int	run_pipe(t_ms *ms)
 		ft_dup2(ms->fd_out, STDOUT_FILENO, ms);
 		if (redirect_pipe(ms))
 			break;
-		ft_pipe(pipe_fd, ms);
+		ft_pipe(pipe_fd[0], ms);
+		ft_pipe(pipe_fd[1], ms);
 		pid = ft_fork(ms);
 		if (!pid)
 			exec_child(ms, pipe_fd, i, npipe);

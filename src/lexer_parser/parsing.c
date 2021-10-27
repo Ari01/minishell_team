@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:43:34 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:22:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_cmd	*init_cmd(void)
 	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
+	cmd->dlr = 0;
 	cmd->in_streams = NULL;
 	cmd->in_stream_head = NULL;
 	cmd->out_streams = NULL;

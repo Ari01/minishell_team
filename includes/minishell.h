@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/24 14:23:49 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:21:48 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_cmd
 	t_list	*out_streams;
 	t_list	*out_streams_head;
 	int		flag;
+	int		dlr;
 }		t_cmd;
 
 typedef struct s_cmdinfo

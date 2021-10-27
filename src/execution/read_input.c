@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/27 16:13:59 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:50:43 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	read_from_current_input(t_ms *ms, int error, char *delimiter)
 		status = WEXITSTATUS(status);
 	}
 	check_read(ms, &status, delimiter);
-	printf("error = %d\n", error);
 	if (!error)
 	{
 		fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
