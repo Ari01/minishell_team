@@ -1,0 +1,19 @@
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==7543==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000005198cb bp 0x7ffe634e33d0 sp 0x7ffe634e33d0 T0)
+==7543==The signal is caused by a READ memory access.
+==7543==Hint: address points to the zero page.
+    #0 0x5198ca in ft_strcmp (/home/user42/42/minishell_team/debug+0x5198ca)
+    #1 0x51596a in is_builtin (/home/user42/42/minishell_team/debug+0x51596a)
+    #2 0x51431a in run_cmd (/home/user42/42/minishell_team/debug+0x51431a)
+    #3 0x513e79 in exec_child (/home/user42/42/minishell_team/debug+0x513e79)
+    #4 0x514033 in run_pipe (/home/user42/42/minishell_team/debug+0x514033)
+    #5 0x512827 in run_context (/home/user42/42/minishell_team/debug+0x512827)
+    #6 0x51297c in run_shell (/home/user42/42/minishell_team/debug+0x51297c)
+    #7 0x512675 in main (/home/user42/42/minishell_team/debug+0x512675)
+    #8 0x7fd824bc2b96 in __libc_start_main /build/glibc-2ORdQG/glibc-2.27/csu/../csu/libc-start.c:310
+    #9 0x41a219 in _start (/home/user42/42/minishell_team/debug+0x41a219)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/home/user42/42/minishell_team/debug+0x5198ca) in ft_strcmp
+==7543==ABORTING

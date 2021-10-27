@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:53:02 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 12:43:34 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/26 14:18:37 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ t_cmd	*init_cmd(void)
 	cmd->in_stream_head = NULL;
 	cmd->out_streams = NULL;
 	cmd->out_streams_head = NULL;
+	cmd->in_file = NULL;
+	cmd->out_file = NULL;
+	cmd->out_flags = 0;
 	return (cmd);
 }
 

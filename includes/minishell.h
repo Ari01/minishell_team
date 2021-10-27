@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/24 14:23:49 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:17:04 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,14 @@ typedef struct s_io
 typedef struct s_cmd
 {
 	char	**cmd;
+	char	*in_file;
+	char	*out_file;
 	t_list	*in_streams;
 	t_list	*in_stream_head;
 	t_list	*out_streams;
 	t_list	*out_streams_head;
 	int		flag;
+	int		out_flags;
 }		t_cmd;
 
 typedef struct s_cmdinfo
@@ -315,9 +318,9 @@ void		dup_error_fd(t_ms *ms);
 void		read_error(t_ms *ms);
 int			read_from_current_input(t_ms *ms, int error, char *delimiter);
 void		reset_fds(t_ms *ms);
-int			redirect_pipe(t_ms *ms);
-int			redirect_out(t_ms *ms, t_cmd *current_cmd);
-int			redirect(t_ms *ms, t_cmd *current_cmd);
+int			init_redirect_pipe(t_ms *ms);
+void		redirect(t_ms *ms, t_cmd *cmd);
+int			get_redirection(t_ms *ms, t_cmd *current_cmd);
 
 /*
  **	COMMANDS
@@ -327,6 +330,7 @@ int			run_cmd(t_ms *ms, t_cmd *cmd);
 /*
  **	EXEC
  */
+int			ft_chdir(DIR *dir, char *file_name);
 int			ft_execve(t_ms *ms, char *path, char **argv);
 int			run_exec(t_ms *ms, t_cmd *cmd);
 

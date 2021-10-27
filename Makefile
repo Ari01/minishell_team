@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/09 19:48:16 by xuwang            #+#    #+#              #
-#    Updated: 2021/10/24 13:38:44 by dchheang         ###   ########.fr        #
+#    Updated: 2021/10/26 13:32:56 by dchheang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS			= src/main/main.c \
 				src/execution/pipe.c \
 				src/execution/cmd.c \
 				src/execution/redirection.c \
+				src/execution/redirect_pipe.c \
 				src/execution/read_input.c \
 				src/execution/read_error.c \
 				src/execution/exec.c \

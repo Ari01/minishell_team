@@ -6,13 +6,13 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:50:32 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/24 13:48:07 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:18:01 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
+int	open_in_out(char *stream, int flags)
 {
 	int		fd;
 
@@ -25,16 +25,11 @@ int	redirect_in_out(t_ms *ms, char *stream, int newfd, int flags)
 		print_msg("minishell: ", stream, strerror(errno), STDERR_FILENO);
 		return (1);
 	}
-	if (dup2(fd, newfd) == -1)
-	{
-		close(fd);
-		print_error_msg(strerror(errno), PIPE_ERR, ms);
-	}
 	close(fd);
 	return (0);
 }
 
-int	redirect_in(t_ms *ms, t_cmd *current_cmd)
+int	get_redirect_in(t_ms *ms, t_cmd *current_cmd)
 {
 	int		ret;
 	t_io	*io;
@@ -43,29 +38,29 @@ int	redirect_in(t_ms *ms, t_cmd *current_cmd)
 	while (current_cmd->in_streams)
 	{
 		io = (t_io *)current_cmd->in_streams->content;
-		if (io->flag == SLR)
+		if (io->flag == SLR && !ret)
 		{
-			if (!ret)
-				ret = redirect_in_out(ms, io->file, STDIN_FILENO, O_RDWR);
+			ret = open_in_out(io->file, O_RDONLY);
+			if (!current_cmd->in_streams->next)
+				current_cmd->in_file = io->file;
 		}
 		else if (io->flag == DLR)
 		{
-			if (dup2(ms->fd_in, STDIN_FILENO) == -1)
-				print_error_msg(strerror(errno), READ_WRITE_ERR, ms);
 			ret = read_from_current_input(ms, ret, io->file);
 			signal(SIGINT, ft_interrupt);
 			if (ret == 130)
 				break ;
+			if (!current_cmd->in_streams->next)
+				current_cmd->in_file = "tmp/heredoc.txt";
 		}
 		current_cmd->in_streams = current_cmd->in_streams->next;
 	}
 	return (ret);
 }
 
-int	redirect_out(t_ms *ms, t_cmd *current_cmd)
+int	get_redirect_out(t_cmd *current_cmd)
 {
 	int		ret;
-	int		flags;
 	t_io	*io;
 
 	ret = 0;
@@ -73,41 +68,47 @@ int	redirect_out(t_ms *ms, t_cmd *current_cmd)
 	{
 		io = (t_io *)current_cmd->out_streams->content;
 		if (io->flag == SRR)
-			flags = O_RDWR | O_CREAT | O_TRUNC;
+			current_cmd->out_flags = O_RDWR | O_CREAT | O_TRUNC;
 		else if (io->flag == DRR)
-			flags = O_RDWR | O_CREAT | O_APPEND;
-		ret = redirect_in_out(ms, io->file, STDOUT_FILENO, flags);
+			current_cmd->out_flags = O_RDWR | O_CREAT | O_APPEND;
+		ret = open_in_out(io->file, current_cmd->out_flags);
 		if (ret)
 			break ;
+		if (!current_cmd->out_streams->next)
+			current_cmd->out_file = io->file;
 		current_cmd->out_streams = current_cmd->out_streams->next;
 	}
 	return (ret);
 }
 
-int	redirect_pipe(t_ms *ms)
+void	redirect(t_ms *ms, t_cmd *cmd)
 {
-	t_cmd	*cmd;
+	int	fd;
 
-	cmd = (t_cmd *)ms->cmd_list_ite->content;
-	dup_error_fd(ms);
-	ms->cmd_ret = redirect(ms, cmd);
-	ft_dup2(ms->fd_err, STDERR_FILENO, ms);
-	if (ms->cmd_ret == 130)
+	if (cmd->in_file)
 	{
-		ms->cmd_list_ite = NULL;
-		return (1);
+		printf("infile = %s\n", cmd->in_file);
+		fd = ft_open(cmd->in_file, O_RDONLY, 0, ms);
+		ft_dup2(fd, STDIN_FILENO, ms);
+		close(fd);
 	}
-	return (0);
+	if (cmd->out_file)
+	{
+		printf("outfile = %s\n", cmd->out_file);
+		fd = ft_open(cmd->out_file, cmd->out_flags, 0666, ms);
+		ft_dup2(fd, STDOUT_FILENO, ms);
+		close(fd);
+	}
 }
 
-int	redirect(t_ms *ms, t_cmd *current_cmd)
+int	get_redirection(t_ms *ms, t_cmd *current_cmd)
 {
 	int		ret;
 
 	ret = 0;
-	if (current_cmd->in_streams)
-		ret = redirect_in(ms, current_cmd);
-	if (!ret && current_cmd->out_streams)
-		ret = redirect_out(ms, current_cmd);
+	if (current_cmd->in_stream_head)
+		ret = get_redirect_in(ms, current_cmd);
+	if (!ret && current_cmd->out_streams_head)
+		ret = get_redirect_out(current_cmd);
 	return (ret);
 }
