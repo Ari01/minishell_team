@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/27 16:50:43 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:15:39 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_nline(t_ms *ms)
 
 	rd = 1;
 	nline = 0;
-	fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
+	fd = ft_open(ms->heredoc_file_path, O_RDONLY, 0, ms);
 	while (rd > 0)
 	{
 		rd = get_next_line(fd, &line);
@@ -66,7 +66,7 @@ void	ft_readline(t_ms *ms, char *delimiter)
 {
 	int		len;
 
-	ms->open_fd = ft_open("tmp/heredoc.txt", O_RDWR | O_TRUNC | O_CREAT, 0666, ms);
+	ms->open_fd = ft_open(ms->heredoc_file_path, O_RDWR | O_TRUNC | O_CREAT, 0666, ms);
 	len = ft_strlen(delimiter);
 	signal(SIGINT, interrupt_read);
 	while (1)
@@ -108,7 +108,7 @@ int	read_from_current_input(t_ms *ms, int error, char *delimiter)
 	check_read(ms, &status, delimiter);
 	if (!error)
 	{
-		fd = ft_open("tmp/heredoc.txt", O_RDONLY, 0, ms);
+		fd = ft_open(ms->heredoc_file_path, O_RDONLY, 0, ms);
 		ft_dup2(fd, STDIN_FILENO, ms);
 		close(fd);
 		return (status);
