@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/31 17:39:12 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:18:41 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	ft_cd(t_cmd *cmd, t_list *env_list)
 			return (SUCCESS);
 		else
 		{
-			print_msg("minishell: cd: ", cmd->cmd[1], strerror(errno), STDERR_FILENO);
+			print_msg("minishell: cd: ",
+				cmd->cmd[1], strerror(errno), STDERR_FILENO);
 			return (ERROR);
 		}
 	}

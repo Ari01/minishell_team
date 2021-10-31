@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/31 18:11:22 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:23:15 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,6 @@ void		ft_interrupt(int signe);
  */
 int			check_error(t_ms *ms);
 void		print_error_msg(char *s, int error_id, t_ms *ms);
-
 
 /*
  **	UTILS

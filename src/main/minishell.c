@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/31 18:14:04 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:22:36 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_ms	g_ms;
 
-t_ms	get_file_paths()
+t_ms	get_file_paths(void)
 {
 	t_ms	ms;
 	char	*tmp;
@@ -78,7 +78,7 @@ int	run_context(t_ms *ms)
 			ret = run_pipe(ms);
 		else
 		{
-			ret = run_simple_cmd(ms, current_cmd);	
+			ret = run_simple_cmd(ms, current_cmd);
 			ms->cmd_list_ite = ms->cmd_list_ite->next;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:48:24 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/31 18:15:39 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:21:37 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	ft_readline(t_ms *ms, char *delimiter)
 {
 	int		len;
 
-	ms->open_fd = ft_open(ms->heredoc_file_path, O_RDWR | O_TRUNC | O_CREAT, 0666, ms);
+	ms->open_fd = ft_open(ms->heredoc_file_path,
+			O_RDWR | O_TRUNC | O_CREAT, 0666, ms);
 	len = ft_strlen(delimiter);
 	signal(SIGINT, interrupt_read);
 	while (1)
@@ -81,11 +82,10 @@ void	ft_readline(t_ms *ms, char *delimiter)
 		{
 			free(ms->stdin_rdl);
 			ms->stdin_rdl = NULL;
-			break;
+			break ;
 		}
 		ft_putendl_fd(ms->stdin_rdl, ms->open_fd);
 		free(ms->stdin_rdl);
-		ms->stdin_rdl = NULL;
 	}
 	close(ms->open_fd);
 	exit_child(ms, 0);

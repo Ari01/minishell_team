@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 13:12:12 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/27 17:02:32 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:19:21 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	run_pipe(t_ms *ms)
 	{
 		ft_dup2(ms->fd_out, STDOUT_FILENO, ms);
 		if (redirect_pipe(ms))
-			break;
+			break ;
 		ft_pipe(pipe_fd[0], ms);
 		ft_pipe(pipe_fd[1], ms);
 		pid = ft_fork(ms);

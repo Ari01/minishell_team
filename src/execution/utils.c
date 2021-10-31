@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 10:16:28 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/21 12:18:08 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:22:02 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_dup2(int oldfd, int newfd, t_ms *ms)
 		print_error_msg(strerror(errno), DUP_ERR, ms);
 }
 
-int		ft_fork(t_ms *ms)
+int	ft_fork(t_ms *ms)
 {
 	int	pid;
 
