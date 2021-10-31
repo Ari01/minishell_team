@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:53:21 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/20 07:48:40 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 17:47:31 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,6 @@ t_list	*check_exist(char *cmd, t_list *env_list)
 	}
 	return (NULL);
 }
-
-/*
-static void	del_part(t_list **tmp, t_list **to_del,
-		t_list **prev, t_list **env_list)
-{
-	while (*tmp && *tmp != *to_del)
-	{
-		*prev = *tmp;
-		*tmp = (*tmp)->next;
-	}
-	if (*tmp == *to_del)
-	{
-		if (*prev == NULL)
-			*env_list = (*tmp)->next;
-		else
-			(*prev)->next = (*tmp)->next;
-		if (*tmp)
-		{
-			free((*tmp)->content);
-			(*tmp)->content = NULL;
-			free(*tmp);
-			tmp = NULL;
-		}
-	}	
-}*/
 
 static void	del_part(t_list **env_list, t_list *to_del)
 {
@@ -111,8 +86,9 @@ int	ft_unset(t_cmd *cmd, t_list **env_list)
 	{
 		if (!(check_is_cmd(cmd->cmd[i])))
 		{
-			print_msg("minishell: unset: `", cmd->cmd[i],
-				"\': not a valid identifier\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd[i], STDERR_FILENO);
+			ft_putendl_fd("\': not a valid identifier", STDERR_FILENO);
 			return (ERROR);
 		}
 		else

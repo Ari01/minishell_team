@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:26:15 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/20 07:52:26 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 17:39:12 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_home(t_list *env_list)
 	search = check_exist("HOME", env_list);
 	if (!search)
 	{
-		print_msg("minishell: cd: HOME not set\n", NULL, NULL, STDOUT_FILENO);
+		print_msg("minishell: ", "cd", "HOME not set", STDERR_FILENO);
 		return (ERROR);
 	}
 	else if (chdir(get_var(search, "HOME")) == -1)
@@ -31,7 +31,7 @@ int	ft_cd(t_cmd *cmd, t_list *env_list)
 {
 	if (!cmd)
 		return (ERROR);
-	if (cmd && ! cmd->cmd[1])
+	if (cmd && !cmd->cmd[1])
 	{
 		if (check_home(env_list) == ERROR)
 			return (ERROR);
@@ -42,7 +42,7 @@ int	ft_cd(t_cmd *cmd, t_list *env_list)
 			return (SUCCESS);
 		else
 		{
-			printf("bash: cd: %s: :%s\n", cmd->cmd[1], strerror(errno));
+			print_msg("minishell: cd: ", cmd->cmd[1], strerror(errno), STDERR_FILENO);
 			return (ERROR);
 		}
 	}

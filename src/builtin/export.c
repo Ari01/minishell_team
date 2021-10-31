@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:28:22 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/20 07:39:29 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 17:45:51 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ int	check_export(t_cmd *cmd, int ret)
 	{
 		if (!(check_is_name(cmd->cmd[i])))
 		{
-			print_msg("minishell: export: `", cmd->cmd[i],
-				"\': not a valid identifier\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd[i], STDERR_FILENO);
+			ft_putendl_fd("\': not a valid identifier", STDERR_FILENO);
 			ret = ERROR;
 		}
 		i++;

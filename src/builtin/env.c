@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:09:30 by xuwang            #+#    #+#             */
-/*   Updated: 2021/10/04 17:04:15 by xuwang           ###   ########.fr       */
+/*   Updated: 2021/10/31 17:42:11 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	ft_env(t_list *env_list, t_cmd *cmd)
 	while (env_list)
 	{
 		if (ft_strchr((char *)env_list->content, '='))
-		{
-			print_msg((char *)env_list->content, "\n", NULL, STDOUT_FILENO);
-		}
+			ft_putendl_fd((char *)env_list->content, STDOUT_FILENO);
 		env_list = env_list->next;
 	}
 	return (SUCCESS);
