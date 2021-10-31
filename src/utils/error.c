@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 14:21:15 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/19 18:16:18 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:07:08 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	check_exit(t_ms *ms)
 		ft_lstclear(&ms->env_list, &free);
 		close(ms->history.fd);
 		free(ms->history.path);
+		free(ms->error_file_path);
 		print_error_msg("exit", 0, ms);
 	}
 }

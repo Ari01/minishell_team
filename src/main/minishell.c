@@ -6,7 +6,7 @@
 /*   By: dchheang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:19:47 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/24 14:32:01 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:05:28 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,27 @@
 
 t_ms	g_ms;
 
+char	*get_error_path()
+{
+	char	*path;
+	char	*tmp;
+
+	tmp = getcwd(NULL, 0);
+	if (!tmp)
+	{
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		exit(0);
+	}
+	path = ft_strjoin(tmp, "/tmp/error_file.txt");
+	free(tmp);
+	return (path);
+}
+
 t_ms	init_shell(void)
 {
 	t_ms	ms;
 
+	ms.error_file_path = get_error_path();
 	ms.fd_in = dup(STDIN_FILENO);
 	ms.fd_out = dup(STDOUT_FILENO);
 	ms.fd_err = dup(STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: xuwang <xuwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 16:33:44 by dchheang          #+#    #+#             */
-/*   Updated: 2021/10/27 16:21:48 by dchheang         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:00:11 by dchheang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_ms
 	char		*rdl;
 	char		*stdin_rdl;
 	char		**envp;
+	char		*error_file_path;
 	int			fd_in;
 	int			fd_out;
 	int			fd_err;
